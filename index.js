@@ -39,7 +39,7 @@ function getFecha(){
     var segundos = (s < 10) ? '0' +s : s; 
     
     var ret = diasSemana[fecha.getDay()]+ " , " +fecha.getDate()+  " of " +mes[fecha.getMonth()]
-            + " of " +fecha.getFullYear()+ " , " +fecha.getHours()+ ":" +minutos+ ":" +segundos+;
+            + " of " +fecha.getFullYear()+ " , " +fecha.getHours()+ ":" +minutos+ ":" +segundos;
     return ret;
 }
 
