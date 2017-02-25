@@ -6,7 +6,9 @@ Mateusz Dominik
 Jihane Fahri
 Cristina Leal Echevarría
          
-Nuestro trabajo consistirá en reunir los datos del área de educación que se encuentren abiertos
+Nuestro trabajo consistirá en reunir los datos del área de educación que se encuentren 
+abiertos.
+
 Los países elegidos de donde hemos obtenido estos datos son España, Polonia y Marruecos
 
 #Repositorio
