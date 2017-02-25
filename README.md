@@ -1,9 +1,7 @@
 # SOS1617-06
 #Alumnos:
 Mateusz Dominik
-
 Jihane Fahri
-
 Cristina Leal Echevarría
          
 Nuestro trabajo consistirá en reunir los datos del área de educación que se encuentren abiertos
