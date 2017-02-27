@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/time", (req, res) => {
-    res.send("<html><body><p>Current time is: "+getDate()+"</p></body></html>");
+    res.send("<html><body><p>Current time is: " +getDate()+ "</p></body></html> ");
 });
 
 console.log("The current date is: " + getDate());
