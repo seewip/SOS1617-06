@@ -1,9 +1,12 @@
 # SOS1617-06
 
-#Alumnos:
+#Alumnos SOS1617-06:
+
 
 Mateusz Dominik
+
 Jihane Fahri
+
 Cristina Leal Echevarría
          
 Nuestro trabajo consistirá en reunir los datos del área de educación que se encuentren 
@@ -13,7 +16,7 @@ Los países elegidos de donde obtendremos estos datos son España, Polonia y Mar
 
 #Repositorio
 
-SOS1617/SOS1617-06
+https://github.com/SOS1617/SOS1617-06.git
 
 #Canal slack
 
