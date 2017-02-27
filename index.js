@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/time", (req, res) => {
-    res.send("<html><body><p>Current time is: "+getDate()+"</p></body></html>");
+    res.send("<html><body><p>Current time is: " + getDate() + "</p></body></html>");
 });
 
 console.log("The current date is: " + getDate());
@@ -28,6 +28,9 @@ function getDate() {
 
     var date = new Date();
 
+    // Set timezone to GMT+1, since the OS on cloud9 operates on GMT+0
+    date.setTime(date.getTime() + 60 * 60 * 1000);
+
     var minute = date.getMinutes();
     var second = date.getSeconds();
 
@@ -35,5 +38,5 @@ function getDate() {
     second = (second < 10) ? '0' + second : second;
 
     return date.getDate() + " " + month[date.getMonth()] +
-        " of " + date.getFullYear() + " , " + date.getHours() + ":" + minute + ":" + second;
+        " of " + date.getFullYear() + ", " + date.getHours() + ":" + minute + ":" + second;
 }
