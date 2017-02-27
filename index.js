@@ -12,7 +12,7 @@ app.listen(port, (err) => {
 
 
 app.get("/", (req, res) => {
-    res.send('<html><body><h1>Hello SOS1617 from the group G06</h1></br><a href="time">Get current time</a></body></html>');
+    res.send('<html><body><h1>Hello SOS1617 from the group G06</h1></br><a href="time"> Get current time </a></body></html>');
 
 });
 
