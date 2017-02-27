@@ -18,7 +18,7 @@ Los países elegidos de donde hemos obtenido estos datos son España, Polonia y 
 
 #Repositorio
 
-SOS1617/SOS1617-06
+https://github.com/SOS1617/SOS1617-06.git
 
 #Canal slack
 
