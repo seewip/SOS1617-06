@@ -31,6 +31,7 @@ function getDate() {
     var ending = "th";
     if(date.getDate() == 1 || date.getDate() == 21 || date.getDate() == 31) ending = "st";
     else if(date.getDate() == 2 || date.getDate() == 22) ending = "nd";
+    else if(date.getDate() == 3 || date.getDate() == 23) ending = "rd";
 
     // Set timezone to GMT+1, since the OS on cloud9 operates on GMT+0
     date.setTime(date.getTime() + 60 * 60 * 1000);
