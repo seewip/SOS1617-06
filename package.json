@@ -1,0 +1,23 @@
+{
+  "name": "sos1617-06",
+  "version": "0.0.0",
+  "description": "Compare expenses on education ",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.14.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SOS1617/SOS1617-06.git"
+  },
+  "author": "G06",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SOS1617/SOS1617-06/issues"
+  },
+  "homepage": "https://github.com/SOS1617/SOS1617-06#readme"
+}
