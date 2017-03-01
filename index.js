@@ -27,6 +27,10 @@ function getDate() {
         "July", "August", "September", "November", "October", "December");
 
     var date = new Date();
+    
+    var ending = "th";
+    if(date.getDate() == 1 || date.getDate() == 21 || date.getDate() == 31) ending = "st";
+    else if(date.getDate() == 2 || date.getDate() == 22) ending = "nd";
 
     // Set timezone to GMT+1, since the OS on cloud9 operates on GMT+0
     date.setTime(date.getTime() + 60 * 60 * 1000);
@@ -37,6 +41,6 @@ function getDate() {
     minute = (minute < 10) ? '0' + minute : minute;
     second = (second < 10) ? '0' + second : second;
 
-    return date.getDate() + " " + month[date.getMonth()] +
+    return date.getDate() + ending + " " + month[date.getMonth()] +
         " of " + date.getFullYear() + ", " + date.getHours() + ":" + minute + ":" + second;
 }
