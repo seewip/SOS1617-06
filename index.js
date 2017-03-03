@@ -1,6 +1,10 @@
 var express = require("express");
 var moment = require("moment");
 
+var path = require("path");
+app.use("/", express.static(path.join(__dirname, "public")));
+
+
 var app = express();
 var port = (process.env.PORT || 16778);
 
