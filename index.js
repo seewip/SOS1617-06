@@ -28,8 +28,11 @@ app.get("/time", (req, res) => {
     res.send("<html><body><p> The Current time is: " + getDate() + "</p></body></html>");
 });
 
+
+
 console.log("The current date is: " + getDate());
 
 function getDate() {
+   
     return moment().format('MMMM Do YYYY, h:mm:ss');
 }
