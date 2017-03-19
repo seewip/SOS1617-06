@@ -1,14 +1,16 @@
 {
   "name": "sos1617-06",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Compare expenses on education ",
-  "main": "index.js",
+  "main": "gdp.js",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "express": "^4.14.1",
+    "helmet": "^3.5.0",
     "moment": "^2.17.1"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "node gdp.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,5 +22,6 @@
   "bugs": {
     "url": "https://github.com/SOS1617/SOS1617-06/issues"
   },
-  "homepage": "https://github.com/SOS1617/SOS1617-06#readme"
+  "homepage": "https://github.com/SOS1617/SOS1617-06#readme",
+  "devDependencies": {}
 }
