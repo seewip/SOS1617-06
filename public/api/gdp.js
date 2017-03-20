@@ -26,50 +26,51 @@ console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhos
 console.log("---END PROBAR LA API CON CURL---");
 
 
-var gdp = [];
+var gdp = [{ 
+        "country": "Spain", 
+        "year": "2013", 
+        "gdp ":"1369261671179.01", 
+        "gdp_growth" :"-1.7",
+        "gdp_deflator ":"100.6"
+    
+    },
+    {   "country": "Poland", 
+        "year": "2014",
+        "gdp ":"545158979236",
+        "gdp_growth ":"3.3",
+        "gdp_deflator ":"106.5"
+    
+    },
+    {   "country": "Morocco",
+        "year": "2015",
+        "gdp ":"100593283696.7",
+        "gdp_growth" :"4.5",
+        "gdp_deflator ":"108.9"
+    
+    },
+    {   "country": "United_Kingdom",
+        "year": "2011",
+        "gdp ":"2608995353308.8",
+        "gdp_growth" :"1.5",
+        "gdp_deflator ":"102.0"
+    
+    }
+];
 
-// GET a load
-app.get(BASE_API_PATH + "/gdp/:loadInitialData", function (request, response) {
+
+// Base  GET
+app.get("/", function (request, response) {
     //TBD
-     var inicial_gdp = [{ 
-        country: "Spain", 
-        year: 2013, 
-        gdp :1369261671179.01, 
-        gdp_growth :-1.7,
-        gdp_deflator :100.6
-    
-    },
-    {   country: "Poland", 
-        year: 2014,
-        gdp :545158979236,
-        gdp_growth :3.3,
-        gdp_deflator :106.5
-    
-    },
-    {   country: "Morocco",
-        year: 2015,
-        gdp :100593283696.7,
-        gdp_growth :4.5,
-        gdp_deflator :108.9
-    
-    },
-    {   country: "United_Kingdom",
-        year: 2011,
-        gdp :2608995353308.8,
-        gdp_growth :1.5,
-        gdp_deflator :102.0
-    
-}];
-    console.log("INFO: Redirecting to /gdp/loadInitialData "+inicial_gdp);
-    response.sendStatus(200);
+     console.log("INFO: Redirecting to /gdp");
+     response.redirect(301,BASE_API_PATH + "/gdp");
      
 });
 
-// GET a collection
+// GET to collection 
 app.get(BASE_API_PATH + "/gdp", function (request, response) {
     //TBD
-     console.log("INFO: Redirecting to /gdp");
-     response.redirect(301,BASE_API_PATH +"/gdp");
+     console.log("INFO: New Request to /gdp");
+     response.send(gdp);
      
 });
 
@@ -78,20 +79,21 @@ app.get(BASE_API_PATH + "/gdp/:country", function (request, response) {
     //TBD
     
     var country = request.params.country;
+    // var filteredGdp = gdp.filter((c)=>{
+    //     return g.country===country;
+    // });
     if(!country){
-        console.log("Warning : New Request to /gdp/:country without country");
+        console.log("Warning : New GET Request to /gdp/:country without country");
         response.sendStatus(400); //bad request
     }else{
-        console.log("INFO: Redirecting to /gdp/"+country);
+        console.log("INFO: New GET Request to /gdp/" + country);
         var filteredGdp = gdp.filter((g)=>{
             return g.country===country;
         });
-       
         if (filteredGdp.length > 0) {
             var g = filteredGdp[0];
-            console.log("INFO: Redirecting to gdp with country :"+JSON.stringify(g,2,null));
+            console.log("INFO: Sending  gdp to :"+JSON.stringify(g,2,null));
             response.send(g);
-           
         }else{
              console.log("Warning there are not any country with " +country);
              response.sendStatus(404);
@@ -104,21 +106,23 @@ app.get(BASE_API_PATH + "/gdp/:country", function (request, response) {
 app.post(BASE_API_PATH + "/gdp", function (request, response) {
     //TBD
     var newGdp = request.body;
-    /*console.log("INFO: new Post request to /gdp/ with body :" +JSON.stringify(newGdp,2,null));
+    /*console.log("INFO: new Post request to /gdp with body :" +JSON.stringify(newGdp,2,null));
     gdp.push(newGdp);
     response.sendStatus(201);
+    
     */if(!newGdp){
         console.log("Warning : New POST Request to /gdp/ without gdp sending 400");
         response.sendStatus(400); //bad request
     }else{
         console.log("NEW: POST request to newgdp with body :"+JSON.stringify(newGdp,2,null));
         if(!newGdp.country || !newGdp.year || !newGdp.gdp || !newGdp.gdp_growth || !newGdp.gdp_deflator){
-            console.log("WARNING: The newgdp :"+JSON.stringify(newGdp,2,null)+"the format it's not correct sending 422");
+            console.log("WARNING: The newgdp :"+ JSON.stringify(newGdp, 2, null)+"the format it's not correct sending 422");
             response.sendStatus(422);
         }else{
             var gdpBeforeInserction = gdp.filter((g)=>{
                 //return g.country.localeCompare(newGdp.country, "en", {"sensitivty": "base"})===0;
-                return g.country===newGdp.country;
+                return (g.country.localeCompare(newGdp.country, "en", {'sensitivity': 'base'}) === 0);
+                //return g.country===newGdp.country;
             });
             if(gdpBeforeInserction.length > 0){
                 console.log("WARNNG: The Gdp :" +JSON.stringify(newGdp,2,null));
@@ -132,6 +136,7 @@ app.post(BASE_API_PATH + "/gdp", function (request, response) {
              
         }
     }
+
 });
 
 //POST over a single resource

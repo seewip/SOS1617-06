@@ -1,0 +1,65 @@
+console.log("---BEGIN PROBAR LA API CON CURL---");
+console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp'");
+
+[{"country":"Spain","year":"2013","gdp ":"1369261671179.01","gdp_growth":"-1.7","gdp_deflator ":"100.6"},
+{"country":"Poland","year":"2014","gdp ":"545158979236","gdp_growth ":"3.3","gdp_deflator ":"106.5"},
+{"country":"Morocco","year":"2015","gdp ":"100593283696.7","gdp_growth":"4.5","gdp_deflator ":"108.9"},
+{"country":"United_Kingdom","year":"2011","gdp ":"2608995353308.8","gdp_growth":"1.5","gdp_deflator ":"102.0"}]
+
+
+console.log("curl -v -XPOST -H 'Content-type: application/json' -d '{ "country": "Russian", "year": "2009", "gdp": "13692679.01", "gdp_growth": "1.7", "gdp_deflator": "88.6" }' 'http://localhost:8080/api/v1/gdp'");
+
+HTTP/1.1 201 Created
+< X-DNS-Prefetch-Control: off
+< X-Frame-Options: SAMEORIGIN
+< X-Download-Options: noopen
+< X-Content-Type-Options: nosniff
+< X-XSS-Protection: 1; mode=block
+< Content-Type: text/plain; charset=utf-8
+< Content-Length: 7
+< ETag: W/"7-rM9AyJuqT6iOan/xHh+AW+7K/T8"
+< Date: Mon, 20 Mar 2017 17:26:52 GMT
+< Connection: keep-alive
+
+console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Russian'");
+
+HTTP/1.1 200 OK
+< X-DNS-Prefetch-Control: off
+< X-Frame-Options: SAMEORIGIN
+< X-Download-Options: noopen
+< X-Content-Type-Options: nosniff
+< X-XSS-Protection: 1; mode=block
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 96
+< ETag: W/"60-owLPm8rkQfuxGKPqKrGArqEl53E"
+< Date: Mon, 20 Mar 2017 17:28:51 GMT
+< Connection: keep-alive
+
+{"country":"Russian","year":"2009","gdp":"13692679.01","gdp_growth":"1.7","gdp_deflator":"88.6"}
+
+
+console.log("curl -v -XPUT -H 'Content-type: application/json' -d '{ "country": "Poland", "year": "2010", "gdp": "13987543368.01", "gdp_growth": "4.7", "gdp_deflator": "102.6" }' 'http://localhost:8080/api/v1/gdp'");
+
+< HTTP/1.1 405 Method Not Allowed
+< X-DNS-Prefetch-Control: off
+< X-Frame-Options: SAMEORIGIN
+< X-Download-Options: noopen
+< X-Content-Type-Options: nosniff
+< X-XSS-Protection: 1; mode=block
+< Content-Type: text/plain; charset=utf-8
+< Content-Length: 18
+< ETag: W/"12-UGJMK66P4abaBlq0vKHJaCKuGCA"
+< Date: Mon, 20 Mar 2017 17:30:15 GMT
+< Connection: keep-alive
+< 
+
+
+
+console.log("curl -v -XPUT -H 'Content-type: application/json' -d '{ "country": "United_Kingdom", "year": "2012", "gdp": "987654379.01", "gdp_growth": "3.7", "gdp_deflator": "108.6" }' 'http://localhost:8080/api/v1/gdp/United_Kingdom'");
+console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Spain'");
+console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Morocco'");
+console.log("curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Morocco'");
+console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Morocco'");
+console.log("curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp'");
+console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp'");
+console.log("---END PROBAR LA API CON CURL---");

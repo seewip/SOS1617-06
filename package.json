@@ -2,7 +2,7 @@
   "name": "sos1617-06",
   "version": "1.0.0",
   "description": "Compare expenses on education ",
-  "main": "gdp.js",
+  "main": "index.js",
   "dependencies": {
     "body-parser": "^1.17.1",
     "express": "^4.14.1",
@@ -10,7 +10,7 @@
     "moment": "^2.17.1"
   },
   "scripts": {
-    "start": "node gdp.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
