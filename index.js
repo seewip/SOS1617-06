@@ -15,6 +15,9 @@ var mdbURL = "mongodb://crileaech:admin@ds133260.mlab.com:33260/sos1617-06-cle-s
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
 var dbCle;
+/*
+You both guy need to do exctly the same thing 
+*/
 //var dbJihane;
 //var dbMateusz;
 
