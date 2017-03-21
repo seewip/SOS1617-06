@@ -10,22 +10,6 @@ var app = express();
 app.use(bodyParser.json()); //use default json enconding/decoding
 app.use(helmet()); //improve security
 
-
-console.log("---BEGIN PROBAR LA API CON CURL---");
-console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp'");
-console.log("curl -v -XPOST -H 'Content-type: application/json' -d '{ \"country\": \"Russian\", \"year\": \"2008\", \"gdp\": \"13671179.01\", \"gdp_growth\": \"2.7\", \"gdp_deflator\": \"99.6\" }' 'http://localhost:8080/api/v1/gdp'");
-console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Spain'");
-console.log("curl -v -XPUT -H 'Content-type: application/json' -d '{ \"country\": \"Morocco\", \"year\": \"2015\", \"gdp\":\"100593283696.7 \",\"gdp_growth\": \"4.5\", \"gdp_deflator\": \"108.9\" }' 'http://localhost:8080/api/v1/gdp'");
-console.log("curl -v -XPUT -H 'Content-type: application/json' -d '{  \"country\": \"Morocco\", \"year\": \"2009\", \"gdp\":\"100593283696.7 \",\"gdp_growth\": \"2.0\", \"gdp_deflator\": \"108.9\"  }' 'http://localhost:8080/api/v1/gdp/Spain'");
-console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Spain'");
-console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Morocco'");
-console.log("curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Morocco'");
-console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp/Morocco'");
-console.log("curl -v -XDELETE -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp'");
-console.log("curl -v -XGET -H 'Content-type: application/json'  'http://localhost:8080/api/v1/gdp'");
-console.log("---END PROBAR LA API CON CURL---");
-
-
 var gdp = [{ 
         "country": "Spain", 
         "year": "2013", 
