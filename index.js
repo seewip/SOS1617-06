@@ -11,7 +11,7 @@ var app = express();
 
 var MongoClient = require('mongodb').MongoClient;
 var mdbURL = "mongodb://crileaech:admin@ds133260.mlab.com:33260/sos1617-06-cle-sandbox";
-var mdbURLjihane = "mongodb://jihfah:admin@ds133260.mlab.com:33260/sos1617-06-jf-sandbox"
+//var mdbURLjihane = "mongodb://jihfah:admin@ds133260.mlab.com:33260/sos1617-06-jf-sandbox"
 
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
@@ -51,19 +51,14 @@ app.use("/",express.static(publicFolder));
 
 //====================================CODIGO API CRISTINA==================================================================//
 /*========================================Load Initial Data===============================================================*/
-app.get(BASE_API_PATH + "/gdp/loadInitialData", function(request, response) {
-    
-    dbCle.find({}).toArray(function(err,gdp){
-        
+app.get(BASE_API_PATH + "/gdp/loadInitialData", function(req, res) {
+    dbCle.find({}).toArray(function(err, gdp) {
         if (err) {
             console.error('WARNING: Error while getting initial data from DB');
             return 0;
-    }
-    
-      if (gdp.length === 0) {
-        console.log('INFO: Empty DB, loading initial data');
-
-              var gdpEducation = [{ 
+        }
+        if (gdp.length === 0) {
+            var initialGdp = [{ 
                  "country": "Spain", 
                  "year": "2013", 
                  "gdp ":"1369261671179.01", 
@@ -93,20 +88,15 @@ app.get(BASE_API_PATH + "/gdp/loadInitialData", function(request, response) {
     
                 }
         ];
-        
-        dbCle.insert(gdpEducation);
-      } else {
-        console.log('INFO: DB has ' + gdp.length + 'gdpEducation');
-    }
+            dbCle.insert(initialGdp);
+            console.log("Date insert in db");
+            res.sendStatus(201, BASE_API_PATH + "/");
+        }
+        else {
+            console.log("DB not empty")
+        }
+    });
 });
-});
-
-/*//Base GET
-app.get("/", function (request, response) {
-    console.log("INFO: Redirecting to /gdp");
-    response.redirect(301, BASE_API_PATH + "/gdp");
-});*/
-
 
 // GET a collection
 app.get(BASE_API_PATH + "/gdp", function (request, response) {
