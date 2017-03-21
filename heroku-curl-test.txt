@@ -1,0 +1,1 @@
+curl -H "Content-Type: application/json" -d '{"country":"Spain", "year": "2007","gdp":"34569.123","gdp_growth": "99.5","gdp_deflator":"442.3"}' http://sos1617-06.herokuapp.com/api/v1/gdp  
