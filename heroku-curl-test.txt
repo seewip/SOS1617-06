@@ -8,4 +8,56 @@ Created
     "gdp": "34569.123",
     "gdp_growth": "99.5",
     "gdp_deflator": "442.3"
+}
+
+curl -v -XGET -H 'Content-type: application/json'  'http://sos1617-06.herokuapp.com/api/v1/gdp'
+
+< HTTP/1.1 200 OK
+* Server Cowboy is not blacklisted
+< Server: Cowboy
+< Connection: keep-alive
+< X-Dns-Prefetch-Control: off
+< X-Frame-Options: SAMEORIGIN
+< X-Download-Options: noopen
+< X-Content-Type-Options: nosniff
+< X-Xss-Protection: 1; mode=block
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 680
+< Etag: W/"2a8-qRmiG+2rIspNEDKdmYzQkrfMUUQ"
+< Date: Tue, 21 Mar 2017 18:05:23 GMT
+< Via: 1.1 vegur
+  
+  
+[{"_id":"58d164ccd81612857522ea7f","country":"Spain","year":"2013","gdp ":"1369261671179.01","gdp_growth":"-1.7","gdp_deflator ":"100.6"},
+{"_id":"58d164ccd81612857522ea80","country":"Poland","year":"2014","gdp ":"545158979236","gdp_growth ":"3.3","gdp_deflator ":"106.5"},
+{"_id":"58d164ccd81612857522ea81","country":"Morocco","year":"2015","gdp ":"100593283696.7","gdp_growth":"4.5","gdp_deflator ":"108.9"},
+{"_id":"58d164ccd81612857522ea82","country":"United_Kingdom","year":"2011","gdp ":"2608995353308.8","gdp_growth":"1.5","gdp_deflator ":"102.0"},
+{"_id":"58d168be21a3b80011b1f328","country":"Spain","year":"2007","gdp":"34569.123","gdp_growth":"99.5","gdp_deflator":"442.3"}]
+  
+
+curl -v -XPOST -H 'Content-type: application/json' -d '{ "country": "Brazil", "year": "2005", "gdp": "6123423579.01", "gdp_growth": "5.6", "gdp_deflator": "104.5" }' 'https://sos1617-06.herokuapp.com/api/v1/gdp'
+
+HTTP/1.1 201 Created
+* Server Cowboy is not blacklisted
+< Server: Cowboy
+< Connection: keep-alive
+< X-Dns-Prefetch-Control: off
+< X-Frame-Options: SAMEORIGIN
+< X-Download-Options: noopen
+< X-Content-Type-Options: nosniff
+< X-Xss-Protection: 1; mode=block
+< Content-Type: text/plain; charset=utf-8
+< Content-Length: 7
+< Etag: W/"7-rM9AyJuqT6iOan/xHh+AW+7K/T8"
+< Date: Tue, 21 Mar 2017 18:12:27 GMT
+< Via: 1.1 vegur
+  
+  
+{
+    "_id": "58d16d0b21a3b80011b1f329",
+    "country": "Brazil",
+    "year": "2005",
+    "gdp": "6123423579.01",
+    "gdp_growth": "5.6",
+    "gdp_deflator": "104.5"
   }
