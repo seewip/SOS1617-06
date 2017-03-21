@@ -17,6 +17,8 @@ var BASE_API_PATH = "/api/v1";
 var dbCle;
 /*
 You both guy need to do exctly the same thing 
+this is important 
+
 */
 //var dbJihane;
 //var dbMateusz;
