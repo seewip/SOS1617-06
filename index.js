@@ -11,10 +11,9 @@ var app = express();
 
 var MongoClient = require('mongodb').MongoClient;
 var mdbURL = "mongodb://crileaech:admin@ds133260.mlab.com:33260/sos1617-06-cle-sandbox";
-<<<<<<< HEAD
-=======
+
 //var mdbURLjihane = "mongodb://jihfah:admin@ds133260.mlab.com:33260/sos1617-06-jf-sandbox"
->>>>>>> 5dc1c4529e9e2a9e95df7e32bd12eb1c5b748d9e
+
 
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
