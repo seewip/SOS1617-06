@@ -1,4 +1,3 @@
-
 var moment = require("moment");
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -8,13 +7,8 @@ var publicFolder = path.join(__dirname, '/public');
 
 var app = express();
 
-
 var MongoClient = require('mongodb').MongoClient;
 var mdbURL = "mongodb://crileaech:admin@ds133260.mlab.com:33260/sos1617-06-cle-sandbox";
-
-//var mdbURLjihane = "mongodb://jihfah:admin@ds133260.mlab.com:33260/sos1617-06-jf-sandbox"
-
-
 
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH = "/api/v1";
