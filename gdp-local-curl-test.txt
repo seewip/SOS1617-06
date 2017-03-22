@@ -52,7 +52,7 @@ HTTP/1.1 200 OK
 < Connection: keep-alive
 < 
 
-("curl -v -XPUT -H 'Content-type: application/json' -d '{ "country": "United_Kingdom", "year": "2012", "gdp": "987654379.01", "gdp_growth": "3.7", "gdp_deflator": "108.6" }' 'http://localhost:8080/api/v1/gdp/United_Kingdom'");
+("curl -v -XPUT -H 'Content-type: application/json' -d '{"country": "United_Kingdom", "year": "2011","gdp":"2608995353308.8","gdp_growth" :"1.5","gdp_deflator":"102.0"}' 'http://localhost:8080/api/v1/gdp/United_Kingdom'");
 < HTTP/1.1 200 OK
 < X-DNS-Prefetch-Control: off
 < X-Frame-Options: SAMEORIGIN

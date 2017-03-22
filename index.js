@@ -467,25 +467,25 @@ app.delete(BASE_API_PATH + "/gdp/:country/:year", function (request, response) {
 //PUT sobre un recurso concreto
 
 
-app.put(BASE_API_PATH + "/gdp/:country/:year", function (request, response) {
+app.put(BASE_API_PATH + "/gdp/:country", function (request, response) {
     var updatedGdp = request.body;
     var country = request.params.country;
-    var year = request.params.year;
+    //var year = request.params.year;
     if (!updatedGdp) {
         console.log("WARNING: New PUT request to /gdp/ without result, sending 400...");
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New PUT request to /gdp/" + country + " with data " + JSON.stringify(updatedGdp, 2, null));
-        if (!updatedGdp.country || !updatedGdp.year || !updatedGdp.gdp || !updatedGdp.gdp_growth || !updatedGdp.gdp_deflator ) {
+        if (!updatedGdp["country"] || !updatedGdp["year"] || !updatedGdp["gdp"] || !updatedGdp["gdp_growth" ]|| !updatedGdp["gdp_deflator"] ){
             console.log("WARNING: The gdp " + JSON.stringify(updatedGdp, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            dbCle.find({country:updatedGdp.country, $and:[{year:updatedGdp.year}]}).toArray(function (err, gdp) {
+            dbCle.find({country:country}).toArray(function (err, gdp) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else if (gdp.length > 0) {
-                        dbCle.update({country: updatedGdp.country, year: updatedGdp.year}, updatedGdp);
+                        dbCle.update({country: updatedGdp.country}, updatedGdp);
                         console.log("INFO: Modifying gdp with country " + country + " with data " + JSON.stringify(updatedGdp, 2, null));
                         response.send(updatedGdp); // return the updated contact
                     } else {
