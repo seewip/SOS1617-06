@@ -27,7 +27,7 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err,database){
     }
     
     dbCle = database.collection("gdp");
-    dbJf = database.collection("gdp_per_capita");
+    dbJf = database.collection("gdp-per-capita");
     dbMd = database.collection("education");
     
 
@@ -550,7 +550,7 @@ app.get(BASE_API_PATH + "/gdp-per-capita/loadInitialData", function(request, res
                  "gdp-per-capita-ppp": "34906.40 "
                 },
                 {
-                 "country ": "poland",
+                 "country": "poland",
                  "year": "2015",
                  "gdp-per-capita-growth": "4",
                  "gdp-per-capita": "12554.50",
@@ -567,10 +567,14 @@ app.get(BASE_API_PATH + "/gdp-per-capita/loadInitialData", function(request, res
 
         
         dbJf.insert(gdp_per_capitaEd);
+        response.sendStatus(201);//created
+        
       } else {
         console.log('INFO: DB has ' + gdp_per_capita.length + 'gdp-per-capitaEd');
+        response.sendStatus(409);//conflict
     }
 });
+
 });
 
 
@@ -660,7 +664,7 @@ app.post(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
 
 //Post a un recurso (PROHIBIDO)
 
-app.post(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, response) {
+app.post(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response) {
     var country = request.params.country;
     var year = request.params.year;
     console.log("WARNING: New POST request to /country/" + country + " and year " + year + ", sending 405...");
@@ -678,27 +682,27 @@ app.put(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
 
 // Delete a un recurso concreto
 
-app.delete(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, response) {
+app.delete(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response) {
     var country = request.params.country;
     var year = request.params.year;
-    if (!country || !year) {
+    if (!country) {
         console.log("WARNING: New DELETE request to /gdp-per-capita/:country/:year without country and year, sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New DELETE request to /gdp-per-capita/" + country + " and year " + year);
-        dbJf.remove({country:country, $and:[{year:year}]}, {}, function (err, numRemoved) {
+        console.log("INFO: New DELETE request to /gdp-per-capita/" + country);
+        dbJf.remove({country:country},function (err, numRemoved) {
             if (err) {
                 console.error('WARNING: Error removing data from DB');
                 response.sendStatus(500); // internal server error
             } else {
                 console.log("INFO: GDPPC removed: " + numRemoved);
-                if (numRemoved === 1) {
+               // if (numRemoved === 1) {
                     console.log("INFO: The gdp-per-capita with country " + country + "and year " + year + " has been succesfully deleted, sending 204...");
                     response.sendStatus(204); // no content
-                } else {
-                    console.log("WARNING: There are no countries to delete");
-                    response.sendStatus(404); // not found
-                }
+               // } else {
+                //    console.log("WARNING: There are no countries to delete");
+                 //   response.sendStatus(404); // not found
+               // }
             }
         });
     }
@@ -708,7 +712,7 @@ app.delete(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, 
 //PUT sobre un recurso concreto
 
 
-app.put(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, response) {
+app.put(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response) {
     var updatedGdpPerCapita = request.body;
     var country = request.params.country;
     var year = request.params.year;
@@ -721,12 +725,12 @@ app.put(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, res
             console.log("WARNING: The gdp-per-capita " + JSON.stringify(updatedGdpPerCapita, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
-            dbJf.find({country:updatedGdpPerCapita.country, $and:[{year:updatedGdpPerCapita.year}]}).toArray(function (err, gdp_per_capita) {
+            dbJf.find({country:updatedGdpPerCapita.country}).toArray(function (err, gdp_per_capita) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
                 } else if (gdp_per_capita.length > 0) {
-                        dbJf.update({country: updatedGdpPerCapita.country, year: updatedGdpPerCapita.year}, updatedGdpPerCapita);
+                        dbJf.update({country: updatedGdpPerCapita.country}, updatedGdpPerCapita);
                         console.log("INFO: Modifying gdp-per-capita with country " + country + " with data " + JSON.stringify(updatedGdpPerCapita, 2, null));
                         response.send(updatedGdpPerCapita); // return the updated contact
                     } else {
