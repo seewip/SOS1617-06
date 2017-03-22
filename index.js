@@ -31,7 +31,7 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err,database){
     }
     
     dbCle = database.collection("gdp");
-    dbJf = database.collection("gdp-per-capita");
+    dbJf = database.collection("gdp_per_capita");
     dbMd = database.collection("education");
     
 
