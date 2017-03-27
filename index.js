@@ -6,7 +6,9 @@ var path = require('path');
 var publicFolder = path.join(__dirname, '/public');
 
 var educationAPI = require('./api/education.js');
+
 var gdp = require('./api/gdp.js');
+
 
 var app = express();
 
@@ -34,7 +36,10 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err,database){
     dbMd = database.collection("education");
     
     educationAPI.register(app, dbMd, BASE_API_PATH);
+
     gdp.register(app,dbCle, BASE_API_PATH);
+
+
 
     app.listen(port, () => {
        console.log("Web server is listening on port " + port);
@@ -45,20 +50,6 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err,database){
 app.use("/",express.static(publicFolder));
 //=================================BOTTON FOR RUN POSTMAN====================================================//
 
-
-//app.use("/api/v1", express.static(path.join(__dirname , "tests")));
-
-
-
-
-app.get("/", (req, res) => {
-    res.send('<html><body><h1>Hello SOS1617 from the group G06</h1></br><a href="time"> Get current time </a></body></html>');
-
-});
-
-app.get("/time", (req, res) => {
-    res.send("<html><body><p> The Current time is: " + getDate() + "</p></body></html>");
-});
 
 //====================================CODIGO API Jihane==================================================================//
 /*========================================Load Initial Data===============================================================*/
