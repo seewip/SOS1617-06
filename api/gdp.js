@@ -16,35 +16,36 @@ app.get(BASE_API_PATH + "/gdp/loadInitialData",function(request, response) {
       if (gdp.length === 0) {
         console.log('INFO: Empty DB, loading initial data');
 
-              var initialGdp= [{
-                "country": "usa",
-                "year": "2010",
-                "averageSalary": "34463",
-                "minimumSalary": "8730",
-                "riskOfPoverty": "15.1"
-            },
-            {
-                "country": "spain",
-                "year": "2005",
-                "averageSalary": "20616",
-                "minimumSalary": "610",
-                "riskOfPoverty": "22"
-            },
-            {
-                "country": "spain",
-                "year": "2006",
-                "averageSalary": "20617",
-                "minimumSalary": "619",
-                "riskOfPoverty": "21"
-            },
-            {
-                "country": "france",
-                "year": "2011",
-                "averageSalary": "34693",
-                "minimumSalary": "1367",
-                "riskOfPoverty": "14"
-            }
-            ];
+              var initialGdp= [{ 
+                 "country": "Spain", 
+                 "year": "2013", 
+                 "gdp ":"1369261671179.01", 
+                 "gdp_growth" :"-1.7",
+                 "gdp_deflator ":"100.6"
+    
+                 },
+                {"country": "Poland", 
+                 "year": "2014",
+                 "gdp ":"545158979236",
+                 "gdp_growth ":"3.3",
+                 "gdp_deflator ":"106.5"
+    
+                },
+                {"country": "Morocco",
+                 "year": "2015",
+                 "gdp ":"100593283696.7",
+                 "gdp_growth" :"4.5",
+                 "gdp_deflator ":"108.9"
+    
+                },
+                {"country": "United_Kingdom",
+                 "year": "2011",
+                 "gdp ":"2608995353308.8",
+                 "gdp_growth" :"1.5",
+                 "gdp_deflator ":"102.0"
+    
+                }
+        ];
         
     dbCle.insert(initialGdp);
     response.sendStatus(201);
