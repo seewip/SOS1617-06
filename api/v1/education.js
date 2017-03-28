@@ -62,7 +62,7 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
     });
 
 
-    // GET a single resource
+    // GET a single resource - country/year
     app.get(BASE_API_PATH + "/education/:country", function(request, response) {
         var name = request.params.country;
         if (!name) {
@@ -72,7 +72,59 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
         else {
             console.log("INFO: New GET request to /education/" + name);
             dbMd.find({
-                "country": name
+                country: name
+            }).toArray(function(err, countryList) {
+                if (err) {
+                    console.error('WARNING: Error getting data from DB');
+                    response.sendStatus(500); // internal server error
+                }
+                else {
+                    if (countryList.length > 0) {
+                        var country = countryList[0]; //since we expect to have exactly ONE country with this name
+                        console.log("INFO: Sending country: " + JSON.stringify(country, 2, null));
+                        response.send(country);
+                    }
+                    else {
+                        console.log("WARNING: There are not any countries with name " + name + ". Trying to look by year...");
+                        dbMd.find({
+                            year: Number(name)
+                        }).toArray(function(err, countryList) {
+                            if (err) {
+                                console.error('WARNING: Error getting data from DB');
+                                response.sendStatus(500); // internal server error
+                            }
+                            else {
+                                if (countryList.length > 0) {
+                                    var country = countryList[0]; //since we expect to have exactly ONE country with this name
+                                    console.log("INFO: Sending country: " + JSON.stringify(country, 2, null));
+                                    response.send(country);
+                                }
+                                else {
+                                    console.log("WARNING: There are not any countries with year " + name);
+                                    response.sendStatus(404); // not found
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+
+    // GET a single resource country + year
+    app.get(BASE_API_PATH + "/education/:country/:year", function(request, response) {
+        var name = request.params.country;
+        var year = request.params.year;
+        if (!name || !year) {
+            console.log("WARNING: New GET request to /education/:country/:year without country name or year, sending 400...");
+            response.sendStatus(400); // bad request
+        }
+        else {
+            console.log("INFO: New GET request to /education/" + name + "/" + year);
+            dbMd.find({
+                country: name,
+                year: Number(year)
             }).toArray(function(err, countryList) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
@@ -92,7 +144,6 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
             });
         }
     });
-
 
     //POST over a collection
     app.post(BASE_API_PATH + "/education", function(request, response) {
@@ -151,22 +202,24 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
 
 
     //PUT over a single resource
-    app.put(BASE_API_PATH + "/education/:country", function(request, response) {
+    app.put(BASE_API_PATH + "/education/:country/:year", function(request, response) {
         var newCountry = request.body;
         var nameParam = request.params.country;
+        var yearParam = request.params.year;
         if (!newCountry) {
             console.log("WARNING: New PUT request to /education/ without country, sending 400...");
             response.sendStatus(400); // bad request
         }
         else {
-            console.log("INFO: New PUT request to /education/" + nameParam + " with data " + JSON.stringify(newCountry, 2, null));
+            console.log("INFO: New PUT request to /education/" + nameParam + "/" + yearParam + " with data " + JSON.stringify(newCountry, 2, null));
             if (!newCountry["country"] || !newCountry["year"] || !newCountry["education-gdp-perc"] || !newCountry["education-primary-per-capita"] || !newCountry["education-secondary-per-capita"] || !newCountry["education-tertiary-per-capita"]) {
                 console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
                 response.sendStatus(422); // unprocessable entity
             }
             else {
                 dbMd.find({
-                    country: nameParam
+                    country: nameParam,
+                    year: yearParam
                 }).toArray(function(err, countries) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
@@ -175,13 +228,14 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
                     else {
                         if (countries.length > 0) {
                             dbMd.update({
-                                country: nameParam
+                                country: nameParam,
+                                year:Number(yearParam)
                             }, newCountry);
-                            console.log("INFO: Modifying country with name " + nameParam + " with data " + JSON.stringify(newCountry, 2, null));
+                            console.log("INFO: Modifying country with name " + nameParam + " and year " + yearParam + " with data " + JSON.stringify(newCountry, 2, null));
                             response.send(newCountry); // return the updated contact
                         }
                         else {
-                            console.log("WARNING: There are not any countries with name " + nameParam);
+                            console.log("WARNING: There are not any countries with name " + nameParam + " and year " + yearParam);
                             response.sendStatus(404); // not found
                         }
                     }
@@ -216,16 +270,18 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
 
 
     //DELETE over a single resource
-    app.delete(BASE_API_PATH + "/education/:country", function(request, response) {
+    app.delete(BASE_API_PATH + "/education/:country/:year", function(request, response) {
         var name = request.params.country;
-        if (!name) {
-            console.log("WARNING: New DELETE request to /education/:country without country name, sending 400...");
+        var year = request.params.year;
+        if (!name || !year) {
+            console.log("WARNING: New DELETE request to /education/:country/:year without country name or year, sending 400...");
             response.sendStatus(400); // bad request
         }
         else {
             console.log("INFO: New DELETE request to /education/" + name);
             dbMd.remove({
-                country: name
+                country: name,
+                year: Number(year)
             }, {}, function(err, numRemoved) {
                 if (err) {
                     console.error('WARNING: Error removing data from DB');
@@ -234,16 +290,22 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
                 else {
                     console.log("INFO: Countries removed: " + numRemoved.result.n);
                     if (numRemoved.result.n === 1) {
-                        console.log("INFO: The country with name " + name + " has been succesfully deleted, sending 204...");
+                        console.log("INFO: The country with name " + name + " and year " + year + " has been succesfully deleted, sending 204...");
                         response.sendStatus(204); // no content
                     }
-                    else {
+                    else if (numRemoved.result.n === 0) {
                         console.log("WARNING: There are no countries to delete");
                         response.sendStatus(404); // not found
+                    }
+                    else {
+                        console.log("INFO: Countries with name " + name + " and year " + year + " has been succesfully deleted, sending 204...");
+                        response.sendStatus(204); // no content
                     }
                 }
             });
         }
     });
+
+
     console.log("Education data REST API registered succesfully");
 }
