@@ -3,6 +3,7 @@ curl -v -XGET -H 'Content-type: application/json'  'https://sos161706md-sandbox-
 curl -v -XGET -H 'Content-type: application/json'  'https://sos161706md-sandbox-seewip.c9users.io:8080/api/v1/education'
 curl -v -XDELETE -H 'Content-type: application/json'  'https://sos161706md-sandbox-seewip.c9users.io:8080/api/v1/education'
 curl -v -XGET -H 'Content-type: application/json'  'https://sos161706md-sandbox-seewip.c9users.io:8080/api/v1/education'
+curl -v -XPOST -H 'Content-type: application/json' -d '{"country":"Spain","year":2013,"education-gdp-perc":4.3,"education-primary-per-capita":17.9,"education-secondary-per-capita":22.5,"education-tertiary-per-capita":22.9}' 'https://sos161706md-sandbox-seewip.c9users.io:8080/api/v1/education/Spain'
 curl -v -XPOST -H 'Content-type: application/json' -d '{"country":"Spain","year":2013,"education-gdp-perc":4.3,"education-primary-per-capita":17.9,"education-secondary-per-capita":22.5,"education-tertiary-per-capita":22.9}' 'https://sos161706md-sandbox-seewip.c9users.io:8080/api/v1/education'
 curl -v -XGET -H 'Content-type: application/json'  'https://sos161706md-sandbox-seewip.c9users.io:8080/api/v1/education/Spain'
 curl -v -XGET -H 'Content-type: application/json'  'https://sos161706md-sandbox-seewip.c9users.io:8080/api/v1/education/Spain/2013'
