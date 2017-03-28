@@ -71,43 +71,47 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
         }
         else {
             console.log("INFO: New GET request to /education/" + name);
-            dbMd.find({
-                country: name
-            }).toArray(function(err, countryList) {
-                if (err) {
-                    console.error('WARNING: Error getting data from DB');
-                    response.sendStatus(500); // internal server error
-                }
-                else {
-                    if (countryList.length > 0) {
-                        var country = countryList[0]; //since we expect to have exactly ONE country with this name
-                        console.log("INFO: Sending country: " + JSON.stringify(country, 2, null));
-                        response.send(country);
+
+            if (!isNaN(name)) {
+                dbMd.find({
+                    year: Number(name)
+                }).toArray(function(err, countryList) {
+                    if (err) {
+                        console.error('WARNING: Error getting data from DB');
+                        response.sendStatus(500); // internal server error
                     }
                     else {
-                        console.log("WARNING: There are not any countries with name " + name + ". Trying to look by year...");
-                        dbMd.find({
-                            year: Number(name)
-                        }).toArray(function(err, countryList) {
-                            if (err) {
-                                console.error('WARNING: Error getting data from DB');
-                                response.sendStatus(500); // internal server error
-                            }
-                            else {
-                                if (countryList.length > 0) {
-                                    var country = countryList[0]; //since we expect to have exactly ONE country with this name
-                                    console.log("INFO: Sending country: " + JSON.stringify(country, 2, null));
-                                    response.send(country);
-                                }
-                                else {
-                                    console.log("WARNING: There are not any countries with year " + name);
-                                    response.sendStatus(404); // not found
-                                }
-                            }
-                        });
+                        if (countryList.length > 0) {
+                            console.log("INFO: Sending countries: " + JSON.stringify(countryList, 2, null));
+                            response.send(countryList);
+                        }
+                        else {
+                            console.log("WARNING: There are not any countries with year " + name);
+                            response.sendStatus(404); // not found
+                        }
                     }
-                }
-            });
+                });
+            }
+            else {
+                dbMd.find({
+                    country: name
+                }).toArray(function(err, countryList) {
+                    if (err) {
+                        console.error('WARNING: Error getting data from DB');
+                        response.sendStatus(500); // internal server error
+                    }
+                    else {
+                        if (countryList.length > 0) {
+                            console.log("INFO: Sending countries: " + JSON.stringify(countryList, 2, null));
+                            response.send(countryList);
+                        }
+                        else {
+                            console.log("WARNING: There are not any countries with name " + name);
+                            response.sendStatus(404); // not found
+                        }
+                    }
+                });
+            }
         }
     });
 
@@ -154,11 +158,18 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
         }
         else {
             console.log("INFO: New POST request to /education with body: " + JSON.stringify(newCountry, 2, null));
-            if (!newCountry["country"] || !newCountry["year"] || !newCountry["education-gdp-perc"] || !newCountry["education-primary-per-capita"] || !newCountry["education-secondary-per-capita"] || !newCountry["education-tertiary-per-capita"]) {
+            if (!newCountry["country"] || !newCountry["year"] || !newCountry["education-gdp-perc"] || !newCountry["education-primary-per-capita"] || !newCountry["education-secondary-per-capita"] || !newCountry["education-tertiary-per-capita"] ||
+                isNaN(newCountry["year"]) || isNaN(newCountry["education-gdp-perc"]) || isNaN(newCountry["education-primary-per-capita"]) || isNaN(newCountry["education-secondary-per-capita"]) || isNaN(newCountry["education-tertiary-per-capita"])) {
                 console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
                 response.sendStatus(422); // unprocessable entity
             }
             else {
+                // Make sure that numeric fields are a number object
+                newCountry["year"] = Number(newCountry["year"]);
+                newCountry["education-gdp-perc"] = Number(newCountry["education-gdp-perc"]);
+                newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
+                newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
+                newCountry["education-tertiary-per-capita"] = Number(newCountry["education-tertiary-per-capita"]);
                 dbMd.find({}).toArray(function(err, country) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
@@ -212,14 +223,21 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
         }
         else {
             console.log("INFO: New PUT request to /education/" + nameParam + "/" + yearParam + " with data " + JSON.stringify(newCountry, 2, null));
-            if (!newCountry["country"] || !newCountry["year"] || !newCountry["education-gdp-perc"] || !newCountry["education-primary-per-capita"] || !newCountry["education-secondary-per-capita"] || !newCountry["education-tertiary-per-capita"]) {
+            if (!newCountry["country"] || !newCountry["year"] || !newCountry["education-gdp-perc"] || !newCountry["education-primary-per-capita"] || !newCountry["education-secondary-per-capita"] || !newCountry["education-tertiary-per-capita"] ||
+                isNaN(newCountry["year"]) || isNaN(newCountry["education-gdp-perc"]) || isNaN(newCountry["education-primary-per-capita"]) || isNaN(newCountry["education-secondary-per-capita"]) || isNaN(newCountry["education-tertiary-per-capita"])) {
                 console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
                 response.sendStatus(422); // unprocessable entity
             }
             else {
+                // Make sure that numeric fields are a number object
+                newCountry["year"] = Number(newCountry["year"]);
+                newCountry["education-gdp-perc"] = Number(newCountry["education-gdp-perc"]);
+                newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
+                newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
+                newCountry["education-tertiary-per-capita"] = Number(newCountry["education-tertiary-per-capita"]);
                 dbMd.find({
                     country: nameParam,
-                    year: yearParam
+                    year: Number(yearParam)
                 }).toArray(function(err, countries) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
@@ -229,7 +247,7 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
                         if (countries.length > 0) {
                             dbMd.update({
                                 country: nameParam,
-                                year:Number(yearParam)
+                                year: Number(yearParam)
                             }, newCountry);
                             console.log("INFO: Modifying country with name " + nameParam + " and year " + yearParam + " with data " + JSON.stringify(newCountry, 2, null));
                             response.send(newCountry); // return the updated contact
