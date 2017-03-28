@@ -206,15 +206,15 @@ app.put(BASE_API_PATH + "/gdp", function (request, response) {
 
 //PUT over a single resource
 app.put(BASE_API_PATH + "/gdp/:country", function (request, response) {
-    var updatedGdp = request.body;
+    var updatedgdp = request.body;
     var country = request.params.country;
-    if (!updatedGdp) {
-        console.log("WARNING: New PUT request to /gdp/ without stat, sending 400...");
+    if (!updatedgdp) {
+        console.log("WARNING: New PUT request to /gdp/ without gdp , sending 400...");
         response.sendStatus(400); // bad request
     } else {
-        console.log("INFO: New PUT request to /gdp/" + country + " with data " + JSON.stringify(updatedGdp, 2, null));
-        if (!updatedGdp.country || !updatedGdp.year ) {
-            console.log("WARNING: The gdp " + JSON.stringify(updatedGdp, 2, null) + " is not well-formed, sending 422...");
+        console.log("INFO: New PUT request to /gdp/" + country + " with data " + JSON.stringify(updatedgdp, 2, null));
+        if (!updatedgdp.country || !updatedgdp.year ) {
+            console.log("WARNING: The gdp " + JSON.stringify(updatedgdp, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
             dbCle.find({}).toArray( function (err, gdp) {
@@ -226,9 +226,9 @@ app.put(BASE_API_PATH + "/gdp/:country", function (request, response) {
                         return (g.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
                     });
                     if (gdpBeforeInsertion.length > 0) {
-                        dbCle.update({country: country}, updatedGdp);
-                        console.log("INFO: Modifying gdp with country " + country + " with data " + JSON.stringify(updatedGdp, 2, null));
-                        response.send(updatedGdp); // return the updated stat
+                        dbCle.update({country: country}, updatedgdp);
+                        console.log("INFO: Modifying gdp with country " + country + " with data " + JSON.stringify(updatedgdp, 2, null));
+                        response.send(updatedgdp); // return the updated stat
                     } else {
                         console.log("WARNING: There are not any gdp with country " + country);
                         response.sendStatus(404); // not found
