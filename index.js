@@ -5,9 +5,9 @@ var helmet = require("helmet");
 var path = require('path');
 var publicFolder = path.join(__dirname, '/public');
 
-var educationAPI = require('./api/education.js');
+var educationAPI = require('./api/v1/education.js');
 
-var gdp = require('./api/gdp.js');
+var gdp = require('./api/v1/gdp.js');
 
 
 var app = express();
@@ -50,7 +50,8 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err,database){
 app.use("/",express.static(publicFolder));
 //=================================BOTTON FOR RUN POSTMAN====================================================//
 
-app.use("/api/v1", express.static(path.join(__dirname , "tests")))
+app.use("/api/v1", express.static(path.join(__dirname , "tests")));
+
 
 //====================================CODIGO API Jihane==================================================================//
 /*========================================Load Initial Data===============================================================*/
