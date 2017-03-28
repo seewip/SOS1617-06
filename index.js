@@ -50,7 +50,7 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err,database){
 app.use("/",express.static(publicFolder));
 //=================================BOTTON FOR RUN POSTMAN====================================================//
 
-app.use("/api/v1", express.static(path.join(__dirname , "tests")));
+app.use("/api/v1/tests", express.static(path.join(__dirname , "public/tests.html")));
 
 
 //====================================CODIGO API Jihane==================================================================//
