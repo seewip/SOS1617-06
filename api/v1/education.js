@@ -16,6 +16,15 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
         }
         return true;
     };
+    
+    var insertSearchFields = function(request, query) {
+        var q;
+        if(request.query[q = "education-gdp-perc"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
+        if(request.query[q = "education-primary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q])
+        if(request.query[q = "education-secondary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q])
+        if(request.query[q = "education-tertiary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q])
+        return query;
+    };
 
     // GET Load inital data if database is empty
     app.get(BASE_API_PATH + "/education/loadInitialData", function(request, response) {
@@ -65,8 +74,9 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
     // GET a collection
     app.get(BASE_API_PATH + "/education", function(request, response) {
         console.log("INFO: New GET request to /education");
-        if (!checkApiKey(request, response)) return;
-        dbMd.find({}).toArray(function(err, education) {
+        if (!checkApiKey(request, response)) {return;}
+        var query = insertSearchFields(request, {});
+        dbMd.find(query).toArray(function(err, education) {
             if (err) {
                 console.error('WARNING: Error getting data from DB');
                 response.sendStatus(500); // internal server error
@@ -88,6 +98,12 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
     app.get(BASE_API_PATH + "/education/:country", function(request, response) {
         if (!checkApiKey(request, response)) return;
         var name = request.params.country;
+        var queryName = insertSearchFields(request, {
+            country: name
+        });
+        var queryYear = insertSearchFields(request, {
+            year: Number(name)
+        });
         if (!name) {
             console.log("WARNING: New GET request to /education/:country without country name, sending 400...");
             response.sendStatus(400); // bad request
@@ -96,9 +112,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
             console.log("INFO: New GET request to /education/" + name);
 
             if (!isNaN(name)) {
-                dbMd.find({
-                    year: Number(name)
-                }).toArray(function(err, countryList) {
+                dbMd.find(queryYear).toArray(function(err, countryList) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
                         response.sendStatus(500); // internal server error
@@ -121,9 +135,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
                 });
             }
             else {
-                dbMd.find({
-                    country: name
-                }).toArray(function(err, countryList) {
+                dbMd.find(queryName).toArray(function(err, countryList) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
                         response.sendStatus(500); // internal server error
@@ -152,6 +164,10 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
     // GET a single resource country + year
     app.get(BASE_API_PATH + "/education/:country/:year", function(request, response) {
         if (!checkApiKey(request, response)) return;
+        var query = insertSearchFields(request, {
+            country: name,
+            year: Number(year)
+        });
         var name = request.params.country;
         var year = request.params.year;
         if (!name || !year) {
@@ -160,10 +176,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
         }
         else {
             console.log("INFO: New GET request to /education/" + name + "/" + year);
-            dbMd.find({
-                country: name,
-                year: Number(year)
-            }).toArray(function(err, countryList) {
+            dbMd.find(query).toArray(function(err, countryList) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
