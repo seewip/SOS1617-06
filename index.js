@@ -11,7 +11,6 @@ var gdp = require('./api/v1/gdp.js');
 
 var gdp_per_capitaAPI = require('./api/v1/gdp-per-capita.js');
 
-
 var app = express();
 
 var MongoClient = require('mongodb').MongoClient;
@@ -22,6 +21,8 @@ var BASE_API_PATH = "/api/v1";
 var dbCle;
 var dbJf;
 var dbMd;
+
+var API_KEY = "0123456789abcdef";
 
 app.use(bodyParser.json()); 
 app.use(helmet());
@@ -37,7 +38,7 @@ MongoClient.connect(mdbURL,{native_parser:true}, function(err,database){
     dbJf = database.collection("gdp-per-capita");
     dbMd = database.collection("education");
     
-    educationAPI.register(app, dbMd, BASE_API_PATH);
+    educationAPI.register(app, dbMd, BASE_API_PATH, API_KEY);
 
     gdp.register(app,dbCle, BASE_API_PATH);
 
