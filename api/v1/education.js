@@ -160,8 +160,8 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
             console.log("INFO: New POST request to /education with body: " + JSON.stringify(newCountry, 2, null));
             if (!newCountry["country"] || !newCountry["year"] || !newCountry["education-gdp-perc"] || !newCountry["education-primary-per-capita"] || !newCountry["education-secondary-per-capita"] || !newCountry["education-tertiary-per-capita"] ||
                 isNaN(newCountry["year"]) || isNaN(newCountry["education-gdp-perc"]) || isNaN(newCountry["education-primary-per-capita"]) || isNaN(newCountry["education-secondary-per-capita"]) || isNaN(newCountry["education-tertiary-per-capita"])) {
-                console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
-                response.sendStatus(422); // unprocessable entity
+                console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 400...");
+                response.sendStatus(400); // unprocessable entity
             }
             else {
                 // Make sure that numeric fields are a number object
@@ -225,8 +225,8 @@ exports.register = function(app, dbMd, BASE_API_PATH) {
             console.log("INFO: New PUT request to /education/" + nameParam + "/" + yearParam + " with data " + JSON.stringify(newCountry, 2, null));
             if (!newCountry["country"] || !newCountry["year"] || !newCountry["education-gdp-perc"] || !newCountry["education-primary-per-capita"] || !newCountry["education-secondary-per-capita"] || !newCountry["education-tertiary-per-capita"] ||
                 isNaN(newCountry["year"]) || isNaN(newCountry["education-gdp-perc"]) || isNaN(newCountry["education-primary-per-capita"]) || isNaN(newCountry["education-secondary-per-capita"]) || isNaN(newCountry["education-tertiary-per-capita"])) {
-                console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 422...");
-                response.sendStatus(422); // unprocessable entity
+                console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 400...");
+                response.sendStatus(400); // unprocessable entity
             }
             else {
                 // Make sure that numeric fields are a number object
