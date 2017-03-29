@@ -231,7 +231,7 @@ app.put(BASE_API_PATH + "/gdp/:country/:year", function (request, response) {
                     var gdpBeforeInsertion = gdp.filter((g) => {
                         return (g.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
                     });
-                    if (gdpBeforeInsertion[0]["country"] !== updatedgdp["country"]){
+                    if (gdpBeforeInsertion["country"] !== updatedgdp["country"]){
                         console.error('WARNING: Error trying to modify the name of the country - unallowed');
                         response.sendStatus(400);
                     } else {
