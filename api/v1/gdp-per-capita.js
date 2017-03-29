@@ -1,4 +1,5 @@
 var exports = module.exports = {};
+
 // Register all the functions used in this module
 
 exports.register = function(app, dbJf, BASE_API_PATH) {
@@ -105,7 +106,7 @@ app.post(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New POST request to /gdp-per-capita with body: " + JSON.stringify(newGdpPerCapita, 2, null));
-        if (!newGdpPerCapita.country || !newGdpPerCapita.year || !newGdpPerCapita.gdp_per_capita_growth || !newGdpPerCapita.gdp_per_capita || !newGdpPerCapita.gdp_per_capita_ppp ) {
+        if (!newGdpPerCapita.country) {
             console.log("WARNING: The gdp-per-capita " + JSON.stringify(newGdpPerCapita, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(422); // unprocessable entity
         } else {
@@ -158,9 +159,8 @@ app.put(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
 
 app.delete(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response) {
     var country = request.params.country;
-    var year = request.params.year;
     if (!country) {
-        console.log("WARNING: New DELETE request to /gdp-per-capita/:country/:year without country and year, sending 400...");
+        console.log("WARNING: New DELETE request to /gdp-per-capita/:country without country, sending 400...");
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New DELETE request to /gdp-per-capita/" + country);
@@ -223,8 +223,8 @@ app.delete(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
             console.error('WARNING: Error removing data from DB');
             response.sendStatus(500); // internal server error
         } else {
-            if (numRemoved > 0) {
-                console.log("INFO: All the gdp-per-capita (" + numRemoved + ") have been succesfully deleted, sending 204...");
+            if (numRemoved.result.n > 0) {
+                console.log("INFO: All the gdp-per-capita (" + numRemoved.result.n + ") have been succesfully deleted, sending 204...");
                 response.sendStatus(204); // no content
             } else {
                 console.log("WARNING: There are no gdp-per-capita to delete");
