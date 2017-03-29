@@ -8,7 +8,7 @@
 //Load Initial Data
 app.get(BASE_API_PATH + "/gdp/loadInitialData",function(request, response) {
     
-    var apikey = request.query.apikey;
+   // var apikey = request.query.apikey;
     
     dbCle.find({}).toArray(function(err,gdp){
         
