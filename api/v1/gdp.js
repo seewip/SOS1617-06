@@ -1,10 +1,14 @@
  var exports = module.exports = {};
  // Register all the functions used in this module
+ 
+ 
  exports.register = function(app, dbCle, BASE_API_PATH) {
 
 
 //Load Initial Data
 app.get(BASE_API_PATH + "/gdp/loadInitialData",function(request, response) {
+    
+   // var apikey = request.query.apikey;
     
     dbCle.find({}).toArray(function(err,gdp){
         
@@ -15,7 +19,8 @@ app.get(BASE_API_PATH + "/gdp/loadInitialData",function(request, response) {
     
       if (gdp.length === 0) {
         console.log('INFO: Empty DB, loading initial data');
-
+        
+              
               var initialGdp= [{ 
                  "country": "Spain", 
                  "year": "2013", 
@@ -205,10 +210,11 @@ app.put(BASE_API_PATH + "/gdp", function (request, response) {
 
 
 //PUT over a single resource
-app.put(BASE_API_PATH + "/gdp/:country", function (request, response) {
+app.put(BASE_API_PATH + "/gdp/:country/:year", function (request, response) {
     var updatedgdp = request.body;
     var country = request.params.country;
-    if (!updatedgdp) {
+    var year = request.params.year;
+    if (!country|| !year) {
         console.log("WARNING: New PUT request to /gdp/ without gdp , sending 400...");
         response.sendStatus(400); // bad request
     } else {
@@ -225,6 +231,10 @@ app.put(BASE_API_PATH + "/gdp/:country", function (request, response) {
                     var gdpBeforeInsertion = gdp.filter((g) => {
                         return (g.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
                     });
+                    if (gdpBeforeInsertion["country"] !== updatedgdp["country"]){
+                        console.error('WARNING: Error trying to modify the name of the country - unallowed');
+                        response.sendStatus(400);
+                    } else {
                     if (gdpBeforeInsertion.length > 0) {
                         dbCle.update({country: country}, updatedgdp);
                         console.log("INFO: Modifying gdp with country " + country + " with data " + JSON.stringify(updatedgdp, 2, null));
@@ -232,6 +242,7 @@ app.put(BASE_API_PATH + "/gdp/:country", function (request, response) {
                     } else {
                         console.log("WARNING: There are not any gdp with country " + country);
                         response.sendStatus(404); // not found
+                    }
                     }
                 }
             });
