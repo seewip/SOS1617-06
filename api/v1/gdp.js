@@ -231,6 +231,10 @@ app.put(BASE_API_PATH + "/gdp/:country/:year", function (request, response) {
                     var gdpBeforeInsertion = gdp.filter((g) => {
                         return (g.country.localeCompare(country, "en", {'sensitivity': 'base'}) === 0);
                     });
+                    if (gdpBeforeInsertion[0]["country"] !== updatedgdp["country"]){
+                        console.error('WARNING: Error trying to modify the name of the country - unallowed');
+                        response.sendStatus(400);
+                    } else {
                     if (gdpBeforeInsertion.length > 0) {
                         dbCle.update({country: country}, updatedgdp);
                         console.log("INFO: Modifying gdp with country " + country + " with data " + JSON.stringify(updatedgdp, 2, null));
@@ -238,6 +242,7 @@ app.put(BASE_API_PATH + "/gdp/:country/:year", function (request, response) {
                     } else {
                         console.log("WARNING: There are not any gdp with country " + country);
                         response.sendStatus(404); // not found
+                    }
                     }
                 }
             });
