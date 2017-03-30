@@ -1,21 +1,7 @@
 var exports = module.exports = {};
 
 // Register all the functions used in this module
-exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
-    // Helper method to check for apikey
-    var checkApiKey = function(request, response) {
-        if (!request.query.apikey) {
-            console.error('WARNING: No apikey was sent!');
-            response.sendStatus(401)
-            return false;
-        }
-        if (request.query.apikey !== API_KEY) {
-            console.error('WARNING: Incorrect apikey was used!');
-            response.sendStatus(403)
-            return false;
-        }
-        return true;
-    };
+exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
     
     var insertSearchFields = function(request, query) {
         var q;
@@ -29,7 +15,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
     // GET Load inital data if database is empty
     app.get(BASE_API_PATH + "/education/loadInitialData", function(request, response) {
         console.log("INFO: New GET request to /education/loadInitialData");
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         dbMd.find({}).count((err, count) => {
             if (err) {
                 console.error('WARNING: Error getting data from DB');
@@ -74,7 +60,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
     // GET a collection
     app.get(BASE_API_PATH + "/education", function(request, response) {
         console.log("INFO: New GET request to /education");
-        if (!checkApiKey(request, response)) {return;}
+        if (!checkApiKeyFunction(request, response)) {return;}
         var query = insertSearchFields(request, {});
         dbMd.find(query).toArray(function(err, education) {
             if (err) {
@@ -96,7 +82,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
 
     // GET a single resource - country/year
     app.get(BASE_API_PATH + "/education/:country", function(request, response) {
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         var queryName = insertSearchFields(request, {
             country: name
@@ -163,7 +149,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
 
     // GET a single resource country + year
     app.get(BASE_API_PATH + "/education/:country/:year", function(request, response) {
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         var query = insertSearchFields(request, {
             country: name,
             year: Number(year)
@@ -198,7 +184,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
 
     //POST over a collection
     app.post(BASE_API_PATH + "/education", function(request, response) {
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         var newCountry = request.body;
         if (!newCountry) {
             console.log("WARNING: New POST request to /education/ without country, sending 400...");
@@ -247,7 +233,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
 
     //POST over a single resource
     app.post(BASE_API_PATH + "/education/:country", function(request, response) {
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         console.log("WARNING: New POST request to /education/" + name + ", sending 405...");
         response.sendStatus(405); // method not allowed
@@ -256,7 +242,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
 
     //PUT over a collection
     app.put(BASE_API_PATH + "/education", function(request, response) {
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         console.log("WARNING: New PUT request to /education, sending 405...");
         response.sendStatus(405); // method not allowed
     });
@@ -264,7 +250,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
 
     //PUT over a single resource
     app.put(BASE_API_PATH + "/education/:country/:year", function(request, response) {
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         var newCountry = request.body;
         var nameParam = request.params.country;
         var yearParam = request.params.year;
@@ -316,7 +302,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
 
     //DELETE over a collection
     app.delete(BASE_API_PATH + "/education", function(request, response) {
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         console.log("INFO: New DELETE request to /education");
         dbMd.remove({}, {
             justOne: false
@@ -341,7 +327,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, API_KEY) {
 
     //DELETE over a single resource
     app.delete(BASE_API_PATH + "/education/:country/:year", function(request, response) {
-        if (!checkApiKey(request, response)) return;
+        if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         var year = request.params.year;
         if (!name || !year) {
