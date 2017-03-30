@@ -22,7 +22,7 @@ var dbCle;
 var dbJf;
 var dbMd;
 
-var API_KEY = "0123456789abcdef";
+var API_KEY = "secret";
 
 // Helper method to check for apikey
 var checkApiKeyFunction = function(request, response) {
