@@ -36,7 +36,7 @@ exports.register = function(app, dbJf, BASE_API_PATH) {
                  "year": "2015",
                  "gdp-per-capita-growth": "3.1",
                  "gdp-per-capita": "2878.20",
-                 "gdp-per-capita-ppp": "7841.50 "
+                 "gdp-per-capita-ppp": "7841.50"
                 }
               ];
 
