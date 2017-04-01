@@ -150,12 +150,12 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
     // GET a single resource country + year
     app.get(BASE_API_PATH + "/education/:country/:year", function(request, response) {
         if (!checkApiKeyFunction(request, response)) return;
+        var name = request.params.country;
+        var year = request.params.year;
         var query = insertSearchFields(request, {
             country: name,
             year: Number(year)
         });
-        var name = request.params.country;
-        var year = request.params.year;
         if (!name || !year) {
             console.log("WARNING: New GET request to /education/:country/:year without country name or year, sending 400...");
             response.sendStatus(400); // bad request
