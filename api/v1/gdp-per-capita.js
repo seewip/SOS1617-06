@@ -21,15 +21,15 @@ exports.register = function(app, dbJf, BASE_API_PATH) {
                  "country": "spain",
                  "year": "2015",
                  "gdp-per-capita-growth": "3.4",
-                 "gdp-per-capita": "25831.60 ",
-                 "gdp-per-capita-ppp": "34906.40 "
+                 "gdp-per-capita": "25831.60",
+                 "gdp-per-capita-ppp": "34906.40"
                 },
                 {
                  "country": "poland",
                  "year": "2015",
                  "gdp-per-capita-growth": "4",
                  "gdp-per-capita": "12554.50",
-                 "gdp-per-capita-ppp": "26862.30 "
+                 "gdp-per-capita-ppp": "26862.30"
                 },
                 {
                  "country": "morocco",
@@ -158,6 +158,7 @@ app.put(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
 // Delete a un recurso concreto
 
 app.delete(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response) {
+    console.log("INFO: ");
     var country = request.params.country;
     if (!country) {
         console.log("WARNING: New DELETE request to /gdp-per-capita/:country without country, sending 400...");
