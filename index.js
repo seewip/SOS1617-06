@@ -28,12 +28,12 @@ var API_KEY = "secret";
 var checkApiKeyFunction = function(request, response) {
     if (!request.query.apikey) {
         console.error('WARNING: No apikey was sent!');
-        response.sendStatus(401)
+        response.sendStatus(401);
         return false;
     }
     if (request.query.apikey !== API_KEY) {
         console.error('WARNING: Incorrect apikey was used!');
-        response.sendStatus(403)
+        response.sendStatus(403);
         return false;
     }
     return true;
@@ -57,7 +57,7 @@ MongoClient.connect(mdbURL, {
 
     educationAPI.register(app, dbMd, BASE_API_PATH, checkApiKeyFunction);
 
-    gdp.register(app, dbCle, BASE_API_PATH);
+    gdp.register(app, dbCle, BASE_API_PATH,checkApiKeyFunction);
 
     gdp_per_capitaAPI.register(app, dbJf, BASE_API_PATH);
 

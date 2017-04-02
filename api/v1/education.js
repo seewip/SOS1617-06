@@ -6,9 +6,9 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
     var insertSearchFields = function(request, query) {
         var q;
         if(request.query[q = "education-gdp-perc"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
-        if(request.query[q = "education-primary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q])
-        if(request.query[q = "education-secondary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q])
-        if(request.query[q = "education-tertiary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q])
+        if(request.query[q = "education-primary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
+        if(request.query[q = "education-secondary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
+        if(request.query[q = "education-tertiary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
         return query;
     };
 
@@ -365,4 +365,4 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
 
     console.log("Education data REST API registered succesfully");
-}
+};
