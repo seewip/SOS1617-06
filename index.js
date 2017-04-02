@@ -57,7 +57,7 @@ MongoClient.connect(mdbURL, {
 
     educationAPI.register(app, dbMd, BASE_API_PATH, checkApiKeyFunction);
 
-    gdp.register(app, dbCle, BASE_API_PATH,checkApiKeyFunction);
+    gdp.register(app, dbCle, BASE_API_PATH, checkApiKeyFunction);
 
     gdp_per_capitaAPI.register(app, dbJf, BASE_API_PATH);
 

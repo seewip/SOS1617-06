@@ -74,7 +74,7 @@
  
  
  
-     // GET a collection
+     // GET over to collection
      app.get(BASE_API_PATH + "/gdp", function(request, response) {
  
          console.log("INFO: New GET request to /gdp");
@@ -99,7 +99,7 @@
      });
  
  
-     // GET a single resource country and year 
+     // GET to single resource country and year 
  
      app.get(BASE_API_PATH + "/gdp/:country:year", function(request, response) {
          if (!checkApiKeyFunction(request, response)) return;
@@ -173,7 +173,7 @@
      });
  
  
-     //GET a recurso concreto con 2 parametros
+     //GET to specify resource
  
      app.get(BASE_API_PATH + "/gdp/:country/:year", function(request, response) {
          if (!checkApiKeyFunction(request, response)) return;
@@ -256,7 +256,7 @@
  
  
      //POST over a single resource
-     app.post(BASE_API_PATH + "/gdp/:country", function(request, response) {
+     app.post(BASE_API_PATH + "/gdp/:country/:year", function(request, response) {
          if (!checkApiKeyFunction(request, response)) return;
          var country = request.params.country;
          console.log("WARNING: New POST request to /gdp/" + country + ", sending 405...");
