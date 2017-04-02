@@ -195,9 +195,9 @@ app.put(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response)
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New PUT request to /gdp-per-capita/" + country + " with data " + JSON.stringify(updatedGdpPerCapita, 2, null));
-        if (!updatedGdpPerCapita.country) {
+        if (!updatedGdpPerCapita.country || !updatedGdpPerCapita.country !== country) {
             console.log("WARNING: The gdp-per-capita " + JSON.stringify(updatedGdpPerCapita, 2, null) + " is not well-formed, sending 422...");
-            response.sendStatus(422); // unprocessable entity
+            response.sendStatus(400); // bad request
         } else {
             dbJf.find({country:updatedGdpPerCapita.country}).toArray(function (err, gdp_per_capita) {
                 if (err) {
