@@ -59,7 +59,7 @@ MongoClient.connect(mdbURL, {
 
     gdp.register(app, dbCle, BASE_API_PATH, checkApiKeyFunction);
 
-    gdp_per_capitaAPI.register(app, dbJf, BASE_API_PATH);
+    gdp_per_capitaAPI.register(app, dbJf, BASE_API_PATH, checkApiKeyFunction);
 
     app.listen(port, () => {
         console.log("Web server is listening on port " + port);
