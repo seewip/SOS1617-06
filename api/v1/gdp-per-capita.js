@@ -142,7 +142,7 @@ app.get(BASE_API_PATH + "/gdp-per-capita/:country:year", function (request, resp
                                 results = results.slice(Number(request.query.offset), Number(request.query.limit) + Number(request.query.offset));
                             }
                          var gpc = results; //since we expect to have exactly ONE contact with this name
-                         console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
+                         console.log("INFO: Sending result: " + JSON.stringify(gpc, 2, null));
                          response.send(gpc);
                      }else {
                          console.log("WARNING: There are not any result with year " + year);
@@ -179,7 +179,7 @@ app.get(BASE_API_PATH + "/gdp-per-capita/:country:year", function (request, resp
                  }
                  else if (results.length > 0) {
                      var gpc = results[0]; //since we expect to have exactly ONE contact with this name
-                     console.log("INFO: Sending result: " + JSON.stringify(result, 2, null));
+                     console.log("INFO: Sending result: " + JSON.stringify(gpc, 2, null));
                      response.send(gpc);
                  }
                  else {
@@ -239,7 +239,7 @@ app.post(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
 app.post(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response) {
     if (!checkApiKeyFunction(request, response)) return;
     var country = request.params.country;
-    console.log("WARNING: New POST request to /country/" + country + " and year " + year + ", sending 405...");
+    console.log("WARNING: New POST request to /country/" + country + ", sending 405...");
     response.sendStatus(405); // method not allowed
 });
 
