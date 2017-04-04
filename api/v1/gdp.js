@@ -33,30 +33,30 @@
                  var initialGdp = [{
                      "country": "Spain",
                      "year": "2013",
-                     "gdp ": "1369261671179.01",
+                     "gdp": "1369261671179.01",
                      "gdp_growth": "-1.7",
-                     "gdp_deflator ": "100.6"
+                     "gdp_deflator": "100.6"
  
                  }, {
                      "country": "Poland",
                      "year": "2014",
-                     "gdp ": "545158979236",
-                     "gdp_growth ": "3.3",
-                     "gdp_deflator ": "106.5"
+                     "gdp": "545158979236",
+                     "gdp_growth": "3.3",
+                     "gdp_deflator": "106.5"
  
                  }, {
                      "country": "Morocco",
                      "year": "2015",
-                     "gdp ": "100593283696.7",
+                     "gdp": "100593283696.7",
                      "gdp_growth": "4.5",
-                     "gdp_deflator ": "108.9"
+                     "gdp_deflator": "108.9"
  
                  }, {
                      "country": "United_Kingdom",
                      "year": "2011",
-                     "gdp ": "2608995353308.8",
+                     "gdp": "2608995353308.8",
                      "gdp_growth": "1.5",
-                     "gdp_deflator ": "102.0"
+                     "gdp_deflator": "102.0"
  
                  }];
                  
