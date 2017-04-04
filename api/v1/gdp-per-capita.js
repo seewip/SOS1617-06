@@ -153,7 +153,7 @@ app.get(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response)
              });     
         }            
     }
-});
+);
 
 
 //GET to specify resource
@@ -299,7 +299,7 @@ app.put(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, res
         response.sendStatus(400); // bad request
     } else {
         console.log("INFO: New PUT request to /gdp-per-capita/" + country + " with data " + JSON.stringify(updatedGdpPerCapita, 2, null));
-        if (!updatedGdpPerCapita["country"] || !updatedGdpPerCapita["year"] || !updatedGdpPerCapita["gdp-per-capita-growth"] || !updatedGdpPerCapita["gdp-per-capita"] || !updatedGdpPerCapita[ "gdp-per-capita-ppp"] || isNaN(updatedGdpPerCapita["year"]) || isNaN(updatedGdpPerCapita["gdp-per-capita-growth"]) || isNaN(updatedGdpPerCapita["gdp-per-capita"]) || isNaN(updatedGdpPerCapita[ "gdp-per-capita-ppp"])) {
+        if (!updatedGdpPerCapita.country || !updatedGdpPerCapita.year || !updatedGdpPerCapita.gdp_per_capita_growth || !updatedGdpPerCapita.gdp_per_capita || !updatedGdpPerCapita.gdp_per_capita_ppp || updatedGdpPerCapita.year !== year || updatedGdpPerCapita.country !== country) {
             console.log("WARNING: The gdp-per-capita " + JSON.stringify(updatedGdpPerCapita, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(400); // bad request
         } else {
