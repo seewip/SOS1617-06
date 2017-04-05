@@ -92,9 +92,9 @@ app.get(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
 app.get(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response) {
     if (!checkApiKeyFunction(request, response)) return;
     var country = request.params.country;
-    var year = request.params.year;
+    var year = request.params.country;
     var queryYear = insertSearchFields(request, {
-        year:Number(country)
+        year:Number(year)
     });
     var queryCountry = insertSearchFields(request, {
         country: country
