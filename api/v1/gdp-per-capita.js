@@ -316,9 +316,9 @@ app.put(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, res
                         dbJf.update({country: updatedGdpPerCapita.country, year: Number(updatedGdpPerCapita.year)}, updatedGdpPerCapita);
                         console.log("INFO: Modifying gdp-per-capita with country " + country + " with data " + JSON.stringify(updatedGdpPerCapita, 2, null));
                         response.send(updatedGdpPerCapita); // return the updated contact
-                    } else {
+                   /* } else {
                         console.log("WARNING: There are not any gdp-per-capita with country " + country);
-                        response.sendStatus(404); // not found
+                        response.sendStatus(404); // not found*/
                     }
                 }
             )};
