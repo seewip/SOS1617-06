@@ -28,24 +28,24 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
             if (gdp_per_capita.length === 0) {
                 var gdp_per_capitaEd = [{
                     "country": "spain",
-                    "year": "2015",
-                    "gdp-per-capita-growth": "3.4",
-                    "gdp-per-capita": "25831.60",
-                    "gdp-per-capita-ppp": "34906.40"
+                    "year": 2015,
+                    "gdp-per-capita-growth": 3.4,
+                    "gdp-per-capita": 25831.60,
+                    "gdp-per-capita-ppp": 34906.40
                 },
                 {
                  "country": "poland",
-                 "year": "2015",
-                 "gdp-per-capita-growth": "4",
-                 "gdp-per-capita": "12554.50",
-                 "gdp-per-capita-ppp": "26862.30"
+                 "year": 2015,
+                 "gdp-per-capita-growth": 4,
+                 "gdp-per-capita": 12554.50,
+                 "gdp-per-capita-ppp": 26862.30
                 },
                 {
                  "country": "morocco",
-                 "year": "2015",
-                 "gdp-per-capita-growth": "3.1",
-                 "gdp-per-capita": "2878.20",
-                 "gdp-per-capita-ppp": "7841.50"
+                 "year": 2015,
+                 "gdp-per-capita-growth": 3.1,
+                 "gdp-per-capita": 2878.20,
+                 "gdp-per-capita-ppp": 7841.50
                 }
               ];
                 console.log("INFO: Initial data created succesfully!");
@@ -303,12 +303,12 @@ app.put(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, res
             console.log("WARNING: The gdp-per-capita " + JSON.stringify(updatedGdpPerCapita, 2, null) + " is not well-formed, sending 422...");
             response.sendStatus(400); // bad request
         } else {
-            updatedGdpPerCapita["year"] = Number(updatedGdpPerCapita["year"]);
-            updatedGdpPerCapita["gdp-per-capita-growth"] = Number(updatedGdpPerCapita["gdp-per-capita-growth"]);
-            updatedGdpPerCapita["gdp-per-capita"] = Number(updatedGdpPerCapita["gdp-per-capita"]);
-            updatedGdpPerCapita[ "gdp-per-capita-ppp"] = Number(updatedGdpPerCapita[ "gdp-per-capita-ppp"]);
+            updatedGdpPerCapita["year"] = updatedGdpPerCapita["year"];
+            updatedGdpPerCapita["gdp-per-capita-growth"] = updatedGdpPerCapita["gdp-per-capita-growth"];
+            updatedGdpPerCapita["gdp-per-capita"] = updatedGdpPerCapita["gdp-per-capita"];
+            updatedGdpPerCapita[ "gdp-per-capita-ppp"] = updatedGdpPerCapita[ "gdp-per-capita-ppp"];
             
-            dbJf.find({country:updatedGdpPerCapita.country,year:Number(updatedGdpPerCapita.year)}).toArray(function (err, gdp_per_capita) {
+            dbJf.find({country:country,year:Number(year)}).toArray(function (err, gdp_per_capita) {
                 if (err) {
                     console.error('WARNING: Error getting data from DB');
                     response.sendStatus(500); // internal server error
