@@ -118,9 +118,9 @@ app.get(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response)
                     var gpc = results; //since we expect to have exactly ONE gdp with this country
                     console.log("INFO: Sending gdp_per_capita: " + JSON.stringify(gpc, 2, null));
                     response.send(gpc);
-                } else {
+               /* } else {
                     console.log("WARNING: There are not any gdp-per-capita with country " + country);
-                    response.sendStatus(404); // not found
+                    response.sendStatus(404); // not found*/
                 
                 }
             });
