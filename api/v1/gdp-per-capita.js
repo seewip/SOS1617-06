@@ -70,7 +70,7 @@ app.get(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
     console.log("INFO: New GET request to /gdp-per-capita");
     if (!checkApiKeyFunction(request, response)) {return;}
     var query = insertSearchFields(request, {});
-    dbJf.find({}).toArray(function (err, gdp_per_capita) {
+    dbJf.find(query).toArray(function (err, gdp_per_capita) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
