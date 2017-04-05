@@ -126,11 +126,11 @@ app.get(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response)
             });
         }
     } else {
-        if (!year) {
+        /*if (!year) {
                  console.log("WARNING: New GET request to /gdp-per-capita/:year without year, sending 400...");
                  response.sendStatus(400); // bad request
              }else {
-                 console.log("INFO: New GET request to /gdp-per-capita/" + year);
+                 console.log("INFO: New GET request to /gdp-per-capita/" + year);*/
                  dbJf.find(queryYear).toArray(function(err, results) {
                      if (err) {
                          console.error('WARNING: Error getting data from DB');
