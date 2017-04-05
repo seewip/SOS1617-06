@@ -99,7 +99,7 @@ app.get(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response)
     var queryCountry = insertSearchFields(request, {
         country: country
     });
-    if (!request.params.year && isNaN(request.params.year.charAt(0))){
+    if (request.params.year && isNaN(request.params.year.charAt(0))){
         if (!country) {
             console.log("WARNING: New GET request to /gdp-per-capita/:country without country, sending 400...");
             response.sendStatus(400); // bad request
