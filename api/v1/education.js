@@ -250,6 +250,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     //PUT over a single resource
     app.put(BASE_API_PATH + "/education/:country/:year", function(request, response) {
+        console.log("BODY: "+JSON.stringify(request.body, null, 2));
         if (!checkApiKeyFunction(request, response)) return;
         var newCountry = request.body;
         var nameParam = request.params.country;

@@ -24,6 +24,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
             .post("../api/v1/education" + "?" + "apikey=" + apikey, $scope.newData)
             .then(function(response) {
                 console.log("Data added!");
+                Materialize.toast('<i class="material-icons">done</i> ' + $scope.newData.country + ' has been added succesfully!', 4000);
                 refresh();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error adding data!', 4000);
@@ -40,12 +41,15 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     $scope.editData = function(data) {
         var oldCountry = data.oldCountry;
         var oldYear = data.oldYear;
+        delete data._id;
         delete data.oldCountry;
         delete data.oldYear;
+        data.year = Number(data.year);
         $http
             .put("../api/v1/education/" + oldCountry + "/" + oldYear + "?" + "apikey=" + apikey, data)
             .then(function(response) {
                 console.log("Data " + data.country + " edited!");
+                Materialize.toast('<i class="material-icons">done</i> ' + oldCountry + ' has been edited succesfully!', 4000);
                 refresh();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error editing data!', 4000);
@@ -58,6 +62,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
             .delete("../api/v1/education/" + data.country + "/" + data.year + "?" + "apikey=" + apikey)
             .then(function(response) {
                 console.log("Data " + data.country + " deleted!");
+                Materialize.toast('<i class="material-icons">done</i> ' + data.country + ' has been deleted succesfully!', 4000);
                 refresh();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error deleting data!', 4000);
@@ -69,6 +74,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
             .delete("../api/v1/education" + "?" + "apikey=" + apikey)
             .then(function(response) {
                 console.log("All data deleted!");
+                Materialize.toast('<i class="material-icons">done</i> All data has been deleted succesfully!', 4000);
                 refresh();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error deleting all data!', 4000);
@@ -82,12 +88,14 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
                 .get("../api/v1/education/loadInitialData" + "?" + "apikey=" + apikey)
                 .then(function(response) {
                     console.log("Initial data loaded");
+                    Materialize.toast('<i class="material-icons">done</i> Loaded inital data succesfully!', 4000);
                     refresh();
                 }, function(response) {
                     Materialize.toast('<i class="material-icons">error_outline</i> Error adding initial data!', 4000);
                 });
         }
         else {
+            Materialize.toast('<i class="material-icons">error_outline</i> List must be empty to add initial data!', 4000);
             console.log("List must be empty!");
         }
     };
