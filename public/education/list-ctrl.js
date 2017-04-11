@@ -26,7 +26,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
         else {
             $('#pagination_div').append('<li class="waves-effect"><a href="#" onclick="previousPage()"><i class="material-icons">chevron_left</i></a></li>');
         }
-        
+
         for (var i = 1; i <= maxPages; i++) {
             if (currentPage == i) {
                 $('#pagination_div').append('<li class="active"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>');
@@ -35,7 +35,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
                 $('#pagination_div').append('<li class="waves-effect"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>');
             }
         }
-        
+
         if (currentPage == maxPages) {
             $('#pagination_div').append('<li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>');
         }
@@ -87,12 +87,14 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
             .then(function(response) {
                 //console.log("GET: " + "../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties);
                 maxPages = Math.ceil(response.data.length / elementsPerPage);
+                if (currentPage <= 0) currentPage = 1;
+                if (currentPage > maxPages) currentPage = maxPages;
                 setPagination();
-                $scope.data = response.data.slice(Number((currentPage-1)*elementsPerPage), Number((currentPage)*elementsPerPage));
+                $scope.data = response.data.slice(Number((currentPage - 1) * elementsPerPage), Number((currentPage) * elementsPerPage));
                 //$scope.data = response.data;
-                console.log("Data count: " + response.data.length);
-                console.log("Max pages: " + maxPages);
-                console.log("Current page: " + currentPage);
+                //console.log("Data count: " + response.data.length);
+                //console.log("Max pages: " + maxPages);
+                //console.log("Current page: " + currentPage);
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
             });
