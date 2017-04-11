@@ -5,12 +5,31 @@ angular.module("EducationManagerApp").
 controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("Controller initialized");
 
-    var apikey = "secret";
+    $scope.apikey = "secret";
+    $scope.search = {};
+    $scope.searchAdd = {};
 
     function refresh() {
+        var modifier = "";
+        var properties = "";
+        if ($scope.search.country && $scope.search.year) {
+            modifier = "/" + $scope.search.country + "/" + $scope.search.year;
+        }
+        else if ($scope.search.country) {
+            modifier = "/" + $scope.search.country;
+        }
+        else if ($scope.search.year) {
+            modifier = "/" + $scope.search.year;
+        }
+        for (var prop in $scope.searchAdd) {
+            if ($scope.searchAdd.hasOwnProperty(prop) && prop) {
+                properties += prop + "=" + $scope.searchAdd[prop] + "&";
+            }
+        }
         $http
-            .get("../api/v1/education" + "?" + "apikey=" + apikey)
+            .get("../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties)
             .then(function(response) {
+                console.log("GET: " + "../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties);
                 $scope.data = response.data;
                 console.log("Data count: " + $scope.data.length);
             }, function(response) {
@@ -21,7 +40,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
 
     $scope.addData = function() {
         $http
-            .post("../api/v1/education" + "?" + "apikey=" + apikey, $scope.newData)
+            .post("../api/v1/education" + "?" + "apikey=" + $scope.apikey, $scope.newData)
             .then(function(response) {
                 console.log("Data added!");
                 Materialize.toast('<i class="material-icons">done</i> ' + $scope.newData.country + ' has been added succesfully!', 4000);
@@ -46,7 +65,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
         delete data.oldYear;
         data.year = Number(data.year);
         $http
-            .put("../api/v1/education/" + oldCountry + "/" + oldYear + "?" + "apikey=" + apikey, data)
+            .put("../api/v1/education/" + oldCountry + "/" + oldYear + "?" + "apikey=" + $scope.apikey, data)
             .then(function(response) {
                 console.log("Data " + data.country + " edited!");
                 Materialize.toast('<i class="material-icons">done</i> ' + oldCountry + ' has been edited succesfully!', 4000);
@@ -59,7 +78,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
 
     $scope.delData = function(data) {
         $http
-            .delete("../api/v1/education/" + data.country + "/" + data.year + "?" + "apikey=" + apikey)
+            .delete("../api/v1/education/" + data.country + "/" + data.year + "?" + "apikey=" + $scope.apikey)
             .then(function(response) {
                 console.log("Data " + data.country + " deleted!");
                 Materialize.toast('<i class="material-icons">done</i> ' + data.country + ' has been deleted succesfully!', 4000);
@@ -71,7 +90,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
 
     $scope.delAllData = function() {
         $http
-            .delete("../api/v1/education" + "?" + "apikey=" + apikey)
+            .delete("../api/v1/education" + "?" + "apikey=" + $scope.apikey)
             .then(function(response) {
                 console.log("All data deleted!");
                 Materialize.toast('<i class="material-icons">done</i> All data has been deleted succesfully!', 4000);
@@ -85,7 +104,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
         refresh();
         if ($scope.data.length == 0) {
             $http
-                .get("../api/v1/education/loadInitialData" + "?" + "apikey=" + apikey)
+                .get("../api/v1/education/loadInitialData" + "?" + "apikey=" + $scope.apikey)
                 .then(function(response) {
                     console.log("Initial data loaded");
                     Materialize.toast('<i class="material-icons">done</i> Loaded inital data succesfully!', 4000);
@@ -100,13 +119,21 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
         }
     };
 
-    refresh();
-}]);
+    $scope.setSearch = function(search) {
 
-$(document).ready(function() {
-    $('.modal').modal({
-        ready: function(modal, trigger) {
-            Materialize.updateTextFields();
-        }
+    };
+
+    refresh();
+
+    $(document).ready(function() {
+        $('.modal').modal({
+            ready: function(modal, trigger) {
+                Materialize.updateTextFields();
+            },
+            complete: function() {
+                refresh();
+            }
+        });
+         $(".button-collapse").sideNav();
     });
-});
+}]);

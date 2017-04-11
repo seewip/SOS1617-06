@@ -16,9 +16,17 @@
     <header>
         <nav>
             <div class="nav-wrapper blue">
-                <a href="#" class="brand-logo center"><i class="material-icons left">list</i>Education data</a>
+                <a href="#!" class="brand-logo center"><i class="material-icons left">list</i>Education data</a>
+                <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="#apikeyModal"><i class="material-icons left">vpn_key</i>Apikey</a></li>
+                    <li><a href="#searchModal"><i class="material-icons left">search</i>Search</a></li>
                     <li><a href="../index.html"><i class="material-icons left">dashboard</i>Front page</a></li>
+                </ul>
+                <ul class="side-nav" id="mobile">
+                    <li><a href="../index.html"><i class="material-icons left">dashboard</i>Front page</a></li>
+                    <li><a href="#searchModal"><i class="material-icons left">search</i>Search</a></li>
+                    <li><a href="#apikeyModal"><i class="material-icons left">vpn_key</i>Apikey</a></li>
                 </ul>
             </div>
         </nav>
@@ -108,6 +116,64 @@
                 <div class="modal-footer">
                     <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
                     <a href="#" ng-click="editData(editDataUnit)" class="modal-action modal-close waves-effect waves-green btn-flat ">Apply</a>
+                </div>
+            </div>
+            <div id="searchModal" class="modal">
+                <div class="modal-content">
+                    <h4>Search</h4>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input class="form-control" type="text" id="country" ng-model="search.country">
+                                    <label for="country">Country</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input class="form-control" type="text" id="year" ng-model="search.year">
+                                    <label for="year">Year</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s3">
+                                    <input class="form-control" type="text" id="edugdp" ng-model="searchAdd['education-gdp-perc']">
+                                    <label for="edugdp">%GDP spent on education</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input class="form-control" type="text" id="edupri" ng-model="searchAdd['education-primary-per-capita']">
+                                    <label for="edupri">Primary/capita</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input class="form-control" type="text" id="edusec" ng-model="searchAdd['education-secondary-per-capita']">
+                                    <label for="edusec">Secondary/capita</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input class="form-control" type="text" id="eduter" ng-model="searchAdd['education-tertiary-per-capita']">
+                                    <label for="eduter">Tertiary/capita</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat ">OK</a>
+                </div>
+            </div>
+            <div id="apikeyModal" class="modal">
+                <div class="modal-content">
+                    <h4>Set apikey</h4>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <input class="form-control" type="text" id="apikey" ng-model="apikey">
+                                    <label for="apikey">Apikey</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat ">Set</a>
                 </div>
             </div>
         </div>
