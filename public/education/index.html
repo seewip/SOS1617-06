@@ -34,6 +34,12 @@
     <main>
         <div ng-controller="ListCtrl">
             <div class="container">
+                <div class="row">
+                    <div class="col s12 center-align">
+                        <ul id="pagination_div" class="pagination">
+                        </ul>
+                    </div>
+                </div>
                 <table class="highlight">
                     <thead>
                         <tr>
@@ -77,6 +83,7 @@
                     </tbody>
                 </table>
             </div>
+
             <div id="editModal" class="modal">
                 <div class="modal-content">
                     <h4>Edit {{editDataUnit.oldCountry}} ({{editDataUnit.oldYear}})</h4>
@@ -118,6 +125,7 @@
                     <a href="#" ng-click="editData(editDataUnit)" class="modal-action modal-close waves-effect waves-green btn-flat ">Apply</a>
                 </div>
             </div>
+
             <div id="searchModal" class="modal">
                 <div class="modal-content">
                     <h4>Search</h4>
@@ -158,6 +166,7 @@
                     <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat ">OK</a>
                 </div>
             </div>
+
             <div id="apikeyModal" class="modal">
                 <div class="modal-content">
                     <h4>Set apikey</h4>
@@ -176,6 +185,7 @@
                     <a href="#" class="modal-action modal-close waves-effect waves-green btn-flat ">Set</a>
                 </div>
             </div>
+
         </div>
     </main>
 </body>

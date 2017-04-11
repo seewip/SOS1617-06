@@ -1,6 +1,10 @@
 /* global angular */
 /* global Materialize */
 /* global $ */
+var previousPage;
+var nextPage
+var setPage;
+
 angular.module("EducationManagerApp").
 controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("Controller initialized");
@@ -9,8 +13,58 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     $scope.search = {};
     $scope.searchAdd = {};
 
-    function refresh() {
+    var currentPage = 1;
+    var maxPages = 1;
+
+    var elementsPerPage = 5;
+
+    function setPagination() {
+        $('#pagination_div').empty();
+        if (currentPage == 1) {
+            $('#pagination_div').append('<li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>');
+        }
+        else {
+            $('#pagination_div').append('<li class="waves-effect"><a href="#" onclick="previousPage()"><i class="material-icons">chevron_left</i></a></li>');
+        }
         
+        for (var i = 1; i <= maxPages; i++) {
+            if (currentPage == i) {
+                $('#pagination_div').append('<li class="active"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>');
+            }
+            else {
+                $('#pagination_div').append('<li class="waves-effect"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>');
+            }
+        }
+        
+        if (currentPage == maxPages) {
+            $('#pagination_div').append('<li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>');
+        }
+        else {
+            $('#pagination_div').append('<li class="waves-effect"><a href="#" onclick="nextPage()"><i class="material-icons">chevron_right</i></a></li>');
+        }
+    }
+
+    setPage = function(page) {
+        currentPage = page;
+        if (currentPage <= 0) currentPage = 1;
+        if (currentPage > maxPages) currentPage = maxPages;
+        refresh();
+    };
+
+    previousPage = function() {
+        currentPage--;
+        if (currentPage <= 0) currentPage = 1;
+        refresh();
+    };
+
+    nextPage = function() {
+        currentPage++;
+        if (currentPage > maxPages) currentPage = maxPages;
+        refresh();
+    };
+
+    function refresh() {
+
         var modifier = "";
         var properties = "";
         if ($scope.search.country && $scope.search.year) {
@@ -27,13 +81,18 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
                 properties += prop + "=" + $scope.searchAdd[prop] + "&";
             }
         }
-        
+
         $http
             .get("../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties)
             .then(function(response) {
-                console.log("GET: " + "../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties);
-                $scope.data = response.data;
-                console.log("Data count: " + $scope.data.length);
+                //console.log("GET: " + "../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties);
+                maxPages = Math.ceil(response.data.length / elementsPerPage);
+                setPagination();
+                $scope.data = response.data.slice(Number((currentPage-1)*elementsPerPage), Number((currentPage)*elementsPerPage));
+                //$scope.data = response.data;
+                console.log("Data count: " + response.data.length);
+                console.log("Max pages: " + maxPages);
+                console.log("Current page: " + currentPage);
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
             });
@@ -60,13 +119,13 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     };
 
     $scope.editData = function(data) {
-        
+
         var oldCountry = data.oldCountry;
         var oldYear = data.oldYear;
         delete data._id;
         delete data.oldCountry;
         delete data.oldYear;
-        
+
         data.year = Number(data.year);
         $http
             .put("../api/v1/education/" + oldCountry + "/" + oldYear + "?" + "apikey=" + $scope.apikey, data)
