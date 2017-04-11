@@ -213,7 +213,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                         var countriesBeforeInsertion = country.filter((countryEntity) => {
                             return (countryEntity.country.localeCompare(newCountry.country, "en", {
                                 'sensitivity': 'base'
-                            }) === 0);
+                            }) === 0) - (countryEntity.year !== newCountry.year);
                         });
                         if (countriesBeforeInsertion.length > 0) {
                             console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");

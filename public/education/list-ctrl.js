@@ -10,6 +10,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     $scope.searchAdd = {};
 
     function refresh() {
+        
         var modifier = "";
         var properties = "";
         if ($scope.search.country && $scope.search.year) {
@@ -26,6 +27,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
                 properties += prop + "=" + $scope.searchAdd[prop] + "&";
             }
         }
+        
         $http
             .get("../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties)
             .then(function(response) {
@@ -58,11 +60,13 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     };
 
     $scope.editData = function(data) {
+        
         var oldCountry = data.oldCountry;
         var oldYear = data.oldYear;
         delete data._id;
         delete data.oldCountry;
         delete data.oldYear;
+        
         data.year = Number(data.year);
         $http
             .put("../api/v1/education/" + oldCountry + "/" + oldYear + "?" + "apikey=" + $scope.apikey, data)
@@ -119,10 +123,6 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
         }
     };
 
-    $scope.setSearch = function(search) {
-
-    };
-
     refresh();
 
     $(document).ready(function() {
@@ -134,6 +134,6 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
                 refresh();
             }
         });
-         $(".button-collapse").sideNav();
+        $(".button-collapse").sideNav();
     });
 }]);
