@@ -202,7 +202,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                 newCountry["year"] = Number(newCountry["year"]);
                 newCountry["education-gdp-perc"] = Number(newCountry["education-gdp-perc"]);
                 newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
-                newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
+                newCountry["education-secondary-per-capita"] = Number(newCountry["education-secondary-per-capita"]);
                 newCountry["education-tertiary-per-capita"] = Number(newCountry["education-tertiary-per-capita"]);
                 dbMd.find({}).toArray(function(err, country) {
                     if (err) {

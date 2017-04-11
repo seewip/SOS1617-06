@@ -1,0 +1,117 @@
+<html ng-app="EducationManagerApp">
+
+<head>
+    <title>Contacts</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="/bower_components/materialize/dist/css/materialize.min.css" type="text/css" />
+    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/bower_components/materialize/dist/js/materialize.min.js"></script>
+    <script type="text/javascript" src="education-manager-app.js"></script>
+    <script type="text/javascript" src="list-ctrl.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper blue">
+                <a href="#" class="brand-logo center"><i class="material-icons left">list</i>Education data</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="../index.html"><i class="material-icons left">dashboard</i>Front page</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <div ng-controller="ListCtrl">
+            <div class="container">
+                <table class="highlight">
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Year</th>
+                            <th>%GDP spent on education</th>
+                            <th>Primary/capita</th>
+                            <th>Secondary/capita</th>
+                            <th>Tertiary/capita</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input class="form-control" ng-model="newData.country" /></td>
+                            <td><input class="form-control" ng-model="newData.year" /></td>
+                            <td><input class="form-control" ng-model="newData['education-gdp-perc']" /></td>
+                            <td><input class="form-control" ng-model="newData['education-primary-per-capita']" /></td>
+                            <td><input class="form-control" ng-model="newData['education-secondary-per-capita']" /></td>
+                            <td><input class="form-control" ng-model="newData['education-tertiary-per-capita']" /></td>
+                            <td><button class="btn waves-effect waves-light" ng-click="addData()"><i class="material-icons">add</i></button></td>
+                        </tr>
+                        <tr ng-repeat="dataUnit in data">
+                            <td>{{dataUnit.country}}</td>
+                            <td>{{dataUnit.year}}</td>
+                            <td>{{dataUnit["education-gdp-perc"]}}</td>
+                            <td>{{dataUnit["education-primary-per-capita"]}}</td>
+                            <td>{{dataUnit["education-secondary-per-capita"]}}</td>
+                            <td>{{dataUnit["education-tertiary-per-capita"]}}</td>
+                            <td><button class="btn waves-effect waves-light" ng-click="editDataModal(dataUnit)"><i class="material-icons">edit</i></button> <button class="btn waves-effect waves-light red" ng-click="delData(dataUnit)"><i class="material-icons">delete</i></button></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td ng-show="data.length==0"><button class="btn waves-effect waves-light green darken-1" ng-click="loadInitialData()"><i class="material-icons left">recent_actors</i>Load inital data</button></td>
+                            <td ng-show="data.length!=0"><button class="btn waves-effect waves-light red darken-2" ng-click="delAllData()"><i class="material-icons left">warning</i>Remove all</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="editModal" class="modal">
+                <div class="modal-content">
+                    <h4>Edit {{editDataUnit.oldCountry}} ({{editDataUnit.oldYear}})</h4>
+                    <div class="row">
+                        <form class="col s12">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <input class="form-control" type="text" id="country" ng-model="editDataUnit.country">
+                                    <label for="country">Country</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <input class="form-control" type="text" id="year" ng-model="editDataUnit.year">
+                                    <label for="year">Year</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s3">
+                                    <input class="form-control" type="text" id="edugdp" ng-model="editDataUnit['education-gdp-perc']">
+                                    <label for="edugdp">%GDP spent on education</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input class="form-control" type="text" id="edupri" ng-model="editDataUnit['education-primary-per-capita']">
+                                    <label for="edupri">Primary/capita</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input class="form-control" type="text" id="edusec" ng-model="editDataUnit['education-secondary-per-capita']">
+                                    <label for="edusec">Secondary/capita</label>
+                                </div>
+                                <div class="input-field col s3">
+                                    <input class="form-control" type="text" id="eduter" ng-model="editDataUnit['education-tertiary-per-capita']">
+                                    <label for="eduter">Tertiary/capita</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancel</a>
+                    <a href="#" ng-click="editData(editDataUnit)" class="modal-action modal-close waves-effect waves-green btn-flat ">Apply</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
