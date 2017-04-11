@@ -344,5 +344,5 @@ app.delete(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
         }
     });
 });
-console.log("Education data REST API registered succesfully");
+console.log("Gdp-per-capita data REST API registered succesfully");
 };
