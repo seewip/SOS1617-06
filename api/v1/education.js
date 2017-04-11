@@ -204,7 +204,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                 newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
                 newCountry["education-secondary-per-capita"] = Number(newCountry["education-secondary-per-capita"]);
                 newCountry["education-tertiary-per-capita"] = Number(newCountry["education-tertiary-per-capita"]);
-                dbMd.find({}).toArray(function(err, country) {
+                dbMd.find({country: newCountry.country, year: newCountry.year}).toArray(function(err, country) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
                         response.sendStatus(500); // internal server error
@@ -213,7 +213,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                         var countriesBeforeInsertion = country.filter((countryEntity) => {
                             return (countryEntity.country.localeCompare(newCountry.country, "en", {
                                 'sensitivity': 'base'
-                            }) === 0) - (countryEntity.year !== newCountry.year);
+                            }) === 0);
                         });
                         if (countriesBeforeInsertion.length > 0) {
                             console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " already extis, sending 409...");
