@@ -70,7 +70,7 @@ app.get(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
     console.log("INFO: New GET request to /gdp-per-capita");
     if (!checkApiKeyFunction(request, response)) {return;}
     var query = insertSearchFields(request, {});
-    dbJf.find({}).toArray(function (err, gdp_per_capita) {
+    dbJf.find(query).toArray(function (err, gdp_per_capita) {
         if (err) {
             console.error('WARNING: Error getting data from DB');
             response.sendStatus(500); // internal server error
@@ -92,7 +92,7 @@ app.get(BASE_API_PATH + "/gdp-per-capita", function (request, response) {
 app.get(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response) {
     if (!checkApiKeyFunction(request, response)) return;
     var country = request.params.country;
-    var year = request.params.year;
+    var year = request.params.country;
     var queryYear = insertSearchFields(request, {
         year:Number(year)
     });
@@ -118,9 +118,9 @@ app.get(BASE_API_PATH + "/gdp-per-capita/:country", function (request, response)
                     var gpc = results; //since we expect to have exactly ONE gdp with this country
                     console.log("INFO: Sending gdp_per_capita: " + JSON.stringify(gpc, 2, null));
                     response.send(gpc);
-                } else {
+               /* } else {
                     console.log("WARNING: There are not any gdp-per-capita with country " + country);
-                    response.sendStatus(404); // not found
+                    response.sendStatus(404); // not found*/
                 
                 }
             });
@@ -316,7 +316,7 @@ app.put(BASE_API_PATH + "/gdp-per-capita/:country/:year", function (request, res
                         dbJf.update({country: updatedGdpPerCapita.country, year: Number(updatedGdpPerCapita.year)}, updatedGdpPerCapita);
                         console.log("INFO: Modifying gdp-per-capita with country " + country + " with data " + JSON.stringify(updatedGdpPerCapita, 2, null));
                         response.send(updatedGdpPerCapita); // return the updated contact
-                    } else {
+                   } else {
                         console.log("WARNING: There are not any gdp-per-capita with country " + country);
                         response.sendStatus(404); // not found
                     }
