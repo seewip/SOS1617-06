@@ -2,7 +2,7 @@
 /* global Materialize */
 /* global $ */
 var previousPage;
-var nextPage
+var nextPage;
 var setPage;
 
 angular.module("EducationManagerApp").
@@ -13,57 +13,67 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     $scope.search = {};
     $scope.searchAdd = {};
 
+    var dataCache = {};
     var currentPage = 1;
     var maxPages = 1;
 
     var elementsPerPage = 5;
 
     function setPagination() {
-        $('#pagination_div').empty();
+        // TODO Refactor this into angular code
+        var pagination_html = "";
         if (currentPage == 1) {
-            $('#pagination_div').append('<li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>');
+            pagination_html = '<li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>';
         }
         else {
-            $('#pagination_div').append('<li class="waves-effect"><a href="#" onclick="previousPage()"><i class="material-icons">chevron_left</i></a></li>');
+            pagination_html = '<li class="waves-effect"><a href="#" onclick="previousPage()"><i class="material-icons">chevron_left</i></a></li>';
         }
 
         for (var i = 1; i <= maxPages; i++) {
             if (currentPage == i) {
-                $('#pagination_div').append('<li class="active"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>');
+                pagination_html += '<li class="active"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>';
             }
             else {
-                $('#pagination_div').append('<li class="waves-effect"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>');
+                pagination_html += '<li class="waves-effect"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>';
             }
         }
 
         if (currentPage == maxPages) {
-            $('#pagination_div').append('<li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>');
+            pagination_html += '<li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>';
         }
         else {
-            $('#pagination_div').append('<li class="waves-effect"><a href="#" onclick="nextPage()"><i class="material-icons">chevron_right</i></a></li>');
+            pagination_html += '<li class="waves-effect"><a href="#" onclick="nextPage()"><i class="material-icons">chevron_right</i></a></li>';
         }
+        $('#pagination_div').html(pagination_html);
     }
 
     setPage = function(page) {
         currentPage = page;
         if (currentPage <= 0) currentPage = 1;
         if (currentPage > maxPages) currentPage = maxPages;
-        refresh();
+        $scope.refreshPage();
     };
 
     previousPage = function() {
         currentPage--;
         if (currentPage <= 0) currentPage = 1;
-        refresh();
+        $scope.refreshPage();
     };
 
     nextPage = function() {
         currentPage++;
         if (currentPage > maxPages) currentPage = maxPages;
-        refresh();
+        $scope.refreshPage();
     };
 
-    function refresh() {
+    $scope.refreshPage = function() {
+        setPagination();
+        $scope.data = dataCache.slice(Number((currentPage - 1) * elementsPerPage), Number((currentPage) * elementsPerPage));
+        // This really should not be used...
+        $scope.$apply();
+    };
+
+    var refresh = $scope.refresh = function() {
 
         var modifier = "";
         var properties = "";
@@ -90,7 +100,8 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
                 if (currentPage <= 0) currentPage = 1;
                 if (currentPage > maxPages) currentPage = maxPages;
                 setPagination();
-                $scope.data = response.data.slice(Number((currentPage - 1) * elementsPerPage), Number((currentPage) * elementsPerPage));
+                dataCache = response.data;
+                $scope.data = dataCache.slice(Number((currentPage - 1) * elementsPerPage), Number((currentPage) * elementsPerPage));
                 //$scope.data = response.data;
                 //console.log("Data count: " + response.data.length);
                 //console.log("Max pages: " + maxPages);
