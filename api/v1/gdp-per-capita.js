@@ -288,7 +288,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
                         console.log("INFO: The gdp-per-capita with name " + name + "and year " + year + " has been succesfully deleted, sending 204...");
                         response.sendStatus(200); 
                     }
-                    else if (numRemoved.result.n === 0) {
+                    else /*if (numRemoved.result.n === 0) */{
                         console.log("WARNING: There are no countries to delete");
                         response.sendStatus(404); // not found
                     }
