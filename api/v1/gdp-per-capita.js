@@ -273,7 +273,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
             response.sendStatus(400); // bad request
         }
         else {
-            console.log("INFO: New DELETE request to /gdp-per-capita/" + name);
+            console.log("INFO: New DELETE request to /gdp-per-capita/" + name + " and year " + year);
             dbJf.remove({
                 country: name,
                 year: Number(year)
@@ -286,16 +286,16 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
                     console.log("INFO: GDPPC removed: " + numRemoved.result.n);
                     if (numRemoved.result.n === 1) {
                         console.log("INFO: The gdp-per-capita with name " + name + "and year " + year + " has been succesfully deleted, sending 204...");
-                        response.sendStatus(204); // no content
+                        response.sendStatus(200); 
                     }
                     else if (numRemoved.result.n === 0) {
                         console.log("WARNING: There are no countries to delete");
                         response.sendStatus(404); // not found
                     }
-                    else {
+                    /*else {
                         console.log("INFO: gdp-per-capita with name " + name + " and year " + year + " has been succesfully deleted, sending 204...")
                         response.sendStatus(204); // no content
-                    }
+                    }*/
                 }
             });
         }
