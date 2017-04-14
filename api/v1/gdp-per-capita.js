@@ -309,7 +309,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
         var newGdpPerCapita = request.body;
         var nameParam = request.params.country;
         var yearParam = request.params.year;
-        if (!newGdpPerCapita) {
+        if (!newGdpPerCapita || nameParam !== newGdpPerCapita.country) {
             console.log("WARNING: New PUT request to /gdp-per-capita/ without country, sending 400...");
             response.sendStatus(400); // bad request
         }
