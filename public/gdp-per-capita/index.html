@@ -7,8 +7,8 @@
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="/bower_components/materialize/dist/js/materialize.min.js"></script>
-    <script type="text/javascript" src="/gdp-per-capita-manager-app.js"></script>
-    <script type="text/javascript" src="/list-ctrl.js"></script>
+    <script type="text/javascript" src="gdp-per-capita-manager-app.js"></script>
+    <script type="text/javascript" src="list-ctrl.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 
@@ -64,9 +64,9 @@
                         <tr ng-repeat="dataUnit in data">
                             <td>{{dataUnit.country}}</td>
                             <td>{{dataUnit.year}}</td>
-                            <td>{{dataUnit["gdpPerCapita-gdp-per-capita-growth"]}}</td>
-                            <td>{{dataUnit["gdpPerCapita-gdp-per-capita"]}}</td>
-                            <td>{{dataUnit["gdpPerCapita-gdp-per-capita-ppp"]}}</td>
+                            <td>{{dataUnit["gdp-per-capita-gdp-per-capita-growth"]}}</td>
+                            <td>{{dataUnit["gdp-per-capita-gdp-per-capita"]}}</td>
+                            <td>{{dataUnit["gdp-per-capita-gdp-per-capita-ppp"]}}</td>
                             <td><button class="btn waves-effect waves-light" ng-click="editDataModal(dataUnit)">
                                 <i class="material-icons">edit</i></button> 
                                 <button class="btn waves-effect waves-light red" ng-click="delData(dataUnit)">
