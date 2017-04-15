@@ -96,7 +96,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
         $http
             .get("../api/v1/gdp-per-capita" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties)
             .then(function(response) {
-                //console.log("GET: " + "../api/v1/gdpPerCapita" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties);
+                //console.log("GET: " + "../api/v1/gdp-per-capita" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties);
                 maxPages = Math.ceil(response.data.length / elementsPerPage);
                 if (currentPage <= 0) currentPage = 1;
                 if (currentPage > maxPages) currentPage = maxPages;
