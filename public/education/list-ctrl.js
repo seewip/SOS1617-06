@@ -14,63 +14,37 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     $scope.searchAdd = {};
 
     var dataCache = {};
-    var currentPage = 1;
-    var maxPages = 1;
+    $scope.currentPage = 1;
+    $scope.maxPages = 1;
+    $scope.pages = [];
 
     var elementsPerPage = 5;
 
     function setPagination() {
-        // TODO Refactor this into angular code
-        var pagination_html = "";
-        if (currentPage == 1) {
-            pagination_html = '<li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>';
-        }
-        else {
-            pagination_html = '<li class="waves-effect"><a href="#" onclick="previousPage()"><i class="material-icons">chevron_left</i></a></li>';
-        }
-
-        for (var i = 1; i <= maxPages; i++) {
-            if (currentPage == i) {
-                pagination_html += '<li class="active"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>';
-            }
-            else {
-                pagination_html += '<li class="waves-effect"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>';
-            }
-        }
-
-        if (currentPage == maxPages) {
-            pagination_html += '<li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>';
-        }
-        else {
-            pagination_html += '<li class="waves-effect"><a href="#" onclick="nextPage()"><i class="material-icons">chevron_right</i></a></li>';
-        }
-        $('#pagination_div').html(pagination_html);
+        $scope.pages = [];
+        for (var i = 1; i <= $scope.maxPages; i++) $scope.pages.push(i);
     }
 
-    setPage = function(page) {
-        currentPage = page;
-        if (currentPage <= 0) currentPage = 1;
-        if (currentPage > maxPages) currentPage = maxPages;
+    $scope.setPage = function(page) {
+        $scope.currentPage = page;
         $scope.refreshPage();
     };
 
-    previousPage = function() {
-        currentPage--;
-        if (currentPage <= 0) currentPage = 1;
+    $scope.previousPage = function() {
+        $scope.currentPage--;
         $scope.refreshPage();
     };
 
-    nextPage = function() {
-        currentPage++;
-        if (currentPage > maxPages) currentPage = maxPages;
+    $scope.nextPage = function() {
+        $scope.currentPage++;
         $scope.refreshPage();
     };
 
     $scope.refreshPage = function() {
+        if ($scope.currentPage <= 0) $scope.currentPage = 1;
+        if ($scope.currentPage > $scope.maxPages) $scope.currentPage = $scope.maxPages;
         setPagination();
-        $scope.data = dataCache.slice(Number((currentPage - 1) * elementsPerPage), Number((currentPage) * elementsPerPage));
-        // This really should not be used...
-        $scope.$apply();
+        $scope.data = dataCache.slice(Number(($scope.currentPage - 1) * elementsPerPage), Number(($scope.currentPage) * elementsPerPage));
     };
 
     var refresh = $scope.refresh = function() {
@@ -96,16 +70,9 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
             .get("../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties)
             .then(function(response) {
                 //console.log("GET: " + "../api/v1/education" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties);
-                maxPages = Math.ceil(response.data.length / elementsPerPage);
-                if (currentPage <= 0) currentPage = 1;
-                if (currentPage > maxPages) currentPage = maxPages;
-                setPagination();
+                $scope.maxPages = Math.max(Math.ceil(response.data.length / elementsPerPage), 1);
                 dataCache = response.data;
-                $scope.data = dataCache.slice(Number((currentPage - 1) * elementsPerPage), Number((currentPage) * elementsPerPage));
-                //$scope.data = response.data;
-                //console.log("Data count: " + response.data.length);
-                //console.log("Max pages: " + maxPages);
-                //console.log("Current page: " + currentPage);
+                $scope.refreshPage();
             }, function(response) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
             });
@@ -207,5 +174,6 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
             }
         });
         $(".button-collapse").sideNav();
+        $(".dropdown-button").dropdown();
     });
 }]);
