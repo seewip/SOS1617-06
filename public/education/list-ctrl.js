@@ -150,7 +150,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
                 .get("../api/v1/education/loadInitialData" + "?" + "apikey=" + $scope.apikey)
                 .then(function(response) {
                     console.log("Initial data loaded");
-                    Materialize.toast('<i class="material-icons">done</i> Loaded inital data succesfully!', 4000);
+                    Materialize.toast('<i class="material-icons">done</i> Loaded initial data succesfully!', 4000);
                     refresh();
                 }, function(response) {
                     Materialize.toast('<i class="material-icons">error_outline</i> Error adding initial data!', 4000);
