@@ -1,211 +1,114 @@
-/* global angular */
-/* global Materialize */
-/* global $ */
-var previousPage;
-var nextPage;
-var setPage;
-
-angular.module("GdpManagerApp").
-controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
+/*global app*/
+/*global i*/
+/*global Bootstrap*/
+app.controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     console.log("Controller initialized");
-
-    $scope.apikey = "secret";
-    $scope.search = {};
-    $scope.searchAdd = {};
-
-    var dataCache = {};
-    var currentPage = 1;
-    var maxPages = 1;
-
-    var elementsPerPage = 5;
-
-    function setPagination() {
-        // TODO Refactor this into angular code
-        var pagination_html = "";
-        if (currentPage == 1) {
-            pagination_html = '<li class="disabled"><a href="#"><i class="material-icons">chevron_left</i></a></li>';
-        }
-        else {
-            pagination_html = '<li class="waves-effect"><a href="#" onclick="previousPage()"><i class="material-icons">chevron_left</i></a></li>';
-        }
-
-        for (var i = 1; i <= maxPages; i++) {
-            if (currentPage == i) {
-                pagination_html += '<li class="active"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>';
-            }
-            else {
-                pagination_html += '<li class="waves-effect"><a href="#" onclick="setPage(' + i + ')">' + i + '</a></li>';
-            }
-        }
-
-        if (currentPage == maxPages) {
-            pagination_html += '<li class="disabled"><a href="#"><i class="material-icons">chevron_right</i></a></li>';
-        }
-        else {
-            pagination_html += '<li class="waves-effect"><a href="#" onclick="nextPage()"><i class="material-icons">chevron_right</i></a></li>';
-        }
-        $('#pagination_div').html(pagination_html);
+    $scope.viewby = 5;
+    $scope.itemsPerPage = $scope.viewby;;
+    $scope.currentPage = 0;
+    $scope.items = [];
+    $scope.setApikey= function(api){
+        $scope.apikey="?apikey="+api;
+        console.log($scope.apikey);
+        refresh();
     }
-
-    setPage = function(page) {
-        currentPage = page;
-        if (currentPage <= 0) currentPage = 1;
-        if (currentPage > maxPages) currentPage = maxPages;
-        $scope.refreshPage();
-    };
-
-    previousPage = function() {
-        currentPage--;
-        if (currentPage <= 0) currentPage = 1;
-        $scope.refreshPage();
-    };
-
-    nextPage = function() {
-        currentPage++;
-        if (currentPage > maxPages) currentPage = maxPages;
-        $scope.refreshPage();
-    };
-
-    $scope.refreshPage = function() {
-        setPagination();
-        $scope.data = dataCache.slice(Number((currentPage - 1) * elementsPerPage), Number((currentPage) * elementsPerPage));
-        // This really should not be used...
-        $scope.$apply();
-    };
-
-    var refresh = $scope.refresh = function() {
-
-        var modifier = "";
-        var properties = "";
-        if ($scope.search.country && $scope.search.year) {
-            modifier = "/" + $scope.search.country + "/" + $scope.search.year;
-        }
-        else if ($scope.search.country) {
-            modifier = "/" + $scope.search.country;
-        }
-        else if ($scope.search.year) {
-            modifier = "/" + $scope.search.year;
-        }
-        for (var prop in $scope.searchAdd) {
-            if ($scope.searchAdd.hasOwnProperty(prop) && prop) {
-                properties += prop + "=" + $scope.searchAdd[prop] + "&";
-            }
+    function res() {
+        for (i = 0; i < $scope.datas.length; i++) {
+            $scope.items.push($scope.datas[i]);
         }
 
+    }
+    $scope.prevPage = function() {
+        if ($scope.currentPage > 0) {
+            $scope.currentPage--;
+        }
+    };
+    $scope.prevPageDisabled = function() {
+        return $scope.currentPage === 0 ? "disabled" : "";
+    };
+    $scope.pageCount = function() {
+        return Math.ceil($scope.items.length / $scope.itemsPerPage) - 1;
+    };
+    $scope.nextPage = function() {
+        if ($scope.currentPage < $scope.pageCount()) {
+            $scope.currentPage++;
+        }
+    }
+    $scope.setItemsPerPage = function(num) {
+        $scope.itemsPerPage = num;
+        $scope.currentPage = 0; //reset to first paghe
+    }
+    function refresh() {
         $http
-            .get("../api/v1/gdp" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties)
+            .get("../api/v1/gdp"+$scope.apikey)
             .then(function(response) {
-                //console.log("GET: " + "../api/v1/gdp" + modifier + "?" + "apikey=" + $scope.apikey + "&" + properties);
-                maxPages = Math.ceil(response.data.length / elementsPerPage);
-                if (currentPage <= 0) currentPage = 1;
-                if (currentPage > maxPages) currentPage = maxPages;
-                setPagination();
-                dataCache = response.data;
-                $scope.data = dataCache.slice(Number((currentPage - 1) * elementsPerPage), Number((currentPage) * elementsPerPage));
-                //$scope.data = response.data;
-                //console.log("Data count: " + response.data.length);
-                //console.log("Max pages: " + maxPages);
-                //console.log("Current page: " + currentPage);
-            }, function(response) {
-                Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
+                if (!response.data) {
+                    console.log("They aren't data");
+                }
+                $scope.datas = response.data;
+                res();
             });
     }
-
 
     $scope.addData = function() {
         $http
-            .post("../api/v1/gdp" + "?" + "apikey=" + $scope.apikey, $scope.newData)
+            .post("../api/v1/gdp"+$scope.apikey, $scope.newData)
             .then(function(response) {
-                console.log("Data added!");
-                Materialize.toast('<i class="material-icons">done</i> ' + $scope.newData.country + ' has been added succesfully!', 4000);
+                console.log("Data added");
                 refresh();
-            }, function(response) {
-                Materialize.toast('<i class="material-icons">error_outline</i> Error adding data!', 4000);
-            });
-    };
-
-    $scope.editDataModal = function(data) {
-        data["oldCountry"] = data["country"];
-        data["oldYear"] = data["year"];
-        $scope.editDataUnit = data;
-        $('#editModal').modal('open');
-    };
-
-    $scope.editData = function(data) {
-
-        var oldCountry = data.oldCountry;
-        var oldYear = data.oldYear;
-        delete data._id;
-        delete data.oldCountry;
-        delete data.oldYear;
-
-        data.year = Number(data.year);
+            })
+    }
+    $scope.update = function(country, year) {
         $http
-            .put("../api/v1/gdp/" + oldCountry + "/" + oldYear + "?" + "apikey=" + $scope.apikey, data)
+            .put("../api/v1/gdp/" + country + "/" + year+$scope.apikey, $scope.newData)
             .then(function(response) {
-                console.log("Data " + data.country + " edited!");
-                Materialize.toast('<i class="material-icons">done</i> ' + oldCountry + ' has been edited succesfully!', 4000);
+                console.log("Update data " + country);
                 refresh();
-            }, function(response) {
-                Materialize.toast('<i class="material-icons">error_outline</i> Error editing data!', 4000);
-                refresh();
-            });
-    };
-
-    $scope.deleteData = function(data) {
+            })
+    }
+    $scope.loadInitial = function() {
         $http
-            .delete("../api/v1/gdp/" + data.country + "/" + data.year + "?" + "apikey=" + $scope.apikey)
+            .get("../api/v1/gdp/loadInitialData"+$scope.apikey)
             .then(function(response) {
-                console.log("Data " + data.country + " deleted!");
-                Materialize.toast('<i class="material-icons">done</i> ' + data.country + ' has been deleted succesfully!', 4000);
+                console.log("Load data");
                 refresh();
-            }, function(response) {
-                Materialize.toast('<i class="material-icons">error_outline</i> Error deleting data!', 4000);
-            });
-    };
+            })
+    }
+    
 
-    $scope.deleteAllData = function() {
+
+
+   
+    $scope.deleteData = function(country, year) {
         $http
-            .delete("../api/v1/gdp" + "?" + "apikey=" + $scope.apikey)
+            .delete("../api/v1/gdp/" + country + "/" + year +$scope.apikey, $scope.newStat)
             .then(function(response) {
-                console.log("All data deleted!");
-                Materialize.toast('<i class="material-icons">done</i> All data has been deleted succesfully!', 4000);
+                console.log("Deleting datas " + country);
                 refresh();
-            }, function(response) {
-                Materialize.toast('<i class="material-icons">error_outline</i> Error deleting all data!', 4000);
-            });
-    };
-
-    $scope.loadInitialData = function() {
-        refresh();
-        if ($scope.data.length == 0) {
-            $http
-                .get("../api/v1/gdp/loadInitialData" + "?" + "apikey=" + $scope.apikey)
-                .then(function(response) {
-                    console.log("Initial data loaded");
-                    Materialize.toast('<i class="material-icons">done</i> Loaded inital data succesfully!', 4000);
-                    refresh();
-                }, function(response) {
-                    Materialize.toast('<i class="material-icons">error_outline</i> Error adding initial data!', 4000);
-                });
-        }
-        else {
-            Materialize.toast('<i class="material-icons">error_outline</i> List must be empty to add initial data!', 4000);
-            console.log("List must be empty!");
-        }
-    };
+            })
+    }
+    $scope.deleteAll = function() {
+        $http
+            .delete("../api/v1/gdp"+$scope.apikey)
+            .then(function(response) {
+                console.log("Deleting all datas ");
+                refresh();
+            })
+    }
 
     refresh();
 
-    $(document).ready(function() {
-        $('.modal').modal({
-            ready: function(modal, trigger) {
-                Materialize.updateTextFields();
-            },
-            complete: function() {
-                refresh();
-            }
-        });
-        $(".button-collapse").sideNav();
-    });
+
+
+
 }]);
+app.filter('offset', function() {
+    return function(input, start) {
+        if (!input || !input.length) {
+            return;
+        }
+        start = +start; //parse to int
+        return input.slice(start);
+    };
+
+});
