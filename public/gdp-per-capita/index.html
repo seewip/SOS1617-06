@@ -81,7 +81,6 @@
                         <tr ng-repeat="dataUnit in data">
                             <td>{{dataUnit.country}}</td>
                             <td>{{dataUnit.year}}</td>
-                            <td>{{dataUnit["education-gdp-perc"]}}</td>
                             <td>{{dataUnit["gdp-per-capita-growth"]}}</td>
                             <td>{{dataUnit["gdp-per-capita"]}}</td>
                             <td>{{dataUnit["gdp-per-capita-ppp"]}}</td>
@@ -118,15 +117,15 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s3">
-                                    <input class="form-control" type="text" id="gpcgr" ng-model="editDataUnit['gdp-per-capita-gdp-per-capita-growth']">
+                                    <input class="form-control" type="text" id="gpcgr" ng-model="editDataUnit['gdp-per-capita-growth']">
                                     <label for="gpcgr">Gdp per capita growth(%)</label>
                                 </div>
                                 <div class="input-field col s3">
-                                    <input class="form-control" type="text" id="gpc" ng-model="editDataUnit['gdp-per-capita-gdp-per-capita']">
+                                    <input class="form-control" type="text" id="gpc" ng-model="editDataUnit['gdp-per-capita']">
                                     <label for="gpc">Gdp per capita</label>
                                 </div>
                                 <div class="input-field col s3">
-                                    <input class="form-control" type="text" id="gpcppp" ng-model="editDataUnit['gdp-per-capita-gdp-per-capita-ppp']">
+                                    <input class="form-control" type="text" id="gpcppp" ng-model="editDataUnit['gdp-per-capita-ppp']">
                                     <label for="gpcppp">Gdp per capita ppp</label>
                                 </div>
                             </div>
@@ -156,15 +155,15 @@
                             </div>
                             <div class="row">
                                 <div class="input-field col s3">
-                                    <input class="form-control" type="text" id="gpcgr" ng-model="editDataUnit['gdp-per-capita-gdp-per-capita-growth']">
+                                    <input class="form-control" type="text" id="gpcgr" ng-model="editDataUnit['gdp-per-capita-growth']">
                                     <label for="gpcgr">Gdp per capita growth(%)</label>
                                 </div>
                                 <div class="input-field col s3">
-                                    <input class="form-control" type="text" id="gpc" ng-model="editDataUnit['gdp-per-capita-gdp-per-capita']">
+                                    <input class="form-control" type="text" id="gpc" ng-model="editDataUnit['gdp-per-capita']">
                                     <label for="gpc">Gdp per capita</label>
                                 </div>
                                 <div class="input-field col s3">
-                                    <input class="form-control" type="text" id="gpcppp" ng-model="editDataUnit['gdp-per-capita-gdp-per-capita-ppp']">
+                                    <input class="form-control" type="text" id="gpcppp" ng-model="editDataUnit['gdp-per-capita-ppp']">
                                     <label for="gpcppp">Gdp per capita ppp</label>
                                 </div>
                             </div>
