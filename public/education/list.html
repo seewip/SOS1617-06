@@ -5,8 +5,8 @@
                 <li class="disabled" ng-show="currentPage == 1"><a href=""><i class="material-icons">chevron_left</i></a></li>
                 <li class="waves-effect" ng-hide="currentPage == 1"><a href="" ng-click="previousPage()"><i class="material-icons">chevron_left</i></a></li>
                 <span ng-repeat="page in pages">
-                                <li class="waves-effect" ng-class="{active: page == currentPage}"><a href="" ng-click="setPage(page)">{{page}}</a></li>
-                            </span>
+                    <li class="waves-effect" ng-class="{active: page == currentPage}"><a href="" ng-click="setPage(page)">{{page}}</a></li>
+                </span>
                 <li class="disabled" ng-show="currentPage == maxPages"><a href=""><i class="material-icons">chevron_right</i></a></li>
                 <li class="waves-effect" ng-show="currentPage != maxPages"><a href="" ng-click="nextPage()"><i class="material-icons">chevron_right</i></a></li>
             </div>
@@ -40,12 +40,14 @@
                 <td>{{dataUnit["education-primary-per-capita"]}}</td>
                 <td>{{dataUnit["education-secondary-per-capita"]}}</td>
                 <td>{{dataUnit["education-tertiary-per-capita"]}}</td>
-                <td><button class="btn waves-effect waves-light red" ng-click="delData(dataUnit)"><i class="material-icons">delete</i></button></td>
+                <td><a href="#!/education/{{dataUnit.country}}/{{dataUnit.year}}"><button class="btn waves-effect waves-light"><i class="material-icons">edit</i></button></a> <button class="btn waves-effect waves-light red" ng-click="delData(dataUnit)"><i class="material-icons">delete</i></button></td>
             </tr>
-            <!--    <td ng-show="data.length==0"><button class="btn waves-effect waves-light green darken-1" ng-click="loadInitialData()"><i class="material-icons left">recent_actors</i>Load initial</button></td>-->
-            <!--    <td ng-show="data.length!=0"><button class="btn waves-effect waves-light red darken-2" ng-click="delAllData()"><i class="material-icons left">warning</i>Remove all</button></td>-->
         </tbody>
     </table>
+    <div class="right-align">
+        <button class="btn waves-effect waves-light green darken-1" ng-show="data.length==0" ng-click="loadInitialData()"><i class="material-icons left">recent_actors</i>Load initial</button>
+        <button class="btn waves-effect waves-light red darken-2" ng-show="data.length!=0" ng-click="delAllData()"><i class="material-icons left">warning</i>Remove all</button>
+    </div>
 </div>
 
 <div id="editModal" class="modal">

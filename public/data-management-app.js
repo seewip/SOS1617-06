@@ -2,10 +2,10 @@
 angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider) {
 
     $routeProvider.when("/", {
-            templateUrl: "main.html"
-        })
-        
-        .when("/gdp", {
+        templateUrl: "main.html"
+    })
+
+    .when("/gdp", {
             templateUrl: "gdp/list.html",
             controller: "GdpListCtrl"
         })
@@ -13,8 +13,8 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
             templateUrl: "gdp/edit.html",
             controller: "GdpEditCtrl"
         })
-        
-        .when("/education", {
+
+    .when("/education", {
             templateUrl: "education/list.html",
             controller: "EducationListCtrl"
         })
@@ -22,8 +22,8 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
             templateUrl: "education/edit.html",
             controller: "EducationEditCtrl"
         })
-        
-        .when("/gdp-per-capita", {
+
+    .when("/gdp-per-capita", {
             templateUrl: "gdp-per-capita/list.html",
             controller: "GdpPerCapitaListCtrl"
         })

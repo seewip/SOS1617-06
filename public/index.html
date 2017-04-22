@@ -1,7 +1,7 @@
 <html ng-app="DataManagementApp">
 
 <head>
-    <title>Contacts</title>
+    <title>SOS1617-06</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/bower_components/materialize/dist/css/materialize.min.css" type="text/css" />
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.min.js"></script>
@@ -11,7 +11,22 @@
 
     <script type="text/javascript" src="data-management-app.js"></script>
 
+    <!--<script type="text/javascript" src="gdp/gdp-list-ctrl.js"></script>-->
+    <!--<script type="text/javascript" src="gdp/gdp-edit-ctrl.js"></script>-->
+
     <script type="text/javascript" src="education/education-list-ctrl.js"></script>
+    <script type="text/javascript" src="education/education-edit-ctrl.js"></script>
+
+    <!--<script type="text/javascript" src="gdp-per-capita/gdp-per-capita-list-ctrl.js"></script>-->
+    <!--<script type="text/javascript" src="gdp-per-capita/gdp-per-capita-edit-ctrl.js"></script>-->
+
+    <script>
+        /*global $*/
+        $(document).ready(function() {
+            $(".button-collapse").sideNav();
+            $(".dropdown-button").dropdown();
+        });
+    </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
