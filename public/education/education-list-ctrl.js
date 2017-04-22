@@ -1,13 +1,12 @@
 /* global angular */
 /* global Materialize */
-/* global $ */
 var previousPage;
 var nextPage;
 var setPage;
 
-angular.module("EducationManagerApp").
-controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
-    console.log("Controller initialized");
+angular.module("DataManagementApp").
+controller("EducationListCtrl", ["$scope", "$http", function($scope, $http) {
+    console.log("Controller initialized (EducationListCtrl)");
 
     $scope.apikey = "secret";
     $scope.search = {};
@@ -91,33 +90,33 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
             });
     };
 
-    $scope.editDataModal = function(data) {
-        data["oldCountry"] = data["country"];
-        data["oldYear"] = data["year"];
-        $scope.editDataUnit = data;
-        $('#editModal').modal('open');
-    };
+    // $scope.editDataModal = function(data) {
+    //     data["oldCountry"] = data["country"];
+    //     data["oldYear"] = data["year"];
+    //     $scope.editDataUnit = data;
+    //     $('#editModal').modal('open');
+    // };
 
-    $scope.editData = function(data) {
+    // $scope.editData = function(data) {
 
-        var oldCountry = data.oldCountry;
-        var oldYear = data.oldYear;
-        delete data._id;
-        delete data.oldCountry;
-        delete data.oldYear;
+    //     var oldCountry = data.oldCountry;
+    //     var oldYear = data.oldYear;
+    //     delete data._id;
+    //     delete data.oldCountry;
+    //     delete data.oldYear;
 
-        data.year = Number(data.year);
-        $http
-            .put("../api/v1/education/" + oldCountry + "/" + oldYear + "?" + "apikey=" + $scope.apikey, data)
-            .then(function(response) {
-                console.log("Data " + data.country + " edited!");
-                Materialize.toast('<i class="material-icons">done</i> ' + oldCountry + ' has been edited succesfully!', 4000);
-                refresh();
-            }, function(response) {
-                Materialize.toast('<i class="material-icons">error_outline</i> Error editing data!', 4000);
-                refresh();
-            });
-    };
+    //     data.year = Number(data.year);
+    //     $http
+    //         .put("../api/v1/education/" + oldCountry + "/" + oldYear + "?" + "apikey=" + $scope.apikey, data)
+    //         .then(function(response) {
+    //             console.log("Data " + data.country + " edited!");
+    //             Materialize.toast('<i class="material-icons">done</i> ' + oldCountry + ' has been edited succesfully!', 4000);
+    //             refresh();
+    //         }, function(response) {
+    //             Materialize.toast('<i class="material-icons">error_outline</i> Error editing data!', 4000);
+    //             refresh();
+    //         });
+    // };
 
     $scope.delData = function(data) {
         $http
@@ -163,17 +162,4 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
     };
 
     refresh();
-
-    $(document).ready(function() {
-        $('.modal').modal({
-            ready: function(modal, trigger) {
-                Materialize.updateTextFields();
-            },
-            complete: function() {
-                refresh();
-            }
-        });
-        $(".button-collapse").sideNav();
-        $(".dropdown-button").dropdown();
-    });
 }]);
