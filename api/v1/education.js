@@ -170,8 +170,8 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                 else {
                     if (countryList.length > 0) {
                         var country = countryList[0]; //since we expect to have exactly ONE country with this name
-                        console.log("INFO: Sending country: " + JSON.stringify(country, 2, null));
-                        response.send(country);
+                        console.log("INFO: Sending country: " + JSON.stringify([country], 2, null));
+                        response.send([country]);
                     }
                     else {
                         console.log("WARNING: There are not any countries with name " + name);
