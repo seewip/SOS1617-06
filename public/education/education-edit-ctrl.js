@@ -39,6 +39,7 @@ controller("EducationEditCtrl", ["$scope", "$http", "$routeParams", "$location",
     };
 
     $scope.editData = function(data) {
+        delete data._id;
         $http
             .put("../api/v1/education/" + data.country + "/" + data.year + "?" + "apikey=" + $rootScope.apikey, data)
             .then(function(response) {
