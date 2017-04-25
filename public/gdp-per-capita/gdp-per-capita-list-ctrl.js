@@ -1,14 +1,13 @@
 /* global angular */
 /* global Materialize */
-/* global $ */
 
 var previousPage;
 var nextPage;
 var setPage;
 
-angular.module("GdpPerCapitaManagerApp").
-controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
-    console.log("Controller initialized");
+angular.module("DataManagementApp").
+controller("GdpPerCapitaListCtrl", ["$scope", "$http", function($scope, $http) {
+    console.log("Controller initialized (GdpPerCapitaListCtrl)");
 
     $scope.apikey = "secret";
     $scope.search = {};
@@ -92,7 +91,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
             });
     };
 
-    $scope.editDataModal = function(data) {
+    /*$scope.editDataModal = function(data) {
         data["oldCountry"] = data["country"];
         data["oldYear"] = data["year"];
         $scope.editDataUnit = data;
@@ -118,7 +117,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
                 Materialize.toast('<i class="material-icons">error_outline</i> Error editing data!', 4000);
                 refresh();
             });
-    };
+    };*/
 
     $scope.delData = function(data) {
         $http
@@ -165,7 +164,7 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
 
     refresh();
 
-    $(document).ready(function() {
+   /* $(document).ready(function() {
         $('.modal').modal({
             ready: function(modal, trigger) {
                 Materialize.updateTextFields();
@@ -176,5 +175,5 @@ controller("ListCtrl", ["$scope", "$http", function($scope, $http) {
         });
         $(".button-collapse").sideNav();
         $(".dropdown-button").dropdown();
-    });
+    });*/
 }]);
