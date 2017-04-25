@@ -1,5 +1,4 @@
 <div ng-controller="GdpPerCapitaListCtrl">
-<<<<<<< HEAD
     <div id="searchModal" class="modal">
         <div class="modal-content">
             <h4>Search</h4>
@@ -17,15 +16,15 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s3">
-                            <input class="form-control" type="text" id="gpcgr" ng-model="searchDataUnit['gdp-per-capita-growth']">
+                            <input class="form-control" type="text" id="gpcgr" ng-model="searchAdd['gdp-per-capita-growth']">
                             <label for="gpcgr">Gdp per capita growth(%)</label>
                         </div>
                         <div class="input-field col s3">
-                            <input class="form-control" type="text" id="gpc" ng-model="searchDataUnit['gdp-per-capita']">
+                            <input class="form-control" type="text" id="gpc" ng-model="searchAdd['gdp-per-capita']">
                             <label for="gpc">Gdp per capita</label>
                         </div>
                         <div class="input-field col s3">
-                            <input class="form-control" type="text" id="gpcppp" ng-model="searchDataUnit['gdp-per-capita-ppp']">
+                            <input class="form-control" type="text" id="gpcppp" ng-model="searchAdd['gdp-per-capita-ppp']">
                             <label for="gpcppp">Gdp per capita ppp</label>
                         </div>
                     </div>
@@ -36,66 +35,7 @@
             <a href="" class="modal-action modal-close waves-effect waves-green btn-flat">OK</a>
         </div>
     </div>
-=======
-    <div class="container">
-        <div class="row">
-            <div class="col s12 center-align">
-                <div class="pagination">
-                    <li class="disabled" ng-show="currentPage == 1"><a href=""><i class="material-icons">chevron_left</i></a></li>
-                    <li class="waves-effect" ng-hide="currentPage == 1"><a href="" ng-click="previousPage()"><i class="material-icons">chevron_left</i></a></li>
-                    <span ng-repeat="page in pages">
-                    <li class="waves-effect" ng-class="{active: page == currentPage}"><a href="" ng-click="setPage(page)">{{page}}</a></li>
-                </span>
-                    <li class="disabled" ng-show="currentPage == maxPages"><a href=""><i class="material-icons">chevron_right</i></a></li>
-                    <li class="waves-effect" ng-show="currentPage != maxPages"><a href="" ng-click="nextPage()"><i class="material-icons">chevron_right</i></a></li>
-                </div>
-            </div>
-        </div>
-        <table class="highlight">
-            <thead>
-                <tr>
-                    <th>Country</th>
-                    <th>Year</th>
-                    <th>Gdp per capita growth(%)</th>
-                    <th>Gdp per capita</th>
-                    <th>Gdp per capita ppp</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><input class="form-control" ng-model="newData.country" /></td>
-                    <td><input class="form-control" ng-model="newData.year" /></td>
-                    <td><input class="form-control" ng-model="newData['gdp-per-capita-growth']" /></td>
-                    <td><input class="form-control" ng-model="newData['gdp-per-capita']" /></td>
-                    <td><input class="form-control" ng-model="newData['gdp-per-capita-ppp']" /></td>
-                    <td><button class="btn waves-effect waves-light" ng-click="addData()"><i class="material-icons">add</i></button></td>
-                </tr>
-                <tr ng-repeat="dataUnit in data">
-                    <td>{{dataUnit.country}}</td>
-                    <td>{{dataUnit.year}}</td>
-                    <td>{{dataUnit["gdp-per-capita-growth"]}}</td>
-                    <td>{{dataUnit["gdp-per-capita"]}}</td>
-                    <td>{{dataUnit["gdp-per-capita-ppp"]}}</td>
-                    <td>
-                        <a href="#!/gdp-per-capita/{{dataUnit.country}}/{{dataUnit.year}}">
-                            <button class="btn waves-effect waves-light">
-                                    <i class="material-icons">edit</i>
-                                </button></a>
-                        <button class="btn waves-effect waves-light red" ng-click="delData(dataUnit)">
-                                    <i class="material-icons">delete</i>
-                                </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="right-align">
-            <button class="btn waves-effect waves-light green darken-1" ng-show="data.length==0" ng-click="loadInitialData()"><i class="material-icons left">recent_actors</i>Load initial</button>
-            <button class="btn waves-effect waves-light red darken-2" ng-show="data.length!=0" ng-click="delAllData()"><i class="material-icons left">warning</i>Remove all</button>
-        </div>
-    </div>
-</div>
->>>>>>> 162d1aedb0cec814377c7d9ae1170c90e2d545ea
-
+    
     <div id="apikeyModal" class="modal">
         <div class="modal-content">
             <h4>Set apikey</h4>

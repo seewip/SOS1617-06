@@ -39,6 +39,7 @@ controller("GdpPerCapitaEditCtrl", ["$scope", "$http", "$routeParams", "$locatio
     };
     
      $scope.editData = function(data) {
+        delete data._id; 
         $http
             .put("../api/v1/gdp-per-capita/" + data.country + "/" + data.year + "?" + "apikey=" + $rootScope.apikey, data)
             .then(function(response) {
