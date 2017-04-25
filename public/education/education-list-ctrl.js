@@ -18,6 +18,7 @@ controller("EducationListCtrl", ["$scope", "$http", "$rootScope", function($scop
     var dataCache = {};
     $scope.currentPage = 1;
     $scope.maxPages = 1;
+    $scope.pages = [];
     $scope.pagesLeft = [];
     $scope.pagesMid = [];
     $scope.pagesRight = [];
