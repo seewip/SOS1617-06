@@ -15,6 +15,21 @@ controller("EducationEditCtrl", ["$scope", "$http", "$routeParams", "$location",
             .get("../api/v1/education/" + $routeParams.country + "/" + $routeParams.year + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
                 $scope.editDataUnit = response.data;
+            }, function(response) {
+                switch (response.status) {
+                    case 401:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
+                        break;
+                    case 403:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
+                        break;
+                    case 404:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - data not found!', 4000);
+                        break;
+                    default:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
+                        break;
+                }
             });
     }
 
@@ -34,6 +49,12 @@ controller("EducationEditCtrl", ["$scope", "$http", "$routeParams", "$location",
                 switch (response.status) {
                     case 400:
                         Materialize.toast('<i class="material-icons">error_outline</i> Error editing data - incorrect data was typed!', 4000);
+                        break;
+                    case 401:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
+                        break;
+                    case 403:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
                         break;
                     default:
                         Materialize.toast('<i class="material-icons">error_outline</i> Error editing data!', 4000);
