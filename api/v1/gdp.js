@@ -256,8 +256,9 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
 
 
     //PUT over a single resource
+    //PUT over a single resource
     app.put(BASE_API_PATH + "/gdp/:country/:year", function(request, response) {
-        console.log("BODY: "+JSON.stringify(request.body, null, 2));
+        //console.log("BODY: " + JSON.stringify(request.body, null, 2));
         if (!checkApiKeyFunction(request, response)) return;
         var newCountry = request.body;
         var nameParam = request.params.country;
@@ -274,12 +275,12 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
                 response.sendStatus(400); // unprocessable entity
             }
             else {
-                // Make sure that numeric fields are a number object
+                
                 newCountry["year"] = Number(newCountry["year"]);
                 newCountry["gdp"] = Number(newCountry["gdp"]);
                 newCountry["gdp_growth"] = Number(newCountry["gdp_growth"]);
                 newCountry["gdp_deflator"] = Number(newCountry["gdp_deflator"]);
-                
+               
                 dbCle.find({
                     country: nameParam,
                     year: Number(yearParam)
@@ -289,13 +290,15 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
                         response.sendStatus(500); // internal server error
                     }
                     else {
+                        //console.log("Matching contries: " + JSON.stringify(countries, null, 2));
+                        //console.log("Replace with: " + JSON.stringify(newCountry, null, 2));
                         if (countries.length > 0) {
                             dbCle.update({
                                 country: nameParam,
                                 year: Number(yearParam)
                             }, newCountry);
                             console.log("INFO: Modifying country with name " + nameParam + " and year " + yearParam + " with data " + JSON.stringify(newCountry, 2, null));
-                            response.send(newCountry); // return the updated contact
+                            response.send(newCountry); // return the updated data
                         }
                         else {
                             console.log("WARNING: There are not any countries with name " + nameParam + " and year " + yearParam);

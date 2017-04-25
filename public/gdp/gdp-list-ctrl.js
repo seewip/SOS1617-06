@@ -34,7 +34,7 @@ controller("GdpListCtrl", ["$scope", "$http", "$rootScope", function($scope, $ht
         $scope.pagesMid = [];
         $scope.pagesRight = [];
         if ($scope.maxPages <= pagesNearby * 2) {
-            for (var i = 1; i <= $scope.maxPages; i++) $scope.pages.push(i);
+            for (var i = 1; i <= $scope.maxPages; i++) $scope.pagesLeft.push(i);
         }
         else if ($scope.currentPage >= 0 && $scope.currentPage <= pagesNearby) {
             //console.log("Left");

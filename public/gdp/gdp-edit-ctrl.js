@@ -25,6 +25,7 @@ controller("GdpEditCtrl", ["$scope", "$http", "$routeParams", "$location","$root
     
    
      $scope.editData = function(data) {
+        delete data._id;
         $http
             .put("../api/v1/gdp/" + data.country + "/" + data.year + "?" + "apikey=" + $rootScope.apikey, data)
             .then(function(response) {
@@ -34,7 +35,13 @@ controller("GdpEditCtrl", ["$scope", "$http", "$routeParams", "$location","$root
             }, function(response) {
                 switch (response.status) {
                     case 400:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error editing data - incorrect data was typed!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error editing data - incorrect data was entered!', 4000);
+                        break;
+                    case 401:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
+                        break;
+                    case 403:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
                         break;
                     default:
                         Materialize.toast('<i class="material-icons">error_outline</i> Error editing data!', 4000);
