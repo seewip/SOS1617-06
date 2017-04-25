@@ -48,7 +48,7 @@ controller("EducationEditCtrl", ["$scope", "$http", "$routeParams", "$location",
             }, function(response) {
                 switch (response.status) {
                     case 400:
-                        Materialize.toast('<i class="material-icons">error_outline</i> Error editing data - incorrect data was typed!', 4000);
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error editing data - incorrect data was entered!', 4000);
                         break;
                     case 401:
                         Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
