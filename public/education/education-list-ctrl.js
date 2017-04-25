@@ -105,7 +105,7 @@ controller("EducationListCtrl", ["$scope", "$http", "$rootScope", function($scop
             .then(function(response) {
                 $scope.maxPages = Math.max(Math.ceil(response.data.length / elementsPerPage), 1);
                 dataCache = response.data;
-                console.log(JSON.stringify(dataCache, null, 2));
+                //console.log(JSON.stringify(dataCache, null, 2));
                 $scope.refreshPage();
             }, function(response) {
                 switch (response.status) {

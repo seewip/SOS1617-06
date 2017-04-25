@@ -14,7 +14,7 @@ controller("EducationEditCtrl", ["$scope", "$http", "$routeParams", "$location",
         $http
             .get("../api/v1/education/" + $routeParams.country + "/" + $routeParams.year + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
-                $scope.editDataUnit = response.data;
+                $scope.editDataUnit = response.data[0];
             }, function(response) {
                 switch (response.status) {
                     case 401:
