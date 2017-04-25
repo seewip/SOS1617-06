@@ -372,5 +372,5 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
     });
 
 
-    console.log("Education data REST API registered succesfully");
+    console.log("Gdp data REST API registered succesfully");
 };
