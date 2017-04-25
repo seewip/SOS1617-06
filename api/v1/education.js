@@ -2,13 +2,13 @@ var exports = module.exports = {};
 
 // Register all the functions used in this module
 exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
-    
+
     var insertSearchFields = function(request, query) {
         var q;
-        if(request.query[q = "education-gdp-perc"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
-        if(request.query[q = "education-primary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
-        if(request.query[q = "education-secondary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
-        if(request.query[q = "education-tertiary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
+        if (request.query[q = "education-gdp-perc"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
+        if (request.query[q = "education-primary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
+        if (request.query[q = "education-secondary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
+        if (request.query[q = "education-tertiary-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
         return query;
     };
 
@@ -60,7 +60,9 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
     // GET a collection
     app.get(BASE_API_PATH + "/education", function(request, response) {
         console.log("INFO: New GET request to /education");
-        if (!checkApiKeyFunction(request, response)) {return;}
+        if (!checkApiKeyFunction(request, response)) {
+            return;
+        }
         var query = insertSearchFields(request, {});
         dbMd.find(query).toArray(function(err, education) {
             if (err) {
@@ -204,7 +206,10 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                 newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
                 newCountry["education-secondary-per-capita"] = Number(newCountry["education-secondary-per-capita"]);
                 newCountry["education-tertiary-per-capita"] = Number(newCountry["education-tertiary-per-capita"]);
-                dbMd.find({country: newCountry.country, year: newCountry.year}).toArray(function(err, country) {
+                dbMd.find({
+                    country: newCountry.country,
+                    year: newCountry.year
+                }).toArray(function(err, country) {
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
                         response.sendStatus(500); // internal server error
@@ -250,7 +255,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     //PUT over a single resource
     app.put(BASE_API_PATH + "/education/:country/:year", function(request, response) {
-        console.log("BODY: "+JSON.stringify(request.body, null, 2));
+        //console.log("BODY: " + JSON.stringify(request.body, null, 2));
         if (!checkApiKeyFunction(request, response)) return;
         var newCountry = request.body;
         var nameParam = request.params.country;
@@ -282,13 +287,15 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                         response.sendStatus(500); // internal server error
                     }
                     else {
+                        //console.log("Matching contries: " + JSON.stringify(countries, null, 2));
+                        //console.log("Replace with: " + JSON.stringify(newCountry, null, 2));
                         if (countries.length > 0) {
                             dbMd.update({
                                 country: nameParam,
                                 year: Number(yearParam)
                             }, newCountry);
                             console.log("INFO: Modifying country with name " + nameParam + " and year " + yearParam + " with data " + JSON.stringify(newCountry, 2, null));
-                            response.send(newCountry); // return the updated contact
+                            response.send(newCountry); // return the updated data
                         }
                         else {
                             console.log("WARNING: There are not any countries with name " + nameParam + " and year " + yearParam);
