@@ -14,7 +14,7 @@ controller("GdpPerCapitaEditCtrl", ["$scope", "$http", "$routeParams", "$locatio
         $http
             .get("../api/v1/gdp-per-capita/" + $routeParams.country + "/" + $routeParams.year + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
-                $scope.editDataUnit = response.data[0];
+                $scope.editDataUnit = response.data;
             }, function(response) {
                 switch (response.status) {
                     case 401:
