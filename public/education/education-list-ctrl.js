@@ -26,7 +26,7 @@ controller("EducationListCtrl", ["$scope", "$http", "$rootScope", function($scop
     var modifier = "";
     var properties = "";
 
-    var elementsPerPage = 2;
+    var elementsPerPage = 10;
 
     function setPagination() {
         var pagesNearby = 2;
