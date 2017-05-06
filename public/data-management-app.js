@@ -14,7 +14,7 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
             templateUrl: "gdp/edit.html",
             controller: "GdpEditCtrl"
         })
-    .when("/gdp/gdpgraph", {
+    .when("/gdp/graph", {
             templateUrl: "/gdp/graph.html",
             controller: "GdpGraphCtrl"
         })
