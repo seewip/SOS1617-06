@@ -10,8 +10,11 @@
     <script type="text/javascript" src="/bower_components/materialize/dist/js/materialize.min.js"></script>
 
     <!--GRAPHS-->
-    <script type="text/javascript" src='/bower_components/highcharts/highcharts.js'></script>
+    <script type="text/javascript" src="/bower_components/highcharts/highcharts.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript" src="/bower_components/chart.js/dist/Chart.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
 
     <!--ONLY USE FOR CRISTINA-->
 
@@ -25,6 +28,7 @@
 
     <script type="text/javascript" src="education/education-list-ctrl.js"></script>
     <script type="text/javascript" src="education/education-edit-ctrl.js"></script>
+    <script type="text/javascript" src="education/education-graph-ctrl.js"></script>
 
     <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-list-ctrl.js"></script>
     <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-edit-ctrl.js"></script>
@@ -51,6 +55,8 @@
             <li><a href="#!/gdp/graph"><i class="material-icons left">trending_up</i>GDP</a></li>
             <li><a href="#!/education/graph"><i class="material-icons left">trending_up</i>Education</a></li>
             <li><a href="#!/gdp-per-capita/graph"><i class="material-icons left">trending_up</i>GDP/capita</a></li>
+            <li class="divider"></li>
+            <li><a href="#!/analytics"><i class="material-icons left">trending_up</i>Analytics</a></li>
         </ul>
         <nav>
             <div class="nav-wrapper blue">
@@ -63,6 +69,7 @@
                 </ul>
                 <ul class="side-nav" id="mobile">
                     <li><a href="#!"><i class="material-icons left">dashboard</i>Front page</a></li>
+                    <li><a href="#!/analytics"><i class="material-icons left">trending_up</i>Analytics</a></li>
                     <li class="divider"></li>
                     <li><a href="#!/gdp"><i class="material-icons left">list</i>GDP</a></li>
                     <li><a href="#!/education"><i class="material-icons left">list</i>Education</a></li>

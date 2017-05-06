@@ -1,5 +1,5 @@
 /* global angular */
-angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider) {
+angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($routeProvider) {
     $routeProvider.when("/", {
             templateUrl: "main.html"
         })
@@ -30,6 +30,7 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
         })
         .when("/education/graph", {
             templateUrl: "education/graph.html",
+            controller: "EducationGraphCtrl"
         })
 
     .when("/gdp-per-capita", {
@@ -41,7 +42,7 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
             controller: "GdpPerCapitaEditCtrl"
         })
         .when("/gdp-per-capita/graph", {
-            templateUrl: "gdp-per-capita/graph.html",
+            templateUrl: "gdp-per-capita/graph.html"
         });
 
     console.log("App initialized and configured");
