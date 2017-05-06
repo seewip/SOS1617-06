@@ -1,11 +1,12 @@
 /* global angular */
 angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider) {
     $routeProvider.when("/", {
-        templateUrl: "main.html"
-    })
-    .when("/analytics", {
+            templateUrl: "main.html"
+        })
+        .when("/analytics", {
             templateUrl: "analytics.html"
-    })
+        })
+
     .when("/gdp", {
             templateUrl: "gdp/list.html",
             controller: "GdpListCtrl"
@@ -14,7 +15,7 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
             templateUrl: "gdp/edit.html",
             controller: "GdpEditCtrl"
         })
-    .when("/gdp/graph", {
+        .when("/gdp/graph", {
             templateUrl: "/gdp/graph.html",
             controller: "GdpGraphCtrl"
         })
@@ -27,6 +28,9 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
             templateUrl: "education/edit.html",
             controller: "EducationEditCtrl"
         })
+        .when("/education/graph", {
+            templateUrl: "education/graph.html",
+        })
 
     .when("/gdp-per-capita", {
             templateUrl: "gdp-per-capita/list.html",
@@ -35,6 +39,9 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
         .when("/gdp-per-capita/:country/:year", {
             templateUrl: "gdp-per-capita/edit.html",
             controller: "GdpPerCapitaEditCtrl"
+        })
+        .when("/gdp-per-capita/graph", {
+            templateUrl: "gdp-per-capita/graph.html",
         });
 
     console.log("App initialized and configured");
