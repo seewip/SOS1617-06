@@ -3,7 +3,9 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
     $routeProvider.when("/", {
         templateUrl: "main.html"
     })
-
+    .when("/analytics", {
+            templateUrl: "analytics.html"
+    })
     .when("/gdp", {
             templateUrl: "gdp/list.html",
             controller: "GdpListCtrl"
@@ -11,6 +13,10 @@ angular.module("DataManagementApp", ["ngRoute"]).config(function($routeProvider)
         .when("/gdp/:country/:year", {
             templateUrl: "gdp/edit.html",
             controller: "GdpEditCtrl"
+        })
+    .when("/gdp/gdpgraph", {
+            templateUrl: "/gdp/graph.html",
+            controller: "GdpGraphCtrl"
         })
 
     .when("/education", {
