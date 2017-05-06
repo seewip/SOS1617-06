@@ -220,5 +220,5 @@ angular
 
             // // use configuration item and data specified to show chart
             // myChart.setOption(option2);
-            // });
+             });
     }]);
