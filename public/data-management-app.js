@@ -42,7 +42,8 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             controller: "GdpPerCapitaEditCtrl"
         })
         .when("/gdp-per-capita/graph", {
-            templateUrl: "gdp-per-capita/graph.html"
+            templateUrl: "gdp-per-capita/graph.html",
+            controller: "GdpPerCapitaGraphCtrl"
         });
 
     console.log("App initialized and configured");
