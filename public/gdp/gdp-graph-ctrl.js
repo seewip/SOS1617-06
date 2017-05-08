@@ -86,49 +86,55 @@ angular
             
             //Google
             google.charts.load('current', {
-                'packages': ['controls','geochart']
-            });
-            google.charts.setOnLoadCallback(drawRegionsMap);
-                        
-        
-            function drawRegionsMap() {
-                var myData = [['Country','Gdp', 'Year']];
-     
-                response.data.forEach(function (d){
-                    myData.push([capitalizeFirstLetter(d.country), Number(d.gdp), Number(d.year)]);
+                    'packages': ['controls', 'geochart']
                 });
-                    
-                var data = google.visualization.arrayToDataTable(myData);
-                var options = {
-                    region: '150',
-                    colorAxis: {colors: ['yellow', 'orange' , 'blue']}
-                };
-                var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
+                google.charts.setOnLoadCallback(drawRegionsMap);
 
-                var yearSelector = new google.visualization.ControlWrapper({
-                    controlType: 'CategoryFilter',
-                    containerId: 'filter',
-                    options: {
-                        filterColumnIndex: 2,
-                        ui: {
-                            allowTyping: false,
-                            allowMultiple: false,
-                            allowNone: false
+                function drawRegionsMap() {
+                    var chartData = [
+                        ['country', 'gdp', 'year']
+                    ];
+
+                    response.data.forEach(function(x) {
+                        chartData.push([x.country, Number(x['gdp']), Number(x.year)]);
+                    });
+
+                    var data = google.visualization.arrayToDataTable(chartData);
+
+                    var options = {
+                        colorAxis: {
+                            colors: ['red', 'yellow', 'green']
                         }
-                    }
-                });
-                var chart = new google.visualization.ChartWrapper({
-                    chartType: 'GeoChart',
-                    containerId: 'map',
-                    options: {
-                        displayMode: 'regions',
-                        region: '150',
-                        colorAxis: {colors: ['green', 'yellow' , 'red']}
-                    }
-                });
-                dashboard.bind(yearSelector, chart);
-                dashboard.draw(data, options);
-            }    
+                    };
+
+                    var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
+
+                    var yearSelector = new google.visualization.ControlWrapper({
+                        controlType: 'CategoryFilter',
+                        containerId: 'filter',
+                        options: {
+                            filterColumnIndex: 2,
+                            ui: {
+                                allowTyping: false,
+                                allowMultiple: false,
+                                allowNone: false
+                            }
+                        }
+                    });
+
+                    var chart = new google.visualization.ChartWrapper({
+                        chartType: 'GeoChart',
+                        containerId: 'map',
+                        options: {
+                            colorAxis: {
+                                colors: ['red', 'yellow', 'green']
+                            }
+                        }
+                    });
+
+                    dashboard.bind(yearSelector, chart);
+                    dashboard.draw(data, options);
+                }
             
          //ZingChart
             var myConfig = {
