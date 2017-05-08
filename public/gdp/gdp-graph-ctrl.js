@@ -131,40 +131,323 @@ angular
             }    
             
          //ZingChart
-            var myChart = {
+            var myConfig = {
                 "type": "line",
-                "backgroundColor":'#2C2C39',
                 "title": {
-                    "text": "ZingChart for GDP !"
+                    "text": "Gdp Data Analytics",
+                    "font-size": "24px",
+                    "adjust-layout": true
                 },
+                "plotarea": {
+                    "margin": "dynamic 45 60 dynamic",
+                },
+                
                 "legend": {
-                    "header": {
-                        "text": "GDP "
-                    },
-                    "draggable": "true",
-                    "drag-handler": "icon"
+                    "layout": "float",
+                    "background-color": "none",
+                    "border-width": 0,
+                    "shadow": 0,
+                    "align": "center",
+                    "adjust-layout": true,
+                "item": {
+                    "padding": 7,
+                    "marginRight": 17,
+                    "cursor": "hand"
+                }
                 },
+                
+                "scale-x": {
+                    "label": {
+                        "text": "Country and Year",
+
+                    },
+                    "labels": 
+                        $scope.country
+                    
+                },
+                "scale-y": {
+                    "min-value": "-10:1383292800000",
+                    "label": {
+                        "text": "Values Views",
+
+                    },
+                    
+                },
+                
+                "crosshair-x": {
+                    "line-color": "#efefef",
+                    "plot-label": {
+                    "border-radius": "5px",
+                    "border-width": "1px",
+                    "border-color": "#f6f7f8",
+                    "padding": "10px",
+                    "font-weight": "bold"
+                },
+                "scale-label": {
+                    "font-color": "#000",
+                    "background-color": "#f6f7f8",
+                    "border-radius": "5px"
+                }
+            },
+                
+                "tooltip": {
+                    "visible": false
+                },
+                
                 "plot": {
-                    "value-box": {
-                        "text": "%node-value"
+                    "highlight": true,
+                    "tooltip-text": "%t views: %v<br>%k",
+                    "shadow": 0,
+                    "line-width": "2px",
+                    "marker": {
+                    "type": "circle",
+                    "size": 3
+                },
+                "highlight-state": {
+                "line-width": 3
+                },
+                "animation": {
+                    "effect": 1,
+                    "sequence": 2,
+                    "speed": 100,
+                }
+                },
+                
+                "series": [
+                {
+                    "values": $scope.gdp,
+                    "text": "Gdp",
+                    "line-color": "#007790",
+                    "legend-item":{
+                      "background-color": "#007790",
+                      "borderRadius":5,
+                      "font-color":"white"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#007790",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#69dbf1"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#007790",
                     }
                 },
-                "series": [{
-                    "name" : "Gdp",
-                    "values": $scope.gdp
-                }, {
-                    "name": "Gdp_Growth",
-                    "values": $scope.gdp_growth
-                }, {
-                    "name" : "Gdp_Deflator",
-                    "values": $scope.gdp_deflator
-                }]
+                {
+                    "values": $scope.gdp_growth,
+                    "text": "Gdp_Growth",
+                    "line-color": "#009872",
+                    "legend-item":{
+                      "background-color": "#009872",
+                      "borderRadius":5,
+                      "font-color":"white"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#009872",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#69f2d0"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#009872",
+                    }
+                },
+                {
+                    "values": $scope.gdp_deflator,
+                    "text": "Gdp_Deflator",
+                    "line-color": "#da534d",
+                    "legend-item":{
+                      "background-color": "#da534d",
+                      "borderRadius":5,
+                      "font-color":"white"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#da534d",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#faa39f"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#da534d",
+                    }
+                }
+            ]
             };
+
             zingchart.render({
-                id: "myChart",
-                data: myChart,
-                height: 680,
-                width: 1200
+                id: 'myChart',
+                data: myConfig,
+                height: '100%',
+                width: '100%'
             });
+            
+// var myConfig = {
+//     "type": "line",
+//     "title": {
+//         "text": "Gdp Data Analytics",
+//         "font-size": "24px",
+//         "adjust-layout": true
+//     },
+//     "plotarea": {
+//         "margin": "dynamic 45 60 dynamic",
+//     },
+//     "legend": {
+//         "layout": "float",
+//         "background-color": "none",
+//         "border-width": 0,
+//         "shadow": 0,
+//         "align": "center",
+//         "adjust-layout": true,
+//         "item": {
+//             "padding": 7,
+//             "marginRight": 17,
+//             "cursor": "hand"
+//         }
+//     },
+//     "scale-x": {
+//         "label": {
+//             "text": "Country and Year",
+
+//         },
+//                      "labels": 
+//                          $scope.country
+                    
+//     },
+//     "scale-y": {
+//         "values": "0:1000:250",
+//         "line-color": "#f6f7f8",
+//         "shadow": 0,
+//         "guide": {
+//             "line-style": "dashed"
+//         },
+//         "label": {
+//             "text": "Values Views",
+//         },
+//         "minor-ticks": 0,
+//         "thousands-separator": ","
+//     },
+//     "crosshair-x": {
+//         "line-color": "#efefef",
+//         "plot-label": {
+//             "border-radius": "5px",
+//             "border-width": "1px",
+//             "border-color": "#f6f7f8",
+//             "padding": "10px",
+//             "font-weight": "bold"
+//         },
+//         "scale-label": {
+//             "font-color": "#000",
+//             "background-color": "#f6f7f8",
+//             "border-radius": "5px"
+//         }
+//     },
+//     "tooltip": {
+//         "visible": false
+//     },
+//     "plot": {
+//         "highlight": true,
+//         "tooltip-text": "%t views: %v<br>%k",
+//         "shadow": 0,
+//         "line-width": "2px",
+//         "marker": {
+//             "type": "circle",
+//             "size": 3
+//         },
+//         "highlight-state": {
+//             "line-width": 3
+//         },
+//         "animation": {
+//             "effect": 1,
+//             "sequence": 2,
+//             "speed": 100,
+//         }
+//     },
+//     "series": [{
+//         "values": $scope.gdp,
+//         "text": "Gdp",
+//         "line-color": "#007790",
+//         "legend-item": {
+//             "background-color": "#007790",
+//             "borderRadius": 5,
+//             "font-color": "white"
+//         },
+//         "legend-marker": {
+//             "visible": false
+//         },
+//         "marker": {
+//             "background-color": "#007790",
+//             "border-width": 1,
+//             "shadow": 0,
+//             "border-color": "#69dbf1"
+//         },
+//         "highlight-marker": {
+//             "size": 6,
+//             "background-color": "#007790",
+//         }
+//     }, {
+//         "values": $scope.gdp_growth,
+//         "text": "Gdp_Growth",
+//         "line-color": "#009872",
+//         "legend-item": {
+//             "background-color": "#009872",
+//             "borderRadius": 5,
+//             "font-color": "white"
+//         },
+//         "legend-marker": {
+//             "visible": false
+//         },
+//         "marker": {
+//             "background-color": "#009872",
+//             "border-width": 1,
+//             "shadow": 0,
+//             "border-color": "#69f2d0"
+//         },
+//         "highlight-marker": {
+//             "size": 6,
+//             "background-color": "#009872",
+//         }
+//     }, {
+//         "values": $scope.gdp_deflator,
+//         "text": "Gdp_Deflator",
+//         "line-color": "#da534d",
+//         "legend-item": {
+//             "background-color": "#da534d",
+//             "borderRadius": 5,
+//             "font-color": "white"
+//         },
+//         "legend-marker": {
+//             "visible": false
+//         },
+//         "marker": {
+//             "background-color": "#da534d",
+//             "border-width": 1,
+//             "shadow": 0,
+//             "border-color": "#faa39f"
+//         },
+//         "highlight-marker": {
+//             "size": 6,
+//             "background-color": "#da534d",
+//         }
+//     }]
+// };
+
+// zingchart.render({
+//     id: 'myChart',
+//     data: myConfig,
+//     height: '100%',
+//     width: '100%'
+// });
              });
     }]);
