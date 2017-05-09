@@ -9,29 +9,33 @@
     <script type="text/javascript" src="/bower_components/angular-route/angular-route.js"></script>
     <script type="text/javascript" src="/bower_components/materialize/dist/js/materialize.min.js"></script>
 
+    <!--GRAPHS-->
+    <script type="text/javascript" src="/bower_components/highcharts/highcharts.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript" src="/bower_components/chart.js/dist/Chart.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+
+    <!--ONLY USE FOR CRISTINA-->
+
+    <!-- <script type="text/javascript" src="/bower_components//dist/zingchart.min.js"></script>-->
+    
+    <script type="text/javascript" src="/bower_components/d3/d3.min.js"></script>
+    <script type="text/javascript" src="/bower_components/c3/c3.min.js"></script>
+
     <script type="text/javascript" src="data-management-app.js"></script>
 
     <script type="text/javascript" src="gdp/gdp-list-ctrl.js"></script>
     <script type="text/javascript" src="gdp/gdp-edit-ctrl.js"></script>
+    <script type="text/javascript" src="gdp/gdp-graph-ctrl.js"></script>
 
     <script type="text/javascript" src="education/education-list-ctrl.js"></script>
     <script type="text/javascript" src="education/education-edit-ctrl.js"></script>
+    <script type="text/javascript" src="education/education-graph-ctrl.js"></script>
 
     <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-list-ctrl.js"></script>
     <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-edit-ctrl.js"></script>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-graph-ctrl.js"></script>
 
     <script>
         /*global $*/
@@ -47,9 +51,16 @@
 <body>
     <header>
         <ul id="dropdown-menu" class="dropdown-content">
-            <li><a href="#!/gdp"><i class="material-icons left">list</i>GDP data</a></li>
-            <li><a href="#!/education"><i class="material-icons left">list</i>Education data</a></li>
-            <li><a href="#!/gdp-per-capita"><i class="material-icons left">list</i>GDP/capita data</a></li>
+            <li><a href="#!/gdp"><i class="material-icons left">list</i>GDP</a></li>
+            <li><a href="#!/education"><i class="material-icons left">list</i>Education</a></li>
+            <li><a href="#!/gdp-per-capita"><i class="material-icons left">list</i>GDP/capita</a></li>
+        </ul>
+        <ul id="dropdown-menu-graphs" class="dropdown-content">
+            <li><a href="#!/gdp/graph"><i class="material-icons left">trending_up</i>GDP</a></li>
+            <li><a href="#!/education/graph"><i class="material-icons left">trending_up</i>Education</a></li>
+            <li><a href="#!/gdp-per-capita/graph"><i class="material-icons left">trending_up</i>GDP/capita</a></li>
+            <li class="divider"></li>
+            <li><a href="#!/analytics"><i class="material-icons left">trending_up</i>Analytics</a></li>
         </ul>
         <nav>
             <div class="nav-wrapper blue">
@@ -57,14 +68,20 @@
                 <a href="#" data-activates="mobile" class="button-collapse"><i class="material-icons">menu</i></a>
                 <ul class="right hide-on-med-and-down">
                     <li><a href="#!"><i class="material-icons left">dashboard</i>Front page</a></li>
-                    <li><a class="dropdown-button" href="#!" data-activates="dropdown-menu">Change presented data<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown-menu"><i class="material-icons left">list</i>View Front-end<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-button" href="#!" data-activates="dropdown-menu-graphs"><i class="material-icons left">trending_up</i>View Graphs<i class="material-icons right">arrow_drop_down</i></a></li>
                 </ul>
                 <ul class="side-nav" id="mobile">
                     <li><a href="#!"><i class="material-icons left">dashboard</i>Front page</a></li>
+                    <li><a href="#!/analytics"><i class="material-icons left">trending_up</i>Analytics</a></li>
                     <li class="divider"></li>
                     <li><a href="#!/gdp"><i class="material-icons left">list</i>GDP</a></li>
                     <li><a href="#!/education"><i class="material-icons left">list</i>Education</a></li>
                     <li><a href="#!/gdp-per-capita"><i class="material-icons left">list</i>GDP/capita</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#!/gdp/graph"><i class="material-icons left">trending_up</i>GDP graphs</a></li>
+                    <li><a href="#!/education/graph"><i class="material-icons left">trending_up</i>Education graphs</a></li>
+                    <li><a href="#!/gdp-per-capita/graph"><i class="material-icons left">trending_up</i>GDP/capita graphs</a></li>
                 </ul>
             </div>
         </nav>
