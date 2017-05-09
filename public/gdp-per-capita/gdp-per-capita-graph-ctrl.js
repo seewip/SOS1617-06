@@ -1,6 +1,5 @@
 /* global angular */
-/* global Materialize */
-/* global $ */
+
 /* global google */
 /* global Highcharts */
 
@@ -49,7 +48,7 @@ angular
                             // Highcharts
                             Highcharts.chart('container', {
                                 chart: {
-                                    type: 'areaspline'
+                                    type: 'area'
                                 },
                                 title: {
                                     text: 'Highcharts'
@@ -160,25 +159,28 @@ angular
                                 dashboard.draw(data, options);
                             }
 
-                            // C3
-                            var chart = c3.generate({
-                                data: {
-                                    x: 'x',
-                                    columns: []
-                                },
-                                axis: {
-                                    x: {
-                                        type: 'timeseries',
-                                        tick: {
-                                            format: '%Y-%m-%d'
-                                        }
-                                    }
-                                }
-                            });
-                            countriesData.forEach(function(e) {
-                                $scope.data.push(e.data);
-                            });
+                //             // C3
+                //             var chart = c3.generate({
+                //                 data: {
+                //                     x: 'x',
+                //                     columns: []
+                //                 },
+                //                 axis: {
+                //                     x: {
+                //                         type: 'timeseries',
+                //                         tick: {
+                //                             format: '%Y-%m-%d'
+                //                         }
+                //                     }
+                //                 }
+                //             });
+                //             countriesData.forEach(function(e) {
+                //                 $scope.data.push(e.data);
+                //             });
 
-                $scope.refresh();
-                }
+                // $scope.refresh();
+                //         }
+                        });
+                };
+                
 }]);
