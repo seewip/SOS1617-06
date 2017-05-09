@@ -1,6 +1,7 @@
 /*global angular*/
 /*global Highcharts*/
 /*global google*/
+/*global zingchart*/
 
 angular
     .module("DataManagementApp")
@@ -44,10 +45,10 @@ angular
                     text: 'Highcharts'
                 },
                 chart: {
-                    type: 'bar'
+                    type: 'spline'
                 },
                 xAxis: {
-                    categories: $scope.categorias
+                    categories: $scope.country
                 },
                 legend: {
                     layout: 'vertical',
@@ -85,140 +86,224 @@ angular
             
             //Google
             google.charts.load('current', {
-                'packages': ['controls','geochart']
-            });
-            google.charts.setOnLoadCallback(drawRegionsMap);
-                        
-        
-            function drawRegionsMap() {
-                var myData = [['Country','Gdp', 'Year']];
-     
-                response.data.forEach(function (d){
-                    myData.push([capitalizeFirstLetter(d.country), Number(d.gdp), Number(d.year)]);
+                    'packages': ['controls', 'geochart']
                 });
-                    
-                var data = google.visualization.arrayToDataTable(myData);
-                var options = {
-                    region: '150',
-                    colorAxis: {colors: ['yellow', 'orange' , 'blue']}
-                };
-                var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
+                google.charts.setOnLoadCallback(drawRegionsMap);
 
-                var yearSelector = new google.visualization.ControlWrapper({
-                    controlType: 'CategoryFilter',
-                    containerId: 'filter',
-                    options: {
-                        filterColumnIndex: 2,
-                        ui: {
-                            allowTyping: false,
-                            allowMultiple: false,
-                            allowNone: false
+                function drawRegionsMap() {
+                    var chartData = [
+                        ['country', 'gdp', 'year']
+                    ];
+
+                    response.data.forEach(function(x) {
+                        chartData.push([x.country, Number(x['gdp']), Number(x.year)]);
+                    });
+
+                    var data = google.visualization.arrayToDataTable(chartData);
+
+                    var options = {
+                        colorAxis: {
+                            colors: ['red', 'yellow', 'green']
                         }
-                    }
-                });
-                var chart = new google.visualization.ChartWrapper({
-                    chartType: 'GeoChart',
-                    containerId: 'map',
-                    options: {
-                        displayMode: 'regions',
-                        region: '150',
-                        colorAxis: {colors: ['green', 'yellow' , 'red']}
-                    }
-                });
-                dashboard.bind(yearSelector, chart);
-                dashboard.draw(data, options);
-            }    
-            
-            
-            // //ZingChart
-            // var myChart = echarts.init(document.getElementById('echarts'));
+                    };
 
-            //     // specify chart configuration item and data
-            // var option2 = {
-            //     backgroundColor: '#0f375f',
-            //     title: {
-            //         text: 'ECharts',
-            //         textStyle:{
-            //             color: '#ccc'
-            //         }
-            //     },
-            //     tooltip: {},
-            //     legend: {
-            //         data:['ESL Total','ESL Objective'],
-            //         textStyle: {
-            //             color: '#ccc'
-            //         }
-            //     },
-            //     xAxis: {
-            //         type: 'category',
-            //         data: $scope.categorias,
-            //         axisLine: {
-            //             lineStyle: {
-            //                 color: '#ccc'
-            //             }
-            //         }
-            //     },
-            //     yAxis: {
-            //         splitLine: {show: false},
-            //         axisLine: {
-            //             lineStyle: {
-            //                 color: '#ccc'
-            //             }
-            //         }
-            //     },
-            //     series: [{
-            //         name: 'ESL Total',
-            //         type: 'line',
-            //         smooth: true,
-            //         showAllSymbol: true,
-            //         symbol: 'emptyCircle',
-            //         symbolSize: 15,
-            //         data: $scope.esltotal
-            //     }, {
-            //         name: 'ESL Objective',
-            //         type: 'bar',
-            //         barWidth: 10,
-            //         itemStyle: {
-            //             normal: {
-            //                 barBorderRadius: 5,
-            //                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[{offset: 0, color: '#14c8d4'},
-            //                     {offset: 1, color: '#43eec6'}])
-            //             }
-            //         },
-            //         data: $scope.eslobjective
-            //     }, {
-            //         name: 'ESL Total',
-            //         type: 'bar',
-            //         barGap: '-100%',
-            //         barWidth: 10,
-            //         itemStyle: {
-            //             normal: {
-            //                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1,[
-            //                     {offset: 0, color: 'rgba(20,200,212,0.5)'},
-            //                     {offset: 0.2, color: 'rgba(20,200,212,0.2)'},
-            //                     {offset: 1, color: 'rgba(20,200,212,0)'}])
-            //             }
-            //         },
-            //         z: -12,
-            //         data: $scope.esltotal
-            //     }, {
-            //         name: 'ESL Total',
-            //         type: 'pictorialBar',
-            //         symbol: 'rect',
-            //         itemStyle: {
-            //             normal: {
-            //                 color: '#0f375f'
-            //             }
-            //         },
-            //         symbolRepeat: true,
-            //         symbolSize: [12, 4],
-            //             symbolMargin: 1,
-            //         z: -10,
-            //         data: $scope.esltotal
-            //     }]
-            // };
+                    var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
 
-            // // use configuration item and data specified to show chart
-            // myChart.setOption(option2);
+                    var yearSelector = new google.visualization.ControlWrapper({
+                        controlType: 'CategoryFilter',
+                        containerId: 'filter',
+                        options: {
+                            filterColumnIndex: 2,
+                            ui: {
+                                allowTyping: false,
+                                allowMultiple: false,
+                                allowNone: false
+                            }
+                        }
+                    });
+
+                    var chart = new google.visualization.ChartWrapper({
+                        chartType: 'GeoChart',
+                        containerId: 'map',
+                        options: {
+                            colorAxis: {
+                                colors: ['red', 'yellow', 'green']
+                            }
+                        }
+                    });
+
+                    dashboard.bind(yearSelector, chart);
+                    dashboard.draw(data, options);
+                }
+            
+         //ZingChart
+            var myConfig = {
+                "type": "line",
+                
+                "backgroundColor":'#2C2C39',
+                "title": {
+                    "text": "Gdp Data Analytics",
+                    "fontColor":"#E3E3E5",
+                    "font-size": "24px",
+                    "adjust-layout": true
+                },
+                "plotarea": {
+                    "margin": "dynamic 45 60 dynamic",
+                },
+                
+                "legend": {
+                    "layout": "float",
+                    "background-color": "none",
+                    "border-width": 0,
+                    "shadow": 0,
+                    "align": "center",
+                    "adjust-layout": true,
+                "item": {
+                    "padding": 7,
+                    "marginRight": 17,
+                    "cursor": "hand"
+                }
+                },
+                
+                "scale-x": {
+                    "label": {
+                        "text": "Country and Year",
+                        "fontColor":"#E3E3E5",
+
+                    },
+                    "labels": 
+                        $scope.country
+                    
+                },
+                "scale-y": {
+                    "min-value": "0:1383292800000",
+                    "label": {
+                        "text": "Values Views",
+                        "fontColor":"#E3E3E5",
+
+                    },
+                    
+                },
+                
+                "crosshair-x": {
+                    "line-color": "#efefef",
+                    "plot-label": {
+                    "border-radius": "5px",
+                    "border-width": "1px",
+                    "border-color": "#f6f7f8",
+                    "padding": "10px",
+                    "font-weight": "bold"
+                },
+                "scale-label": {
+                    "font-color": "#000",
+                    "background-color": "#f6f7f8",
+                    "border-radius": "5px"
+                }
+            },
+                
+                "tooltip": {
+                    "visible": false
+                },
+                
+                "plot": {
+                    "highlight": true,
+                    "tooltip-text": "%t views: %v<br>%k",
+                    "shadow": 0,
+                    "line-width": "2px",
+                    "marker": {
+                    "type": "circle",
+                    "size": 3
+                },
+                "highlight-state": {
+                "line-width": 3
+                },
+                "animation": {
+                    "effect": 1,
+                    "sequence": 2,
+                    "speed": 100,
+                }
+                },
+                
+                "series": [
+                {
+                    "values": $scope.gdp,
+                    "text": "Gdp",
+                    "line-color": "#007790",
+                    "legend-item":{
+                      "background-color": "#007790",
+                      "borderRadius":5,
+                      "font-color":"white"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#007790",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#69dbf1"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#007790",
+                    }
+                },
+                {
+                    "values": $scope.gdp_growth,
+                    "text": "Gdp_Growth",
+                    "line-color": "#FEB32E",
+                    "legend-item":{
+                      "background-color": "#FEB32E",
+                      "borderRadius":5,
+                      "font-color":"white"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#FEB32E",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#69f2d0"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#FEB32E",
+                    }
+                },
+                {
+                    "values": $scope.gdp_deflator,
+                    "text": "Gdp_Deflator",
+                    "line-color": "#da534d",
+                    "legend-item":{
+                      "background-color": "#da534d",
+                      "borderRadius":5,
+                      "font-color":"white"
+                    },
+                    "legend-marker": {
+                        "visible":false
+                    },
+                    "marker": {
+                        "background-color": "#da534d",
+                        "border-width": 1,
+                        "shadow": 0,
+                        "border-color": "#faa39f"
+                    },
+                    "highlight-marker":{
+                      "size":6,
+                      "background-color": "#da534d",
+                    }
+                }
+            ]
+            };
+
+            zingchart.render({
+                id: 'myChart',
+                data: myConfig,
+                height: '100%',
+                width: '100%'
+            });
+            
+
              });
     }]);
