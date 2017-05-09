@@ -301,7 +301,7 @@ angular
                 id: 'myChart',
                 data: myConfig,
                 height: '100%',
-                width: '100%'
+                width: '95%'
             });
             
 
