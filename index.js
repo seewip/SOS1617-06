@@ -129,7 +129,37 @@ app.use(paths, function(req,res){
   })).pipe(res);
 });
 
-// Gdp-per-capita proxy
+// Gdp-per-capita proxy -  G05 - Elections voting stats
+
+app.get("/proxy/gdp-per-capita", (req, res) => {
+    console.log("INFO: New GET request to /proxy/gdp-per-capita/");
+    var http = require('http');
+
+    var options = {
+        host: 'sos1617-03.herokuapp.com',
+        path: '/api/v2/earlyleavers/?apikey=apisupersecreta'
+    };
+
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/gdp-per-capita/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/gdp-per-capita/ - failed to access the proxied website, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
 
 //===========================================================================================================//
 
