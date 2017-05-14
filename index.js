@@ -3,6 +3,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
+var cors = require('cors');
 
 var publicFolder = path.join(__dirname, '/public');
 
@@ -42,6 +43,7 @@ var checkApiKeyFunction = function(request, response) {
 
 app.use(bodyParser.json());
 app.use(helmet());
+app.use(cors());
 
 MongoClient.connect(mdbURL, {
     native_parser: true
