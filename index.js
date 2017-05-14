@@ -75,7 +75,47 @@ app.use("/", express.static(publicFolder));
 
 app.use("/api/v1/tests", express.static(path.join(__dirname, "public/tests.html")));
 
+//==========================================PROXY============================================================//
 
+// Education proxy - G01 - The level of start-ups
+
+app.get("/proxy/education", (req, res) => {
+    console.log("INFO: New GET request to /proxy/education/");
+    var http = require('http');
+
+    var options = {
+        host: 'sos1617-04.herokuapp.com',
+        path: '/api/v2/export-and-import?apikey=12345'
+    };
+
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/education/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/education/ - failed to access the proxied website, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
+
+// Gdp proxy
+
+// Gdp-per-capita proxy
+
+//===========================================================================================================//
+
+console.log("Proxy registered successfully");
 
 console.log("The current date is: " + getDate());
 

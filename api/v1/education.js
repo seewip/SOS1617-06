@@ -372,5 +372,5 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
     });
 
 
-    console.log("Education data REST API registered succesfully");
+    console.log("Education data REST API registered successfully");
 };
