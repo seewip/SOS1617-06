@@ -111,6 +111,24 @@ app.get("/proxy/education", (req, res) => {
 
 // Gdp proxy
 
+
+var request = require("request");
+var paths = '/api/v2/price-stats?apikey=12345';
+var apiServerHost = 'http://sos1617-04.herokuapp.com';
+
+app.use(paths, function(req,res){
+  var url = apiServerHost + req.baseUrl + req.url;
+  console.log("Piped: "+ req.baseUrl + req.url);
+  console.log("URL Accesed: "+ url);
+
+  req.pipe(request(url,function (error,response,body){
+    if(error){
+      console.error(error);
+      res.sendStatus(503);
+    }
+  })).pipe(res);
+});
+
 // Gdp-per-capita proxy
 
 //===========================================================================================================//
