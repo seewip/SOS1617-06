@@ -32,7 +32,7 @@ controller("EducationGraphCtrl", ["$scope", "$http", "$rootScope", function($sco
                         data: []
                     };
                     years.forEach(function(e) {
-                        c.data.push(0);
+                        c.data.push(null);
                     });
                     countriesData.push(c);
                 });
