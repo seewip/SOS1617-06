@@ -10,6 +10,14 @@ controller("EducationRemoteGraphCtrl", ["$scope", "$http", "$rootScope", functio
 
     if (!$rootScope.apikey) $rootScope.apikey = "secret";
 
+    $scope.refresh = function() {
+        $http
+            .get("https://sos1617-01.herokuapp.com/api/v2/startups-stats?apikey=sos161701")
+            .then(function(response) {
+                console.log(JSON.stringify(response.data, null, 2));
+            });
+    };
+
     // $scope.refresh = function() {
     //     $http
     //         .get("../api/v1/education" + "?" + "apikey=" + $rootScope.apikey)
@@ -176,6 +184,6 @@ controller("EducationRemoteGraphCtrl", ["$scope", "$http", "$rootScope", functio
     //         });
     // };
 
-    // $scope.refresh();
+    $scope.refresh();
 
 }]);
