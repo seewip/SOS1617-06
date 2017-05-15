@@ -12,9 +12,72 @@ controller("EducationRemoteGraphCtrl", ["$scope", "$http", "$rootScope", functio
 
     $scope.refresh = function() {
         $http
-            .get("https://sos1617-01.herokuapp.com/api/v2/startups-stats?apikey=sos161701")
+            //.get("https://sos1617-01.herokuapp.com/api/v2/startups-stats?apikey=sos161701")
+            .get("../proxy/educationR")
             .then(function(response) {
-                console.log(JSON.stringify(response.data, null, 2));
+                var years = [];
+                var countries = [];
+
+                response.data.forEach(function(d) {
+                    if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                    if (countries.indexOf(d.country) == -1) countries.push(d.country);
+                });
+                years.sort((a, b) => a - b);
+
+                var countriesData = [];
+
+                countries.forEach(function(d) {
+                    var c = {
+                        name: d,
+                        data: []
+                    };
+                    years.forEach(function(e) {
+                        c.data.push(0);
+                    });
+                    countriesData.push(c);
+                });
+
+                response.data.forEach(function(d) {
+                    countriesData.forEach(function(e) {
+                        if (d.country === e.name) {
+                            e.data[years.indexOf(Number(d.year))] = Number(d['total']);
+                        }
+                    });
+                });
+
+                $http
+                    .get("../api/v1/education" + "?" + "apikey=" + $rootScope.apikey)
+                    .then(function(response) {
+                        response.data.forEach(function(d) {
+                            if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                            if (countries.indexOf(d.country) == -1) countries.push(d.country);
+                        });
+                        years.sort((a, b) => a - b);
+
+                        var countriesData2 = [];
+
+                        countries.forEach(function(d) {
+                            var c = {
+                                name: d,
+                                data: []
+                            };
+                            years.forEach(function(e) {
+                                c.data.push(0);
+                            });
+                            countriesData2.push(c);
+                        });
+
+                        response.data.forEach(function(d) {
+                            countriesData2.forEach(function(e) {
+                                if (d.country === e.name) {
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['education-gdp-perc']);
+                                }
+                            });
+                        });
+
+
+                    });
+
             });
     };
 
