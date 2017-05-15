@@ -1,7 +1,5 @@
 /* global angular */
 /* global Materialize */
-/* global $ */
-/* global google */
 /* global Highcharts */
 
 angular.module("DataManagementApp").
@@ -12,179 +10,150 @@ controller("EducationProxyGraphCtrl", ["$scope", "$http", "$rootScope", function
 
     $scope.refresh = function() {
         $http
-            .get("../proxy/education")
+            .get("../api/v1/education" + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
-                console.log(JSON.stringify(response.data, null, 2));
+                //$scope.debug = "";
+
+                var years = [];
+                var countries = [];
+                var provincesForeign = [];
+                var countriesData = [];
+                var provincesDataForeign = [];
+
+                $http
+                    .get("../proxy/education")
+                    .then(function(response_foreign) {
+
+                        response.data.forEach(function(d) {
+                            if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                            if (countries.indexOf(d.country) == -1) countries.push(d.country);
+                        });
+
+                        response_foreign.data.forEach(function(d) {
+                            if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                            if (provincesForeign.indexOf(d.province) == -1) provincesForeign.push(d.province);
+                        });
+
+                        years.sort((a, b) => a - b);
+
+                        countries.forEach(function(d) {
+                            var b = {
+                                name: d,
+                                type: "column",
+                                yAxis: 0,
+                                data: []
+                            };
+                            years.forEach(function(e) {
+                                b.data.push(0);
+                            });
+                            countriesData.push(b);
+                        });
+
+                        provincesForeign.forEach(function(d) {
+                            var c = {
+                                name: d,
+                                type: "spline",
+                                yAxis: 1,
+                                data: []
+                            };
+                            years.forEach(function(e) {
+                                c.data.push(0);
+                            });
+                            provincesDataForeign.push(c);
+                        });
+
+                        response.data.forEach(function(d) {
+                            countriesData.forEach(function(e) {
+                                if (d.country === e.name) {
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['education-gdp-perc']);
+                                }
+                            });
+                        });
+
+                        response_foreign.data.forEach(function(d) {
+                            provincesDataForeign.forEach(function(e) {
+                                if (d.province === e.name) {
+                                    e.data[years.indexOf(Number(d.year))] = Number(d['oil']);
+                                }
+                            });
+                        });
+
+                        // $scope.debug += "#COUNTRIES:\n" + JSON.stringify(countries, null, 2);
+                        // $scope.debug += "#YEARS:\n" + JSON.stringify(years, null, 2);
+                        // $scope.debug += "#DATA:\n" + JSON.stringify(countriesData, null, 2);
+                        // $scope.debug += "#DATA_FOREIGN:\n" + JSON.stringify(countriesDataForeign, null, 2);
+
+                        var hc = {
+                            chart: {
+                                zoomType: 'xy'
+                            },
+                            title: {
+                                text: 'Spending on education and the amount of oil'
+                            },
+                            xAxis: {
+                                categories: [],
+                                crosshair: true
+                            },
+                            yAxis: [{ // Primary yAxis
+                                labels: {
+                                    format: '{value} %',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[1]
+                                    }
+                                },
+                                title: {
+                                    text: 'GDP (%)',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[1]
+                                    }
+                                }
+
+                            }, { // Secondary yAxis
+                                gridLineWidth: 0,
+                                title: {
+                                    text: 'Amount of oil',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[0]
+                                    }
+                                },
+                                labels: {
+                                    format: '{value}',
+                                    style: {
+                                        color: Highcharts.getOptions().colors[0]
+                                    }
+                                },
+                                opposite: true
+                            }],
+                            tooltip: {
+                                shared: true
+                            },
+                            series: []
+                        };
+                        
+                        hc.xAxis.categories = years;
+                        hc.series = countriesData.concat(provincesDataForeign);
+
+                        Highcharts.chart('hc_column', hc);
+
+                    });
+
+            }, function(response) {
+                switch (response.status) {
+                    case 401:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
+                        break;
+                    case 403:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
+                        break;
+                    case 404:
+                        Materialize.toast('<i class="material-icons">error_outline</i> No data found!', 4000);
+                        break;
+                    default:
+                        Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
+                        break;
+                }
             });
     };
-
-    // if (!$rootScope.apikey) $rootScope.apikey = "secret";
-
-    // $scope.refresh = function() {
-    //     $http
-    //         .get("../api/v1/education" + "?" + "apikey=" + $rootScope.apikey)
-    //         .then(function(response) {
-
-    //             var years = [];
-    //             var countries = [];
-
-    //             response.data.forEach(function(d) {
-    //                 if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
-    //                 if (countries.indexOf(d.country) == -1) countries.push(d.country);
-    //             });
-    //             years.sort((a, b) => a - b);
-
-    //             var countriesData = [];
-
-    //             countries.forEach(function(d) {
-    //                 var c = {
-    //                     name: d,
-    //                     data: []
-    //                 };
-    //                 years.forEach(function(e) {
-    //                     c.data.push(0);
-    //                 });
-    //                 countriesData.push(c);
-    //             });
-
-    //             response.data.forEach(function(d) {
-    //                 countriesData.forEach(function(e) {
-    //                     if (d.country === e.name) {
-    //                         e.data[years.indexOf(Number(d.year))] = Number(d['education-gdp-perc']);
-    //                     }
-    //                 });
-    //             });
-
-    //             // HighCharts
-    //             var hc = {
-    //                 chart: {
-    //                     type: 'column'
-    //                 },
-    //                 title: {
-    //                     text: 'Spendings on education'
-    //                 },
-    //                 xAxis: {
-    //                     categories: [],
-    //                     crosshair: true
-    //                 },
-    //                 yAxis: {
-    //                     min: 0,
-    //                     title: {
-    //                         text: 'GDP (%)'
-    //                     }
-    //                 },
-    //                 tooltip: {
-    //                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-    //                     pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-    //                         '<td style="padding:0"><b>{point.y:.1f}%</b></td></tr>',
-    //                     footerFormat: '</table>',
-    //                     shared: true,
-    //                     useHTML: true
-    //                 },
-    //                 plotOptions: {
-    //                     column: {
-    //                         pointPadding: 0.2,
-    //                         borderWidth: 0
-    //                     }
-    //                 },
-    //                 series: []
-    //             };
-
-    //             hc.xAxis.categories = years;
-    //             hc.series = countriesData;
-
-    //             Highcharts.chart('hc_column', hc);
-
-    //             // Google Charts - Geochart
-    //             google.charts.load('current', {
-    //                 'packages': ['controls', 'geochart']
-    //             });
-    //             google.charts.setOnLoadCallback(drawRegionsMap);
-
-    //             function drawRegionsMap() {
-    //                 var chartData = [
-    //                     ['country', 'education-gdp-perc', 'year']
-    //                 ];
-
-    //                 response.data.forEach(function(x) {
-    //                     chartData.push([x.country, Number(x['education-gdp-perc']), Number(x.year)]);
-    //                 });
-
-    //                 var data = google.visualization.arrayToDataTable(chartData);
-
-    //                 var options = {
-    //                     colorAxis: {
-    //                         colors: ['red', 'yellow', 'green']
-    //                     }
-    //                 };
-
-    //                 var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
-
-    //                 var yearSelector = new google.visualization.ControlWrapper({
-    //                     controlType: 'CategoryFilter',
-    //                     containerId: 'filter',
-    //                     options: {
-    //                         filterColumnIndex: 2,
-    //                         ui: {
-    //                             allowTyping: false,
-    //                             allowMultiple: false,
-    //                             allowNone: false
-    //                         }
-    //                     }
-    //                 });
-
-    //                 var chart = new google.visualization.ChartWrapper({
-    //                     chartType: 'GeoChart',
-    //                     containerId: 'map',
-    //                     options: {
-    //                         colorAxis: {
-    //                             colors: ['red', 'yellow', 'green']
-    //                         }
-    //                     }
-    //                 });
-
-    //                 dashboard.bind(yearSelector, chart);
-    //                 dashboard.draw(data, options);
-    //             }
-
-    //             //Angular-Chart
-    //             $scope.labels = years;
-    //             $scope.series = countries;
-    //             $scope.data = [];
-    //             countriesData.forEach(function(e) {
-    //                 $scope.data.push(e.data);
-    //             });
-    //             $scope.datasetOverride = [{
-    //                 yAxisID: 'y-axis-1'
-    //             }];
-    //             $scope.options = {
-    //                 scales: {
-    //                     yAxes: [{
-    //                         id: 'y-axis-1',
-    //                         type: 'linear',
-    //                         display: true,
-    //                         position: 'left'
-    //                     }]
-    //                 }
-    //             };
-
-    //         }, function(response) {
-    //             switch (response.status) {
-    //                 case 401:
-    //                     Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
-    //                     break;
-    //                 case 403:
-    //                     Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key incorrect!', 4000);
-    //                     break;
-    //                 case 404:
-    //                     Materialize.toast('<i class="material-icons">error_outline</i> No data found!', 4000);
-    //                     break;
-    //                 default:
-    //                     Materialize.toast('<i class="material-icons">error_outline</i> Error getting data!', 4000);
-    //                     break;
-    //             }
-    //         });
-    // };
 
     $scope.refresh();
 

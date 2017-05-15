@@ -39,12 +39,12 @@ controller("EducationRemoteGraphCtrl", ["$scope", "$http", "$rootScope", functio
                         countries.forEach(function(d) {
                             var b = {
                                 name: d,
-                                type: "column",
+                                type: "area",
                                 yAxis: 0,
                                 data: []
                             };
                             years.forEach(function(e) {
-                                b.data.push(null);
+                                b.data.push(0);
                             });
                             countriesData.push(b);
                         });
@@ -52,12 +52,12 @@ controller("EducationRemoteGraphCtrl", ["$scope", "$http", "$rootScope", functio
                         countriesForeign.forEach(function(d) {
                             var c = {
                                 name: d,
-                                type: "spline",
+                                type: "column",
                                 yAxis: 1,
                                 data: []
                             };
                             years.forEach(function(e) {
-                                c.data.push(null);
+                                c.data.push(0);
                             });
                             countriesDataForeign.push(c);
                         });
