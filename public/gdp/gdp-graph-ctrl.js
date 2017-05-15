@@ -37,6 +37,7 @@ angular
         });    
             
         console.log("Controller initialized");
+        
         $http.get("/api/v1/gdp/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
             
