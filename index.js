@@ -109,6 +109,37 @@ app.get("/proxy/education", (req, res) => {
     request.end();
 });
 
+// Temporary function to test Remote API
+app.get("/proxy/educationR", (req, res) => {
+    console.log("INFO: New GET request to /proxy/educationR/");
+    var http = require('http');
+
+    var options = {
+        host: 'sos1617-01.herokuapp.com',
+        path: '/api/v2/startups-stats?apikey=sos161701'
+    };
+
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/educationR/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/educationR/ - failed to access the proxied website, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
+
 // Gdp proxy -G04 - PRICE OF OLIVE OIL INN ANDALUSSIAN
 app.get("/proxy/gdp", (req, res) => {
     console.log("INFO: New GET request to /proxy/gdp/");
