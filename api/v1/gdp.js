@@ -53,7 +53,7 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
                     "gdp_deflator": 102
                 
                 }]);
-                console.log("INFO: Initial data created succesfully!");
+                console.log("INFO: Initial data created successfully!");
                 response.sendStatus(201); // created
             }
             else {

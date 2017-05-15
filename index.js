@@ -109,25 +109,37 @@ app.get("/proxy/education", (req, res) => {
     request.end();
 });
 
-// Gdp proxy
+// Gdp proxy -G04 - PRICE OF OLIVE OIL INN ANDALUSSIAN
+app.get("/proxy/gdp", (req, res) => {
+    console.log("INFO: New GET request to /proxy/gdp/");
+    var http = require('http');
 
+    var options = {
+        host: 'sos1617-04.herokuapp.com',
+        path: '/api/v2/price-stats?apikey=12345'
+    };
 
-var request = require("request");
-var paths = '/api/v2/price-stats?apikey=12345';
-var apiServerHost = 'http://sos1617-04.herokuapp.com';
+    var request = http.request(options, (response) => {
+        var input = '';
 
-app.use(paths, function(req,res){
-  var url = apiServerHost + req.baseUrl + req.url;
-  console.log("Piped: "+ req.baseUrl + req.url);
-  console.log("URL Accesed: "+ url);
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
 
-  req.pipe(request(url,function (error,response,body){
-    if(error){
-      console.error(error);
-      res.sendStatus(503);
-    }
-  })).pipe(res);
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/gdp/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/gdp/ - ERROR TRYING TO ACCESS, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
 });
+
 
 // Gdp-per-capita proxy -  G05 - Elections voting stats
 
