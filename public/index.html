@@ -9,18 +9,18 @@
     <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="/bower_components/angular-route/angular-route.js"></script>
     <script type="text/javascript" src="/bower_components/materialize/dist/js/materialize.min.js"></script>
-    
+
     <script type="text/javascript" src="data-management-app.js"></script>
-    
+
     <!--GRAPHS-->
     <script type="text/javascript" src="/bower_components/highcharts/highcharts.js"></script>
     <script type="text/javascript" src="/bower_components/highcharts/modules/exporting.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    
-    <!-- ONLY USE FOR JIHANE --> 
+
+    <!-- ONLY USE FOR JIHANE -->
     <script type="text/javascript" src="/bower_components/d3/d3.min.js"></script>
     <script type="text/javascript" src="/bower_components/c3/c3.min.js"></script>
-    
+
     <!--ONLY USE FOR CRISTINA-->
     <script type="text/javascript" src="/bower_components/zingchart/client/zingchart.min.js"></script>
     <!-- ONLY USE FOR MATEUSZ-->
@@ -32,16 +32,22 @@
     <script type="text/javascript" src="gdp/gdp-list-ctrl.js"></script>
     <script type="text/javascript" src="gdp/gdp-edit-ctrl.js"></script>
     <script type="text/javascript" src="gdp/gdp-graph-ctrl.js"></script>
+    <script type="text/javascript" src="gdp/gdp-remote-graph-ctrl.js"></script>
+    <script type="text/javascript" src="gdp/gdp-proxy-graph-ctrl.js"></script>
 
     <!--MATEUSZ STUFF-->
     <script type="text/javascript" src="education/education-list-ctrl.js"></script>
     <script type="text/javascript" src="education/education-edit-ctrl.js"></script>
     <script type="text/javascript" src="education/education-graph-ctrl.js"></script>
+    <script type="text/javascript" src="education/education-remote-graph-ctrl.js"></script>
+    <script type="text/javascript" src="education/education-proxy-graph-ctrl.js"></script>
 
     <!-- JIHANE STUFF-->
     <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-list-ctrl.js"></script>
     <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-edit-ctrl.js"></script>
     <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-graph-ctrl.js"></script>
+    <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-remote-graph-ctrl.js"></script>
+    <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-proxy-graph-ctrl.js"></script>
 
     <script>
         /*global $*/
@@ -65,6 +71,13 @@
             <li><a href="#!/gdp/graph"><i class="material-icons left">trending_up</i>GDP</a></li>
             <li><a href="#!/education/graph"><i class="material-icons left">trending_up</i>Education</a></li>
             <li><a href="#!/gdp-per-capita/graph"><i class="material-icons left">trending_up</i>GDP/capita</a></li>
+            <li class="divider"></li>
+            <li><a href="#!/gdp/remoteGraph"><i class="material-icons left">trending_up</i>GDP Remote</a></li>
+            <li><a href="#!/gdp/proxyGraph"><i class="material-icons left">trending_up</i>GDP Proxy</a></li>
+            <li><a href="#!/education/remoteGraph"><i class="material-icons left">trending_up</i>Education Remote</a></li>
+            <li><a href="#!/education/proxyGraph"><i class="material-icons left">trending_up</i>Education Proxy</a></li>
+            <li><a href="#!/gdp-per-capita/remoteGraph"><i class="material-icons left">trending_up</i>GDP/capita Remote</a></li>
+            <li><a href="#!/gdp-per-capita/proxyGraph"><i class="material-icons left">trending_up</i>GDP/capita Proxy</a></li>
             <li class="divider"></li>
             <li><a href="#!/analytics"><i class="material-icons left">trending_up</i>Analytics</a></li>
         </ul>
@@ -90,6 +103,13 @@
                     <li><a href="#!/gdp/graph"><i class="material-icons left">trending_up</i>GDP graphs</a></li>
                     <li><a href="#!/education/graph"><i class="material-icons left">trending_up</i>Education graphs</a></li>
                     <li><a href="#!/gdp-per-capita/graph"><i class="material-icons left">trending_up</i>GDP/capita graphs</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#!/gdp/remoteGraph"><i class="material-icons left">trending_up</i>GDP Remote</a></li>
+                    <li><a href="#!/gdp/proxyGraph"><i class="material-icons left">trending_up</i>GDP Proxy</a></li>
+                    <li><a href="#!/education/remoteGraph"><i class="material-icons left">trending_up</i>Education Remote</a></li>
+                    <li><a href="#!/education/proxyGraph"><i class="material-icons left">trending_up</i>Education Proxy</a></li>
+                    <li><a href="#!/gdp-per-capita/remoteGraph"><i class="material-icons left">trending_up</i>GDP/capita Remote</a></li>
+                    <li><a href="#!/gdp-per-capita/proxyGraph"><i class="material-icons left">trending_up</i>GDP/capita Proxy</a></li>
                 </ul>
             </div>
         </nav>
