@@ -133,8 +133,6 @@ controller("EducationRemoteGraphCtrl", ["$scope", "$http", "$rootScope", functio
                         hc.xAxis.categories = years;
                         hc.series = countriesData.concat(countriesDataForeign);
 
-                        console.log(hc.xAxis.categories);
-
                         Highcharts.chart('hc_column', hc);
 
                     });
