@@ -8,6 +8,16 @@ angular.module("DataManagementApp").
 controller("EducationProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
     console.log("Controller initialized (EducationProxyGraphCtrl)");
 
+    if (!$rootScope.apikey) $rootScope.apikey = "secret";
+
+    $scope.refresh = function() {
+        $http
+            .get("../proxy/education")
+            .then(function(response) {
+                console.log(JSON.stringify(response.data, null, 2));
+            });
+    };
+
     // if (!$rootScope.apikey) $rootScope.apikey = "secret";
 
     // $scope.refresh = function() {
@@ -176,6 +186,6 @@ controller("EducationProxyGraphCtrl", ["$scope", "$http", "$rootScope", function
     //         });
     // };
 
-    // $scope.refresh();
+    $scope.refresh();
 
 }]);
