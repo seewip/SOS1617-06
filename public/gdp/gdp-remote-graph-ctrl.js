@@ -112,27 +112,19 @@ angular
                 },
                 series:[{
                     name: 'Year',
-                    /*marker: {
-                        symbol: 'square'
-                    },*/
+                    
                     data: $scope.year
                 }, {
                     name: 'Gdp',
-                   /*marker: {
-                        symbol: 'square'
-                    },*/
+                   
                     data: $scope.gdp
                 }, {
                     name: 'Gdp_Growth',
-                    /*marker: {
-                        symbol: 'square'
-                    },*/
+                    
                     data: $scope.gdp_growth
                 }, {
                     name: 'Gdp_Deflator',
-                    /*marker: {
-                        symbol: 'square'
-                    },*/
+                    
                     data: $scope.gdp_deflator
                 },{
                     name: 'Minimum Salary',

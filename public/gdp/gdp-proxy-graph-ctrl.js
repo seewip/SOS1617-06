@@ -19,67 +19,35 @@ angular
         $scope.gdp = [];
         $scope.gdp_growth = [];
         $scope.gdp_deflator = [];
+        $scope.province = [];
+        $scope.priceaceite = [];
+        $scope.pricevirgen = [];
+        $scope.priceextra = [];
         
         
-        var dataS = [];
-        var dataM = [];
-        var dataCa = [];
-        var dataG = [];
-        var dataCo = [];
-        var dataA = [];
         
-        var dataH = [];
-        
-        $scope.sta = [];
         function capitalizeFirstLetter(string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
         }
         
-        // function sortResults(prop, asc) {
-        //         $scope.sta = $scope.sta.sort(function(a, b) {
-        //             if (asc) {
-        //                 return (a[prop] > b[prop]) ? 1 : ((a[prop] < b[prop]) ? -1 : 0);
-        //             }
-        //             else {
-        //                 return (b[prop] > a[prop]) ? 1 : ((b[prop] < a[prop]) ? -1 : 0);
-        //             }
-        //         });
-        //     }
+        
             
         $http
             .get("https://sos1617-04.herokuapp.com/api/v2/price-stats?apikey=12345")
             .then(function(response) {
-                        $scope.sta = response.data;
-                        //sortResults('year', true);
-                        var cat = [];
-                        for (var i in $scope.sta) {
-                            cat.push($scope.sta[i].year);
-                            switch ($scope.sta[i].province) {
-                                case "sevilla":
-                                    dataS.push(parseFloat($scope.sta[i].pricevirgen));
-                                    break;
-                                case "malaga":
-                                    dataM.push(parseFloat($scope.sta[i].pricevirgen));
-                                    break;
-                                case "cadiz":
-                                    dataCa.push(parseFloat($scope.sta[i].pricevirgen));
-                                    break;
-                                case "granada":
-                                    dataG.push(parseFloat($scope.sta[i].pricevirgen));
-                                    break;
-                                case "cordoba":
-                                    dataCo.push(parseFloat($scope.sta[i].pricevirgen));
-                                    break;
-                                case "almeria":
-                                    dataA.push(parseFloat($scope.sta[i].pricevirgen));
-                                    break;
-                                case "huelva":
-                                    dataH.push(parseFloat($scope.sta[i].pricevirgen));
-                                    break;
-                                case "sevilla":
-                                    dataS.push(parseFloat($scope.sta[i].pricevirgen));
-                                    break;
-                            }
+                dataCache = response.data;
+                $scope.data = dataCache;
+            
+            for(var i=0; i<response.data.length; i++){
+                $scope.province.push(capitalizeFirstLetter($scope.data[i].province) + " " + $scope.data[i].year);
+                $scope.year.push(($scope.data[i].year));
+                $scope.priceaceite.push(Number($scope.data[i].priceaceite));
+                $scope.pricevirgen.push(Number($scope.data[i].pricevirgen));
+                $scope.priceextra.push(Number($scope.data[i].priceextra));
+                
+                console.log($scope.data[i].province);
+        
+            
                     }  
                 });
         
@@ -90,7 +58,7 @@ angular
             
             for(var i=0; i<response.data.length; i++){
                 $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
-                $scope.year.push(Number($scope.data[i].year));
+                //$scope.year.push(Number($scope.data[i].year));
                 $scope.gdp.push(Number($scope.data[i].gdp));
                 $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
                 $scope.gdp_deflator.push(Number($scope.data[i].gdp_deflator));
@@ -137,7 +105,7 @@ angular
                     data: $scope.gdp_deflator
                 }, {
                     name: 'Integration with G04 Price of Olive oil in Andalussian',
-                    data: [dataS, dataA,dataG,dataH]
+                    data: $scope.priceaceite
                 }]
             
 
