@@ -27,7 +27,6 @@ angular
 
 
         function capitalizeFirstLetter(string) {
-            console.log("Captitalizing string: "+string);
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
 
