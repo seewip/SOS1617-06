@@ -60,7 +60,7 @@ angular
     
                 Highcharts.chart('container', {
                 chart: {
-                    type: 'spline'
+                    type: 'area'
                 },
                 title: {
                     text: 'Highcharts'
@@ -117,12 +117,15 @@ angular
                     
                     data: $scope.gdp_deflator
                 },{
+                    type: 'area',
                     name: 'Minimum Salary',
                     data: $scope.minimumSalary
                 },{
+                    type:'area',
                     name: 'Average Salary',
                     data: $scope.averageSalary
                 },{
+                    type: 'area',
                     name: 'Risk Of Poverty',
                     data: $scope.riskOfPoverty
                 }]
