@@ -1,6 +1,5 @@
 /* global angular */
 /* global Materialize */
-/* global $ */
 /* global google */
 /* global Highcharts */
 
