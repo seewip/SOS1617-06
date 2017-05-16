@@ -141,9 +141,7 @@ app.get("/proxy/gdp", (req, res) => {
     request.end();
 });
 
-
-// Gdp-per-capita proxy -  G05 - Elections voting stats
-
+// Gdp-per-capita proxy -  G03 - Early school leavers
 app.get("/proxy/gdp-per-capita", (req, res) => {
     console.log("INFO: New GET request to /proxy/gdp-per-capita/");
     var http = require('http');
