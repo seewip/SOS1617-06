@@ -127,6 +127,11 @@ controller("EducationProxyGraphCtrl", ["$scope", "$http", "$rootScope", function
                             tooltip: {
                                 shared: true
                             },
+                            plotOptions: {
+                                column: {
+                                    stacking: 'normal'
+                                }
+                            },
                             series: []
                         };
                         
