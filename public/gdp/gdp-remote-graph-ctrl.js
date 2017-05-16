@@ -28,9 +28,9 @@ angular
                 $scope.gdp.push(Number($scope.data[i].gdp));
                 $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
                 $scope.gdp_deflator.push(Number($scope.data[i].gdp_deflator));
-                $scope.minimumSalary.push(null);
-                $scope.averageSalary.push(null);
-                $scope.riskOfPoverty.push(null);
+                // $scope.minimumSalary.push(null);
+                // $scope.averageSalary.push(null);
+                // $scope.riskOfPoverty.push(null);
                 
                 console.log($scope.data[i].country);
             }
@@ -43,24 +43,24 @@ angular
             
             for(var i=0; i<response.data.length; i++){
                 
-                if($scope.country.indexOf(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year)==-1){
-                    $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
-                    $scope.year.push(null);
-                    $scope.gdp.push(null);
-                    $scope.gdp_growth.push(null);
-                    $scope.gdp_deflator.push(null);
+                // if($scope.country.indexOf(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year)==-1){
+                //     // $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                //     // $scope.year.push(null);
+                //     // $scope.gdp.push(null);
+                //     // $scope.gdp_growth.push(null);
+                //     // $scope.gdp_deflator.push(null);
                     $scope.minimumSalary.push(Number($scope.data[i].minimumSalary));
                     $scope.averageSalary.push(Number($scope.data[i].averageSalary));
                     $scope.riskOfPoverty.push(Number($scope.data[i].riskOfPoverty));
                 
                     console.log($scope.data[i].country);
                     
-                }else{
-                    var index = $scope.country.indexOf(capitalizeFirstLetter(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year));
-                    $scope.minimumSalary.push(index,1,Number($scope.data[i].minimumSalary));
-                    $scope.averageSalary.push(index,1,Number($scope.data[i].averageSalary));
-                    $scope.riskOfPoverty.push(index,1,Number($scope.data[i].riskOfPoverty));
-                }
+                // }else{
+                //     var index = $scope.country.indexOf(capitalizeFirstLetter(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year));
+                //     $scope.minimumSalary.push(index,1,Number($scope.data[i].minimumSalary));
+                //     $scope.averageSalary.push(index,1,Number($scope.data[i].averageSalary));
+                //     $scope.riskOfPoverty.push(index,1,Number($scope.data[i].riskOfPoverty));
+                // }
             }
         });
             
