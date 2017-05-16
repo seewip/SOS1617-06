@@ -110,6 +110,7 @@ app.get("/proxy/education", (req, res) => {
 });
 
 // Gdp proxy -G04 - PRICE OF OLIVE OIL INN ANDALUSSIAN
+
 app.get("/proxy/gdp", (req, res) => {
     console.log("INFO: New GET request to /proxy/gdp/");
     var http = require('http');
