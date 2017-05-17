@@ -77,7 +77,7 @@ app.use("/api/v1/tests", express.static(path.join(__dirname, "public/tests.html"
 
 //==========================================PROXY============================================================//
 
-// Education proxy - G01 - The level of start-ups
+// Education proxy - G04 - Import and export statistics of olive oil
 
 app.get("/proxy/education", (req, res) => {
     console.log("INFO: New GET request to /proxy/education/");
