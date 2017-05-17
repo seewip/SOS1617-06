@@ -6,6 +6,8 @@ angular.module("DataManagementApp").
 controller("EducationProxyGraphCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {
     console.log("Controller initialized (EducationProxyGraphCtrl)");
 
+    $scope.loading = true;
+
     if (!$rootScope.apikey) $rootScope.apikey = "secret";
 
     $scope.refresh = function() {
@@ -134,15 +136,17 @@ controller("EducationProxyGraphCtrl", ["$scope", "$http", "$rootScope", function
                             },
                             series: []
                         };
-                        
+
                         hc.xAxis.categories = years;
                         hc.series = countriesData.concat(provincesDataForeign);
 
                         Highcharts.chart('hc_column', hc);
-
+                        
+                        $scope.loading = false;
                     });
 
             }, function(response) {
+                $scope.loading = false;
                 switch (response.status) {
                     case 401:
                         Materialize.toast('<i class="material-icons">error_outline</i> Error getting data - api key missing!', 4000);
