@@ -263,6 +263,9 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
         var newCountry = request.body;
         var nameParam = request.params.country;
         var yearParam = request.params.year;
+        
+        //A
+        console.log("A");
         if (!newCountry) {
             console.log("WARNING: New PUT request to /gdp/ without country, sending 400...");
             response.sendStatus(400); // bad request
@@ -273,6 +276,8 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
                 isNaN(newCountry["year"]) || isNaN(newCountry["gdp"]) || isNaN(newCountry["gdp_growth"]) || isNaN(newCountry["gdp_deflator"])) {
                 console.log("WARNING: The country " + JSON.stringify(newCountry, 2, null) + " is not well-formed, sending 400...");
                 response.sendStatus(400); // unprocessable entity
+                //B
+                console.log("B");
             }
             else {
                 
@@ -286,6 +291,8 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
                     year: Number(yearParam)
                 }).toArray(function(err, countries) {
                     if (err) {
+                        //C
+                        console.log("C");
                         console.error('WARNING: Error getting data from DB');
                         response.sendStatus(500); // internal server error
                     }
@@ -293,6 +300,8 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
                         //console.log("Matching contries: " + JSON.stringify(countries, null, 2));
                         //console.log("Replace with: " + JSON.stringify(newCountry, null, 2));
                         if (countries.length > 0) {
+                            //D
+                            console.log("D");
                             dbCle.update({
                                 country: nameParam,
                                 year: Number(yearParam)
@@ -308,6 +317,8 @@ exports.register = function(app, dbCle, BASE_API_PATH, checkApiKeyFunction) {
                 });
             }
         }
+        console.log("E");
+        //E
     });
 
 

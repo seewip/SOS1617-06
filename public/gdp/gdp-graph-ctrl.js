@@ -7,6 +7,8 @@ angular
     .module("DataManagementApp")
     .controller("GdpGraphCtrl",["$scope","$http",function ($scope, $http){
         
+        
+        //A
         $scope.apikey = "secret";
         $scope.data = {};
         var dataCache = {};
@@ -39,7 +41,7 @@ angular
         console.log("Controller initialized");
         
         $http.get("/api/v1/gdp/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
-            
+           //B 
             
             Highcharts.chart('container',{
                 title: {
@@ -91,8 +93,9 @@ angular
                     mapsApiKey: "AIzaSyBAtQCZMy-Z9ssoeQh-yloj-3PArIDfgjE"
                 });
                 google.charts.setOnLoadCallback(drawRegionsMap);
-
+                //C
                 function drawRegionsMap() {
+                    //D
                     var chartData = [
                         ['country', 'gdp', 'year']
                     ];
@@ -137,7 +140,7 @@ angular
                     dashboard.bind(yearSelector, chart);
                     dashboard.draw(data, options);
                 }
-            
+            //E
          //ZingChart
             var myConfig = {
                 "type": "line",
@@ -306,6 +309,7 @@ angular
                 width: '95%'
             });
             
-
+                //F
              });
+    //G
     }]);
