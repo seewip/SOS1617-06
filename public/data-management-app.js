@@ -9,6 +9,12 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
         .when("/about", {
             templateUrl: "about.html"
         })
+        .when("/governance", {
+            templateUrl: "governance.html"
+        })
+        .when("/about", {
+            templateUrl: "integrations.html"
+        })
 
     .when("/gdp", {
             templateUrl: "gdp/list.html",
