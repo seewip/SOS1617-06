@@ -53,6 +53,7 @@ var options = {
         term: 'RequestTerm',
         metric: 'Requests',
         calculate: function(currentValue, req, res, callback) {
+            /* global actualValue*/
             //asyncronousCalculation
             callback(parseInt(actualValue) + 1);
         }
