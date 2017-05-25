@@ -4,10 +4,11 @@ var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
 var cors = require('cors');
-var governify=require('governify');
+var governify = require('governify');
 var publicFolder = path.join(__dirname, '/public');
 
-var educationAPI = require('./api/v1/education.js');
+var educationAPIv1 = require('./api/v1/education.js');
+var educationAPIv2 = require('./api/v2/education.js');
 
 var gdp = require('./api/v1/gdp.js');
 
@@ -19,7 +20,8 @@ var MongoClient = require('mongodb').MongoClient;
 var mdbURL = "mongodb://crileaech:admin@ds133260.mlab.com:33260/sos1617-06-cle-sandbox";
 
 var port = (process.env.PORT || 10000);
-var BASE_API_PATH = "/api/v1";
+var BASE_API_PATH_V1 = "/api/v1";
+var BASE_API_PATH_V2 = "/api/v2";
 var dbCle;
 var dbJf;
 var dbMd;
@@ -58,11 +60,12 @@ MongoClient.connect(mdbURL, {
     dbJf = database.collection("gdp-per-capita");
     dbMd = database.collection("education");
 
-    educationAPI.register(app, dbMd, BASE_API_PATH, checkApiKeyFunction);
+    educationAPIv1.register(app, dbMd, BASE_API_PATH_V1, checkApiKeyFunction);
+    educationAPIv2.register(app, dbMd, BASE_API_PATH_V2, checkApiKeyFunction);
 
-    gdp.register(app, dbCle, BASE_API_PATH, checkApiKeyFunction);
+    gdp.register(app, dbCle, BASE_API_PATH_V1, checkApiKeyFunction);
 
-    gdp_per_capitaAPI.register(app, dbJf, BASE_API_PATH, checkApiKeyFunction);
+    gdp_per_capitaAPI.register(app, dbJf, BASE_API_PATH_V1, checkApiKeyFunction);
 
     app.listen(port, () => {
         console.log("Web server is listening on port " + port);
