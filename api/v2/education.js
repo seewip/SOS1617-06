@@ -60,9 +60,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
     // GET a collection
     app.get(BASE_API_PATH + "/education", function(request, response) {
         console.log("INFO: New GET request to /education");
-        if (!checkApiKeyFunction(request, response)) {
-            return;
-        }
+        // if (!checkApiKeyFunction(request, response)) return;
         var query = insertSearchFields(request, {});
         dbMd.find(query).toArray(function(err, education) {
             if (err) {
@@ -84,7 +82,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     // GET a single resource - country/year
     app.get(BASE_API_PATH + "/education/:country", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         var queryName = insertSearchFields(request, {
             country: name
@@ -151,7 +149,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     // GET a single resource country + year
     app.get(BASE_API_PATH + "/education/:country/:year", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         var year = request.params.year;
         var query = insertSearchFields(request, {
@@ -186,7 +184,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     //POST over a collection
     app.post(BASE_API_PATH + "/education", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var newCountry = request.body;
         if (!newCountry) {
             console.log("WARNING: New POST request to /education/ without country, sending 400...");
@@ -238,7 +236,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     //POST over a single resource
     app.post(BASE_API_PATH + "/education/:country", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         console.log("WARNING: New POST request to /education/" + name + ", sending 405...");
         response.sendStatus(405); // method not allowed
@@ -247,7 +245,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     //PUT over a collection
     app.put(BASE_API_PATH + "/education", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         console.log("WARNING: New PUT request to /education, sending 405...");
         response.sendStatus(405); // method not allowed
     });
@@ -256,7 +254,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
     //PUT over a single resource
     app.put(BASE_API_PATH + "/education/:country/:year", function(request, response) {
         //console.log("BODY: " + JSON.stringify(request.body, null, 2));
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var newCountry = request.body;
         var nameParam = request.params.country;
         var yearParam = request.params.year;
@@ -310,7 +308,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     //DELETE over a collection
     app.delete(BASE_API_PATH + "/education", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         console.log("INFO: New DELETE request to /education");
         dbMd.remove({}, {
             justOne: false
@@ -335,7 +333,7 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     //DELETE over a single resource
     app.delete(BASE_API_PATH + "/education/:country/:year", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         var year = request.params.year;
         if (!name || !year) {
@@ -372,5 +370,5 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
     });
 
 
-    console.log("Education data REST API registered successfully");
+    console.log("Education data REST API v2 registered successfully");
 };
