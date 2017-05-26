@@ -4,7 +4,6 @@ var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
 var cors = require('cors');
-var governify = require('governify');
 var publicFolder = path.join(__dirname, '/public');
 
 var educationAPIv1 = require('./api/v1/education.js');
@@ -42,31 +41,6 @@ var checkApiKeyFunction = function(request, response) {
     }
     return true;
 };
-
-var options = {
-    datastore: "http://datastore.governify.io/api/v6.1",
-    namespace: "default",
-    apiKeyVariable: "apikey",
-    defaultPath: "/api/v2",
-    customMetrics: [{
-        method: 'POST,GET,PUT,DELETE',
-        term: 'RequestTerm',
-        metric: 'Requests',
-        calculate: function(currentValue, req, res, callback) {
-            /* global actualValue*/
-            //asyncronousCalculation
-            callback(parseInt(actualValue) + 1);
-        }
-    }, {
-        metric: 'AVGResponseTime',
-        calculate: function(currentValue, req, res, callback) {
-            //asyncronousCalculation
-            callback(res._headers['x-response-time']);
-        }
-    }]
-};
-
-governify.control(app, options);
 
 app.use(bodyParser.json());
 app.use(helmet());
