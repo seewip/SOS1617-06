@@ -36,6 +36,10 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "gdp/proxyGraph.html",
             controller: "GdpProxyGraphCtrl"
         })
+        .when("/gdp/proxyGraph", {
+            templateUrl: "gdp/proxyGoogleMaps.html",
+            controller: "GdpProxyGraphGoogleCtrl"
+        })
 
     .when("/education", {
             templateUrl: "education/list.html",
