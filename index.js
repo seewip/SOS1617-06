@@ -4,13 +4,13 @@ var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
 var cors = require('cors');
-var governify = require('governify');
 var publicFolder = path.join(__dirname, '/public');
 
 var educationAPIv1 = require('./api/v1/education.js');
 var educationAPIv2 = require('./api/v2/education.js');
 
-var gdp = require('./api/v1/gdp.js');
+var gdpV1 = require('./api/v1/gdp.js');
+var gdpV2 = require('./api/v2/gdp.js');
 
 var gdp_per_capitaAPIv1 = require('./api/v1/gdp-per-capita.js');
 var gdp_per_capitaAPIv2 = require('./api/v2/gdp-per-capita.js');
@@ -44,31 +44,6 @@ var checkApiKeyFunction = function(request, response) {
     return true;
 };
 
-var options = {
-    datastore: "http://datastore.governify.io/api/v6.1",
-    namespace: "default",
-    apiKeyVariable: "apikey",
-    defaultPath: "/api/v2",
-    customMetrics: [{
-        method: 'POST,GET,PUT,DELETE',
-        term: 'RequestTerm',
-        metric: 'Requests',
-        calculate: function(currentValue, req, res, callback) {
-            /* global actualValue*/
-            //asyncronousCalculation
-            callback(parseInt(actualValue) + 1);
-        }
-    }, {
-        metric: 'AVGResponseTime',
-        calculate: function(currentValue, req, res, callback) {
-            //asyncronousCalculation
-            callback(res._headers['x-response-time']);
-        }
-    }]
-};
-
-governify.control(app, options);
-
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
@@ -89,7 +64,8 @@ MongoClient.connect(mdbURL, {
     educationAPIv1.register(app, dbMd, BASE_API_PATH_V1, checkApiKeyFunction);
     educationAPIv2.register(app, dbMd, BASE_API_PATH_V2, checkApiKeyFunction);
 
-    gdp.register(app, dbCle, BASE_API_PATH_V1, checkApiKeyFunction);
+    gdpV1.register(app, dbCle, BASE_API_PATH_V1, checkApiKeyFunction);
+    gdpV2.register(app, dbCle, BASE_API_PATH_V2, checkApiKeyFunction);
 
     gdp_per_capitaAPIv1.register(app, dbJf, BASE_API_PATH_V1, checkApiKeyFunction);
     gdp_per_capitaAPIv2.register(app, dbJf, BASE_API_PATH_V2, checkApiKeyFunction);
