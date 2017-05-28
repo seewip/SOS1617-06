@@ -6,8 +6,6 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
 
     var insertSearchFields = function(request, query) {
         var q;
-       // if (request.query[q = "country"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
-       // if (request.query[q = "year"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
         if (request.query[q = "gdp-per-capita-growth"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
         if (request.query[q = "gdp-per-capita"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
         if (request.query[q = "gdp-per-capita-ppp"] && !isNaN(request.query[q])) query[q] = Number(request.query[q]);
@@ -382,5 +380,5 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
             }
         });
     });
-    console.log("Gdp-per-capita data REST API v1 registered succesfully");
+    console.log("Gdp-per-capita data REST API v2 registered succesfully");
 };

@@ -12,7 +12,8 @@ var educationAPIv2 = require('./api/v2/education.js');
 
 var gdp = require('./api/v1/gdp.js');
 
-var gdp_per_capitaAPI = require('./api/v1/gdp-per-capita.js');
+var gdp_per_capitaAPIv1 = require('./api/v1/gdp-per-capita.js');
+var gdp_per_capitaAPIv2 = require('./api/v2/gdp-per-capita.js');
 
 var app = express();
 
@@ -90,7 +91,8 @@ MongoClient.connect(mdbURL, {
 
     gdp.register(app, dbCle, BASE_API_PATH_V1, checkApiKeyFunction);
 
-    gdp_per_capitaAPI.register(app, dbJf, BASE_API_PATH_V1, checkApiKeyFunction);
+    gdp_per_capitaAPIv1.register(app, dbJf, BASE_API_PATH_V1, checkApiKeyFunction);
+    gdp_per_capitaAPIv2.register(app, dbJf, BASE_API_PATH_V2, checkApiKeyFunction);
 
     app.listen(port, () => {
         console.log("Web server is listening on port " + port);
