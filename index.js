@@ -9,7 +9,8 @@ var publicFolder = path.join(__dirname, '/public');
 var educationAPIv1 = require('./api/v1/education.js');
 var educationAPIv2 = require('./api/v2/education.js');
 
-var gdp = require('./api/v1/gdp.js');
+var gdpV1 = require('./api/v1/gdp.js');
+var gdpV2 = require('./api/v2/gdp.js');
 
 var gdp_per_capitaAPI = require('./api/v1/gdp-per-capita.js');
 
@@ -62,7 +63,8 @@ MongoClient.connect(mdbURL, {
     educationAPIv1.register(app, dbMd, BASE_API_PATH_V1, checkApiKeyFunction);
     educationAPIv2.register(app, dbMd, BASE_API_PATH_V2, checkApiKeyFunction);
 
-    gdp.register(app, dbCle, BASE_API_PATH_V1, checkApiKeyFunction);
+    gdpV1.register(app, dbCle, BASE_API_PATH_V1, checkApiKeyFunction);
+    gdpV2.register(app, dbCle, BASE_API_PATH_V2, checkApiKeyFunction);
 
     gdp_per_capitaAPI.register(app, dbJf, BASE_API_PATH_V1, checkApiKeyFunction);
 
