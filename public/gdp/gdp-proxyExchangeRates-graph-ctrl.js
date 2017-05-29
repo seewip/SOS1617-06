@@ -6,22 +6,24 @@
 
 angular
     .module("DataManagementApp")
-    .controller("GdpProxyGraphGoogleCtrl", ["$scope", "$http", function($scope, $http) {
+    .controller("GdpProxyExchangeRatesCtrl", ["$scope", "$http", function($scope, $http) {
 
-        console.log("GdpProxyGraphGoogleCtrl");
+        console.log("GdpProxyExchangeRatesCtrl");
 
         $scope.apikey = "secret";
         $scope.data = {};
+        $scope.data1 = {};
         var dataCache = {};
+        var dataCache1 = {};
         $scope.country = [];
         $scope.year = [];
         $scope.gdp = [];
         $scope.gdp_growth = [];
         $scope.gdp_deflator = [];
-        $scope.province = [];
-        $scope.priceaceite = [];
-        $scope.pricevirgen = [];
-        $scope.priceextra = [];
+        $scope.timestamp= [];
+        $scope.source1 = [];
+        $scope.quotes = [];
+        $scope.privacy =[];
 
 
 
@@ -32,17 +34,19 @@ angular
 
 
         $http
-            .get("https://sos1617-04.herokuapp.com/api/v2/price-stats?apikey=12345")
+            .get("https://api.fixer.io/latest?symbols=USD,GBP")
             .then(function(response) {
+                console.log(response);
                 dataCache = response.data;
                 $scope.data = dataCache;
 
                 for (var i = 0; i < response.data.length; i++) {
                     $scope.country.push(capitalizeFirstLetter($scope.data[i].province) + " " + $scope.data[i].year);
                     $scope.year.push(($scope.data[i].year));
-                    $scope.priceaceite.push(Number($scope.data[i].priceaceite));
-                    $scope.pricevirgen.push(Number($scope.data[i].pricevirgen));
-                    $scope.priceextra.push(Number($scope.data[i].priceextra));
+                    $scope.privacy.push(Number($scope.data[i].priceaceite));
+                    $scope.timestamp.push(Number($scope.data[i].pricevirgen));
+                    $scope.source1.push(String($scope.data[i].priceextra));
+                    $scope.quotes.push(Number($scope.data[i].priceextra));
                     $scope.gdp.push(null);
                     $scope.gdp_growth.push(null);
                     $scope.gdp_deflator.push(null);
@@ -55,31 +59,32 @@ angular
 
                 $http.get("/api/v1/gdp/" + "?" + "apikey=" + $scope.apikey).then(function(response) {
 
-                    dataCache = response.data;
-                    $scope.data = dataCache;
+                    dataCache1 = response.data;
+                    $scope.data1 = dataCache1;
 
                     for (var i = 0; i < response.data.length; i++) {
-                        $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                        $scope.country.push(capitalizeFirstLetter($scope.data1[i].country) + " " + $scope.data1[i].year);
                         //$scope.year.push(Number($scope.data[i].year));
-                        $scope.gdp.push(Number($scope.data[i].gdp));
-                        $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
-                        $scope.gdp_deflator.push(Number($scope.data[i].gdp_deflator));
-                        $scope.priceaceite.push(null);
-                        $scope.priceextra.push(null);
-                        $scope.pricevirgen.push(null);
+                        $scope.gdp.push(Number($scope.data1[i].gdp));
+                        $scope.gdp_growth.push(Number($scope.data1[i].gdp_growth));
+                        $scope.gdp_deflator.push(Number($scope.data1[i].gdp_deflator));
+                        $scope.privacy.push(null);
+                        $scope.timestamp.push(null);
+                        $scope.source1.push(null);
+                        $scope.quotes.push(null);
 
-                        console.log($scope.data[i].country);
+                        console.log($scope.data1[i].country);
                     }
                     Highcharts.chart('container', {
     title: {
-        text: 'Chart Generated with Integration of Google Maps Api'
+        text: 'Chart Generated with Integration of Exange Rates'
     },
     xAxis: {
         categories: $scope.country
     },
     labels: {
         items: [{
-            html: 'Total Gdp consumption Showing in Map',
+            html: 'Total Gdp consumption Showing with Exchange Rates',
             style: {
                 left: '50px',
                 top: '18px',
@@ -101,8 +106,8 @@ angular
         data: $scope.gdp_deflator
     }, {
         type: 'spline',
-        name: 'Integration with Google Maps Api',
-        data: $scope.priceaceite,
+        name: 'Integration with Exchange Rates Api',
+        data: [$scope.source1],
         marker: {
             lineWidth: 2,
             lineColor: Highcharts.getOptions().colors[3],
@@ -110,17 +115,17 @@ angular
         }
     }, {
         type: 'pie',
-        name: 'Total consumption',
+        name: 'Total consumption Between Gdp and Exchange Rates',
         data: [{
-            name: 'Jane',
+            name: 'Gdp',
             y: 13,
             color: Highcharts.getOptions().colors[0] // Jane's color
         }, {
-            name: 'John',
+            name: 'Coin',
             y: 23,
             color: Highcharts.getOptions().colors[1] // John's color
         }, {
-            name: 'Joe',
+            name: 'Country',
             y: 19,
             color: Highcharts.getOptions().colors[2] // Joe's color
         }],

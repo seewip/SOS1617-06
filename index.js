@@ -147,6 +147,38 @@ app.get("/proxy/gdp", (req, res) => {
     request.end();
 });
 
+// Gdp proxy External API - Exchange Rates
+
+app.get("/proxy/gdp", (req, res) => {
+    console.log("INFO: New GET request to /proxy/gdp/");
+    var http = require('http');
+
+    var options = {
+        host: 'api.fixer.io',
+        path: '/latest?symbols=USD,GBP'
+    };
+
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/gdp/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/gdp/ - ERROR TRYING TO ACCESS, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
+
 // Gdp-per-capita proxy -  G03 - Early school leavers
 app.get("/proxy/gdp-per-capita", (req, res) => {
     console.log("INFO: New GET request to /proxy/gdp-per-capita/");
