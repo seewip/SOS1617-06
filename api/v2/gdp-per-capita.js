@@ -66,9 +66,9 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
     app.get(BASE_API_PATH + "/gdp-per-capita", function(request, response) {
 
         console.log("INFO: New GET request to /gdp-per-capita");
-        if (!checkApiKeyFunction(request, response)) {
-            return;
-        }
+        // if (!checkApiKeyFunction(request, response)) {
+        //     return;
+        // }
         var query = insertSearchFields(request, {});
         dbJf.find(query).toArray(function(err, gdp_per_capita) {
             if (err) {
@@ -91,7 +91,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
     // GET a collection over a single resource - country/year
 
     app.get(BASE_API_PATH + "/gdp-per-capita/:country", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         var queryName = insertSearchFields(request, {
             country: name
@@ -159,7 +159,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
     //GET to specify resource
 
     app.get(BASE_API_PATH + "/gdp-per-capita/:country/:year", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         var year = request.params.year;
         var query = insertSearchFields(request, {
@@ -195,7 +195,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
     //POST a una colección
 
     app.post(BASE_API_PATH + "/gdp-per-capita", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var newGdpPerCapita = request.body;
         if (!newGdpPerCapita) {
             console.log("WARNING: New POST request to /gdp-per-capita/ without gdp-per-capita, sending 400...");
@@ -246,7 +246,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
     //Post a un recurso (PROHIBIDO)
 
     app.post(BASE_API_PATH + "/gdp-per-capita/:country", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+       // if (!checkApiKeyFunction(request, response)) return;
         var country = request.params.country;
         console.log("WARNING: New POST request to /country/" + country + ", sending 405...");
         response.sendStatus(405); // method not allowed
@@ -256,7 +256,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
 
     //Put a una coleccion (Prohibido)
     app.put(BASE_API_PATH + "/gdp-per-capita", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         console.log("WARNING: New PUT request to /gdp-per-capita, sending 405...");
         response.sendStatus(405); // method not allowed
     });
@@ -265,7 +265,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
     // Delete a un recurso concreto
 
     app.delete(BASE_API_PATH + "/gdp-per-capita/:country/:year", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var name = request.params.country;
         var year = request.params.year;
         if (!name || !year) {
@@ -305,7 +305,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
     //PUT sobre un recurso concreto
     app.put(BASE_API_PATH + "/gdp-per-capita/:country/:year", function(request, response) {
         console.log("BODY: " + JSON.stringify(request.body, null, 2));
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         var newGdpPerCapita = request.body;
         var nameParam = request.params.country;
         var yearParam = request.params.year;
@@ -359,7 +359,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
 
     //DELETE a una coleccion
     app.delete(BASE_API_PATH + "/gdp-per-capita", function(request, response) {
-        if (!checkApiKeyFunction(request, response)) return;
+        //if (!checkApiKeyFunction(request, response)) return;
         console.log("INFO: New DELETE request to /gdp-per-capita");
         dbJf.remove({}, {
             justOne: false
