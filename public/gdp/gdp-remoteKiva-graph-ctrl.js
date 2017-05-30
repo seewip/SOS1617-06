@@ -13,7 +13,6 @@ angular
         $scope.gdp_growth = [];
         $scope.gdp_deflator = [];
       
-        
         $scope.lender_id= [];
         $scope.name = [];
         $scope.uid = [];

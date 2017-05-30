@@ -5,39 +5,46 @@
 
 angular
     .module("DataManagementApp")
-    .controller("GdpProxyGraphCtrl", ["$scope", "$http", function($scope, $http) {
+    .controller("GdpProxyRestCountriesCtrl", ["$scope", "$http","$rootScope", function($scope, $http,$rootScope) {
 
-        console.log("GdpProxyGraphCtrl");
+        console.log("GdpProxyRestCountriesCtrl");
 
         $scope.apikey = "secret";
         $scope.data = {};
         var dataCache = {};
+        $scope.data1 = {};
+        var dataCache1 = {};
         $scope.country = [];
         $scope.year = [];
         $scope.gdp = [];
         $scope.gdp_growth = [];
         $scope.gdp_deflator = [];
-        $scope.province = [];
-        $scope.priceaceite = [];
-        $scope.pricevirgen = [];
-        $scope.priceextra = [];
+        $scope.name = [];
+        $scope.region = [];
+        $scope.capital = [];
+        $scope.currencies = [];
 
-        // function capitalizeFirstLetter(string) {
-        //     return string.charAt(0).toUpperCase() + string.slice(1);
-        // }
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+
 
         $http
-            .get("https://sos1617-04.herokuapp.com/api/v3/price-stats")
+            .get("https://restcountries.eu/rest/v2/name/spain")
             .then(function(response) {
                 dataCache = response.data;
                 $scope.data = dataCache;
-
+                
+                console.log(response);
+                
                 for (var i = 0; i < response.data.length; i++) {
-                    //$scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                    $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
                     $scope.year.push(($scope.data[i].year));
-                    $scope.priceaceite.push(Number($scope.data[i].priceaceite));
-                    $scope.pricevirgen.push(Number($scope.data[i].pricevirgen));
-                    $scope.priceextra.push(Number($scope.data[i].priceextra));
+                    $scope.name.push(Number($scope.data[i].name));
+                    $scope.region.push(Number($scope.data[i].region));
+                    $scope.capital.push(Number($scope.data[i].capital));
+                    $scope.currencies.push(Number($scope.data[i].currencies));
                     $scope.gdp.push(null);
                     $scope.gdp_growth.push(null);
                     $scope.gdp_deflator.push(null);
@@ -50,27 +57,28 @@ angular
 
                 $http.get("/api/v1/gdp/" + "?" + "apikey=" + $scope.apikey).then(function(response) {
 
-                    dataCache = response.data;
-                    $scope.data = dataCache;
+                    dataCache1 = response.data;
+                    $scope.data1 = dataCache1;
 
                     for (var i = 0; i < response.data.length; i++) {
-                       // $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                        $scope.country.push(capitalizeFirstLetter($scope.data1[i].country) + " " + $scope.data1[i].year);
                         //$scope.year.push(Number($scope.data[i].year));
-                        $scope.gdp.push(Number($scope.data[i].gdp));
-                        $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
-                        $scope.gdp_deflator.push(Number($scope.data[i].gdp_deflator));
-                        $scope.priceaceite.push(null);
-                        $scope.priceextra.push(null);
-                        $scope.pricevirgen.push(null);
+                        $scope.gdp.push(Number($scope.data1[i].gdp));
+                        $scope.gdp_growth.push(Number($scope.data1[i].gdp_growth));
+                        $scope.gdp_deflator.push(Number($scope.data1[i].gdp_deflator));
+                        $scope.name.push(null);
+                        $scope.region.push(null);
+                        $scope.capital.push(null);
+                        $scope.currencies.push(null);
 
-                        console.log($scope.data[i].country);
+                        console.log($scope.data1[i].country);
                     }
                     Highcharts.chart('container', {
                         title: {
                             text: 'Highcharts'
                         },
                         chart: {
-                            type: 'area'
+                            type: 'spline'
                         },
                         xAxis: {
                             categories: $scope.country
@@ -88,7 +96,7 @@ angular
                         tooltip: {
                             formatter: function() {
                                 return '<b>' + this.series.name + '</b><br/>' +
-                                + ': ' + this.y;
+                                    capitalizeFirstLetter(this.x) + ': ' + this.y;
                             }
                         },
                         series: [{
@@ -104,8 +112,8 @@ angular
                             name: 'Gdp_Deflator',
                             data: $scope.gdp_deflator
                         }, {
-                            name: 'Integration with G04 Price of Olive oil in Andalussian',
-                            data: $scope.priceaceite
+                            name: 'Integration with RestCountries',
+                            data: $scope.name
                         }]
 
 

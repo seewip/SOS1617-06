@@ -27,18 +27,10 @@ angular
         $scope.date = ["2017-05-29"];
         $scope.rates = [{"": 0.0}];
     
-   
-        
-
-
-
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
         }
         
-        
-
-
 
         $http
             .get("https://api.fixer.io/latest")

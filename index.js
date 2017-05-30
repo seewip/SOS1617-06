@@ -123,7 +123,7 @@ app.get("/proxy/gdp", (req, res) => {
 
     var options = {
         host: 'sos1617-04.herokuapp.com',
-        path: '/api/v2/price-stats?apikey=12345'
+        path: '/api/v3/price-stats'
     };
 
     var request = http.request(options, (response) => {
@@ -156,6 +156,38 @@ app.get("/proxy/gdp", (req, res) => {
     var options = {
         host: 'api.fixer.io',
         path: '/latest'
+    };
+
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/gdp/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/gdp/ - ERROR TRYING TO ACCESS, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
+
+// Gdp proxy External API - Rest Countries
+
+app.get("/proxy/gdp", (req, res) => {
+    console.log("INFO: New GET request to /proxy/gdp/");
+    var http = require('https');
+
+    var options = {
+        host: 'restcountries.eu',
+        path: '/rest/v2/name/spain'
     };
 
     var request = http.request(options, (response) => {
