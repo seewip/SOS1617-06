@@ -65,6 +65,7 @@ angular
 
                         console.log($scope.data[i].country);
                     }
+                    console.log(JSON.stringify($scope.priceaceite, null, 2));
                     Highcharts.chart('container', {
                         title: {
                             text: 'Highcharts'
@@ -87,8 +88,7 @@ angular
                         },
                         tooltip: {
                             formatter: function() {
-                                return '<b>' + this.series.name + '</b><br/>' +
-                                + ': ' + this.y;
+                                return '<b>' + this.series.name + '</b><br/>' + ': ' + this.y;
                             }
                         },
                         series: [{
