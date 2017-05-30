@@ -151,7 +151,7 @@ app.get("/proxy/gdp", (req, res) => {
 
 app.get("/proxy/gdp", (req, res) => {
     console.log("INFO: New GET request to /proxy/gdp/");
-    var http = require('http');
+    var http = require('https');
 
     var options = {
         host: 'api.fixer.io',

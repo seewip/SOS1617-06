@@ -36,6 +36,10 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "gdp/remoteUnemployment.html",
             controller: "GdpRemoteUnemploymentGraphCtrl"
         })
+        .when("/gdp/remoteKiva", {
+            templateUrl: "gdp/remoteKiva.html",
+            controller: "GdpRemoteKivaGraphCtrl"
+        })
         .when("/gdp/proxyGraph", {
             templateUrl: "gdp/proxyGraph.html",
             controller: "GdpProxyGraphCtrl"
