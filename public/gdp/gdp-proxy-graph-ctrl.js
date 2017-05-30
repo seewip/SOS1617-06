@@ -88,8 +88,10 @@ angular
                         },
                         tooltip: {
                             formatter: function() {
+
                                 return '<b>' + this.series.name + '</b><br/>' +
                                     capitalizeFirstLetter(this.x) + ': ' + this.y;
+
                             }
                         },
                         series: [{
