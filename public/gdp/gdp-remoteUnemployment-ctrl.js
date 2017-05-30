@@ -7,7 +7,7 @@ angular
         $scope.apikey = "secret";
         $scope.data = {};
         var dataCache = {};
-        var dataCache1 = {};
+        
         $scope.country = [];
         $scope.year = [];
         $scope.gdp = [];
@@ -51,16 +51,16 @@ angular
             }
             $http.get("/api/v1/gdp/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
-                dataCache1 = response.data;
-                $scope.data1 = dataCache1;
+                dataCache = response.data;
+                $scope.data = dataCache;
                 console.log(response);
                 for(var i=0; i<response.data.length; i++){
-                    $scope.country.push(capitalizeFirstLetter($scope.data1[i].country) + " " + $scope.data1[i].year);
-                    $scope.year.push(Number($scope.data1[i].year));
-                    $scope.gdp.push(Number($scope.data1[i].gdp));
-                    $scope.gdp_growth.push(Number($scope.data1[i].gdp_growth));
+                    $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                    $scope.year.push(Number($scope.data[i].year));
+                    $scope.gdp.push(Number($scope.data[i].gdp));
+                    $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
 
-                    console.log($scope.data1[i].country);            
+                    console.log($scope.data[i].country);            
                 
                 
             }console.log("Controller initialized (GdpRemoteUnemploymentGraphCtrl)");
@@ -68,78 +68,67 @@ angular
     
                 
                 Highcharts.chart('container', {
-                chart: {
-                    type: 'spline'
-                },
-                title: {
-                    text: 'Highcharts'
-                },
-                subtitle: {
-                    text: 'Source: INE - WORK STATUS'
-                },
-                xAxis: {
-                    categories: $scope.country
-                },
-                yAxis: {
-                    title: {
-                        text: 'Values'
-                    },
-                    labels: {
-                        formatter: function () {
-                            return this.value + '%';
-                        }
-                    }
-                },
-                tooltip: {
-                    crosshairs: true,
-                    shared: true
-                },
-                plotOptions: {
-                    spline: {
-                        marker: {
-                            radius: 4,
-                            lineColor: '#666666',
-                            lineWidth: 1
-                        },
-                        dataLabels: {
-                            enabled: true
-                        }
-                    },
-                    series: {
-                        connectNulls: true
-                    }
-                },
-                series:[{
-                    name: 'Year',
-                    
-                    data: $scope.year
-                }, {
-                    name: 'Gdp',
-                   
-                    data: $scope.gdp
-                }, {
-                    name: 'Gdp_Growth',
-                    
-                    data: $scope.gdp_growth
-                }, {
-                    name: 'Gdp_Deflator',
-                    
-                    data: $scope.gdp_deflator
-                },{
-                    type: 'area',
-                    name: 'Fecha',
-                    data: $scope.Fecha
-                },{
-                    type:'area',
-                    name: 'Tipo',
-                    data: $scope.FK_TipoDato
-                },{
-                    type: 'area',
-                    name: 'Dato',
-                    data: $scope.FK_TipoDato
-                }]
-                
-            });
+    chart: {
+        type: 'area'
+    },
+    title: {
+        text: 'Gdp and Unemployment by country'
+    },
+    subtitle: {
+        text: 'Source: servicios.ine.es'
+    },
+    xAxis: {
+        categories: [$scope.country],
+        tickmarkPlacement: 'on',
+        title: {
+            enabled: false
+        }
+    },
+    yAxis: {
+        title: {
+            text: 'Billions'
+        },
+        labels: {
+            formatter: function () {
+            return '<b>' + this.x + '</b><br/>' +
+               capitalizeFirstLetter( this.series.name )+ ': ' + this.y + '<br/>' +
+                'Total: ' + this.point.stackTotal;
+        
+            }
+        }
+    },
+    tooltip: {
+        split: true,
+        valueSuffix: ' millions'
+    },
+    plotOptions: {
+        area: {
+            stacking: 'normal',
+            lineColor: '#666666',
+            lineWidth: 1,
+            marker: {
+                lineWidth: 1,
+                lineColor: '#666666'
+            }
+        }
+    },
+    series: [{
+        name: 'Gdp',
+        data: [$scope.gdp]
+    }, {
+        name: 'Gdp_Growth',
+        data: [$scope.gdp_growth]
+    }, {
+        name: 'Gdp_Deflator',
+        data: [$scope.gdp_deflator]
+    }, {
+        name: 'Nombre',
+        data: [$scope.Nombre]
+    }, {
+        name: 'Id',
+        data: [$scope.Id]
+    }]
+});
             
         });
     });    

@@ -48,7 +48,7 @@ angular
                 $scope.data = dataCache;
             
                 for(var i=0; i<response.data.length; i++){
-                    $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                    $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " +Number($scope.data[i].year) );
                     $scope.year.push(Number($scope.data[i].year));
                     $scope.gdp.push(Number($scope.data[i].gdp));
                     $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
@@ -56,7 +56,7 @@ angular
             
                 
                 
-            }console.log("Controller initialized (GdpRemoteGraphCtrl)");
+            }console.log("Controller initialized (GdpRemoteKivaGraphCtrl)");
         
                 
                 Highcharts.chart('container', {
@@ -70,7 +70,7 @@ angular
     },
 
     xAxis: {
-        categories: [$scope.country]
+        categories: $scope.country
     },
 
     yAxis: {
@@ -84,7 +84,7 @@ angular
     tooltip: {
         formatter: function () {
             return '<b>' + this.x + '</b><br/>' +
-                this.series.name + ': ' + this.y + '<br/>' +
+               capitalizeFirstLetter( this.series.name )+ ': ' + this.y + '<br/>' +
                 'Total: ' + this.point.stackTotal;
         }
     },

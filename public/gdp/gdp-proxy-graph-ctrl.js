@@ -22,9 +22,9 @@ angular
         $scope.pricevirgen = [];
         $scope.priceextra = [];
 
-        // function capitalizeFirstLetter(string) {
-        //     return string.charAt(0).toUpperCase() + string.slice(1);
-        // }
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
 
         $http
             .get("https://sos1617-04.herokuapp.com/api/v3/price-stats")
@@ -33,7 +33,7 @@ angular
                 $scope.data = dataCache;
 
                 for (var i = 0; i < response.data.length; i++) {
-                    //$scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                    $scope.country.push(capitalizeFirstLetter($scope.data[i].province )+ " " + $scope.data[i].year);
                     $scope.year.push(($scope.data[i].year));
                     $scope.priceaceite.push(Number($scope.data[i].priceaceite));
                     $scope.pricevirgen.push(Number($scope.data[i].pricevirgen));
@@ -46,7 +46,7 @@ angular
                     //console.log(JSON.stringify($scope.priceaceite, null, 2));
 
                 }
-                console.log(JSON.stringify($scope.country, null, 2));
+                console.log(JSON.stringify($scope.province, null, 2));
 
                 $http.get("/api/v1/gdp/" + "?" + "apikey=" + $scope.apikey).then(function(response) {
 
@@ -54,7 +54,7 @@ angular
                     $scope.data = dataCache;
 
                     for (var i = 0; i < response.data.length; i++) {
-                       // $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                       $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
                         //$scope.year.push(Number($scope.data[i].year));
                         $scope.gdp.push(Number($scope.data[i].gdp));
                         $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
@@ -65,6 +65,7 @@ angular
 
                         console.log($scope.data[i].country);
                     }
+                    console.log(JSON.stringify($scope.priceaceite, null, 2));
                     Highcharts.chart('container', {
                         title: {
                             text: 'Highcharts'
@@ -88,7 +89,7 @@ angular
                         tooltip: {
                             formatter: function() {
                                 return '<b>' + this.series.name + '</b><br/>' +
-                                + ': ' + this.y;
+                                    capitalizeFirstLetter(this.x) + ': ' + this.y;
                             }
                         },
                         series: [{
