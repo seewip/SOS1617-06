@@ -155,7 +155,7 @@ app.get("/proxy/gdp", (req, res) => {
 
     var options = {
         host: 'api.fixer.io',
-        path: '/latest?symbols=USD,GBP'
+        path: '/latest'
     };
 
     var request = http.request(options, (response) => {
