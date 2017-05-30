@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>Chart using external API with OAuth</h1>
+    <h2>Facebook Graph API</h2>
+    <b>In order to use this API you need to go to <a href="https://developers.facebook.com/tools/explorer">Graph API Explorer</a>, log into facebook, click Get Token, select user_likes permission and click on Get Access Token. Next, copy the generated token into the field below and press Load.</b>
+    <input type="text" ng-model="OAuthToken">
+    <button class="btn waves-effect waves-light" type="button" ng-click="refresh(OAuthToken)">Load</button>
+    <div class="center-align" ng-show="loading">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="hc_column" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    </br>
+</div>

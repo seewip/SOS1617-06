@@ -61,8 +61,12 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "education/proxyGraph.html",
             controller: "EducationProxyGraphCtrl"
         })
+        .when("/education/externalFacebookGraph", {
+            templateUrl: "education/externalFacebookGraph.html",
+            controller: "EducationExternalFacebookGraphCtrl"
+        })
 
-    .when("/gdp-per-capita", {
+        .when("/gdp-per-capita", {
             templateUrl: "gdp-per-capita/list.html",
             controller: "GdpPerCapitaListCtrl"
         })
