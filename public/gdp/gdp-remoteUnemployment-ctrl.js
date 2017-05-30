@@ -39,13 +39,13 @@ angular
             for(var i=0; i<response.data.length; i++){
                 
                 
-                    $scope.Id.push(Number($scope.data[i].Fecha));
-                    $scope.FK_Vaiable.push(Number($scope.data[i].FK_TipoDato));
-                    $scope.Nombre.push(Number($scope.data[i].FK_Periodo));
-                    $scope.Codigo.push(Number($scope.data[i].Valor));
+                    $scope.Id.push(String($scope.data[i].id));
+                    $scope.FK_Vaiable.push(String($scope.data[i].FK_Vaiable));
+                    $scope.Nombre.push(String($scope.data[i].Nombre));
+                    $scope.Codigo.push(String($scope.data[i].Codigo));
                     
                 
-                    console.log($scope.data[i].id);
+                    console.log($scope.data[i].FK_Vaiable);
                     
                 
             }
@@ -68,67 +68,78 @@ angular
     
                 
                 Highcharts.chart('container', {
-    chart: {
-        type: 'area'
-    },
-    title: {
-        text: 'Gdp and Unemployment by country'
-    },
-    subtitle: {
-        text: 'Source: servicios.ine.es'
-    },
-    xAxis: {
-        categories: [$scope.country],
-        tickmarkPlacement: 'on',
-        title: {
-            enabled: false
-        }
-    },
-    yAxis: {
-        title: {
-            text: 'Billions'
-        },
-        labels: {
-            formatter: function () {
-            return '<b>' + this.x + '</b><br/>' +
-               capitalizeFirstLetter( this.series.name )+ ': ' + this.y + '<br/>' +
-                'Total: ' + this.point.stackTotal;
-        
-            }
-        }
-    },
-    tooltip: {
-        split: true,
-        valueSuffix: ' millions'
-    },
-    plotOptions: {
-        area: {
-            stacking: 'normal',
-            lineColor: '#666666',
-            lineWidth: 1,
-            marker: {
-                lineWidth: 1,
-                lineColor: '#666666'
-            }
-        }
-    },
-    series: [{
-        name: 'Gdp',
-        data: [$scope.gdp]
-    }, {
-        name: 'Gdp_Growth',
-        data: [$scope.gdp_growth]
-    }, {
-        name: 'Gdp_Deflator',
-        data: [$scope.gdp_deflator]
-    }, {
-        name: 'Nombre',
-        data: [$scope.Nombre]
-    }, {
-        name: 'Id',
-        data: [$scope.Id]
-    }]
-});
+                chart: {
+                    type: 'area'
+                },
+                title: {
+                    text: 'Highcharts'
+                },
+                subtitle: {
+                    text: 'Source: INE Unemployees'
+                },
+                xAxis: {
+                    categories: $scope.country
+                },
+                yAxis: {
+                    title: {
+                        text: 'Values'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value + '%';
+                        }
+                    }
+                },
+                tooltip: {
+                    crosshairs: true,
+                    shared: true
+                },
+                plotOptions: {
+                    spline: {
+                        marker: {
+                            radius: 4,
+                            lineColor: '#666666',
+                            lineWidth: 1
+                        },
+                        dataLabels: {
+                            enabled: true
+                        }
+                    },
+                    series: {
+                        connectNulls: true
+                    }
+                },
+                series:[{
+                    name: 'Year',
+                    
+                    data: $scope.year
+                }, {
+                    name: 'Gdp',
+                   
+                    data: $scope.gdp
+                }, {
+                    name: 'Gdp_Growth',
+                    
+                    data: $scope.gdp_growth
+                }, {
+                    name: 'Gdp_Deflator',
+                    
+                    data: $scope.gdp_deflator
+                },{
+                    type: 'area',
+                    name: 'Id',
+                    data: $scope.Id
+                },{
+                    type:'area',
+                    name: 'FK_Vaiable',
+                    data: $scope.FK_Vaiable
+                },{
+                    type: 'area',
+                    name: 'Nombre',
+                    data: $scope.Nombre
+                }]
+                
+            });
             
         });
     });    

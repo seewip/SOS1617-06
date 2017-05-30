@@ -183,11 +183,11 @@ app.get("/proxy/gdp", (req, res) => {
 
 app.get("/proxy/gdp", (req, res) => {
     console.log("INFO: New GET request to /proxy/gdp/");
-    var http = require('https');
+    var http = require('http');
 
     var options = {
         host: 'restcountries.eu',
-        path: '/rest/v2/name/spain'
+        path: '/rest/v2/capital/madrid'
     };
 
     var request = http.request(options, (response) => {

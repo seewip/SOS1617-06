@@ -3,6 +3,9 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
     $routeProvider.when("/", {
             templateUrl: "main.html"
         })
+        .when("/integrations", {
+            templateUrl: "integrations.html"
+        })
         .when("/analytics", {
             templateUrl: "analytics.html"
         })
