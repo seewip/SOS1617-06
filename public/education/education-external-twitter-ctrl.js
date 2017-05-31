@@ -24,11 +24,7 @@ controller("EducationExternalTwitterGraphCtrl", ["$scope", "$http", "$rootScope"
                 var provincesDataForeign = [];
 
                 $http
-                    .get("https://api.twitter.com/1.1/friends/list.json?cursor=-1&screen_name=mafiu95&skip_status=true&include_user_entities=false", {
-                        headers: {
-                            'Authorization': 'bearer '+token
-                        }
-                    })
+                    .get("../proxy/education/twitter?token=" + token)
                     .then(function(response_foreign) {
 
                         console.log(response_foreign.data);
@@ -38,8 +34,8 @@ controller("EducationExternalTwitterGraphCtrl", ["$scope", "$http", "$rootScope"
                             if (countries.indexOf(d.country) == -1) countries.push(d.country);
                         });
 
-                        response_foreign.data.data.forEach(function(d) {
-                            if (years.indexOf(Number(d.fan_count)) == -1) years.push(Number(d.fan_count));
+                        response_foreign.data.users.forEach(function(d) {
+                            if (years.indexOf(Number(d.followers_count)) == -1) years.push(Number(d.followers_count));
                             if (provincesForeign.indexOf(d.name) == -1) provincesForeign.push(d.name);
                         });
 
@@ -79,10 +75,10 @@ controller("EducationExternalTwitterGraphCtrl", ["$scope", "$http", "$rootScope"
                             });
                         });
 
-                        response_foreign.data.data.forEach(function(d) {
+                        response_foreign.data.users.forEach(function(d) {
                             provincesDataForeign.forEach(function(e) {
                                 if (d.name === e.name) {
-                                    e.data[years.indexOf(Number(d.fan_count))] = Number(d['fan_count']);
+                                    e.data[years.indexOf(Number(d.followers_count))] = Number(d['followers_count']);
                                 }
                             });
                         });
