@@ -2,7 +2,7 @@
 /* global Highcharts */
 angular
     .module("DataManagementApp")
-    .controller("AnalyticsCtrl",["$scope","$http",function ($scope, $http){
+    .controller("AnalyticsCtrl",["$scope","$http","$rootScope",function ($scope, $http,$rootScope){
         
         console.log("Chart Controller initialized");
     
@@ -10,10 +10,14 @@ angular
         $scope.data = {};
         var dataCache = {};
          $scope.country = [];
+         $scope.country1 = [];
          $scope.year = [];
          $scope.gdp = [];
          $scope.gdp_growth = [];
          $scope.gdp_deflator = [];
+         $scope.gdp_per_capita_growth = [];
+         $scope.gdp_per_capita = [];
+         $scope.gdp_per_capita_ppp = [];
         
          
          $http.get("/api/v1/gdp/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
@@ -42,46 +46,63 @@ angular
                         
                         
                 $http
-                    .get("../api/v2/investmentseducation?apikey=" + $scope.apikey)
+                    .get("../api/v1/education" + "?" + "apikey=" + $scope.apikey)
                     .then(function(response){
                         
-                             dataCache = response.data;
-             $scope.data = dataCache;
-             
-             for(var i=0; i<response.data.length; i++){
-                 $scope.categorias2.push($scope.data[i].country + " " +  $scope.data[i].year);
-                 $scope.population.push(Number($scope.data[i].population));
-                 $scope.riskpoverty.push(Number($scope.data[i].riskpoverty));
-                 $scope.inveducation.push(Number($scope.data[i].inveducation));
+                             
+                var years = [];
+                var countries = [];
 
+                response.data.forEach(function(d) {
+                    if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                    if (countries.indexOf(d.country) == -1) countries.push(d.country);
+                });
+                years.sort((a, b) => a - b);
 
-                 console.log($scope.data[i].country);
-             }        
+                var countriesData = [];
+
+                countries.forEach(function(d) {
+                    var c = {
+                        name: d,
+                        data: []
+                    };
+                    years.forEach(function(e) {
+                        c.data.push(0);
+                    });
+                    countriesData.push(c);
+                });
+
+                response.data.forEach(function(d) {
+                    countriesData.forEach(function(e) {
+                        if (d.country === e.name) {
+                            e.data[years.indexOf(Number(d.year))] = Number(d['education-gdp-perc']);
+                        }
+                    });
+                });
                         
                         
                         
                         
                   
                 $http
-                    .get("../api/v2/earlyleavers?apikey=" + $scope.apikey)
+                    .get("/api/v1/gdp-per-capita" + "?" + "apikey=" + $scope.apikey)
                     .then(function(response){
                                      dataCache = response.data;
-             $scope.data = dataCache;
+            $scope.data = dataCache;
 
-             for(var i=0; i<response.data.length; i++){
-                 $scope.categorias3.push($scope.data[i].country + " " +  $scope.data[i].year);
-                 $scope.eslmale.push(Number($scope.data[i].eslmale));
-                 $scope.eslfemale.push(Number($scope.data[i].eslfemale));
-                 $scope.esltotal.push(Number($scope.data[i].esltotal));
-                 $scope.eslobjective.push(Number($scope.data[i].eslobjective));
-
-
-             }
-             $scope.categoriasTotal = $scope.categorias.concat($scope.categorias2);
-             $scope.categoriasTotal = $scope.categoriasTotal.concat($scope.categorias3);
-                        console.log($scope.categorias);
-                        console.log($scope.categorias2);
-                        console.log($scope.categorias3);
+            for (var i = 0; i < response.data.length; i++) {
+                $scope.country.push($scope.data[i].country);
+                $scope.year.push(Number($scope.data[i].year));
+                $scope.gdp_per_capita_growth.push(Number($scope.data[i]["gdp-per-capita-growth"]));
+                $scope.gdp_per_capita.push(Number($scope.data[i]["gdp-per-capita"]));
+                $scope.gdp_per_capita_ppp.push(Number($scope.data[i]["gdp-per-capita-ppp"]));
+            }
+            
+             $scope.categoriasTotal = $scope.country.concat($scope.country1);
+             $scope.categoriasTotal = $scope.categoriasTotal.concat($scope.countries);
+                        console.log($scope.country);
+                        console.log($scope.country1);
+                        console.log($scope.countries);
                         console.log($scope.categoriasTotal);
                     Highcharts.chart('analyticschart', {
                                 chart: {
@@ -98,7 +119,7 @@ angular
                                 yAxis: {
                                     min: 0,
                                     title: {
-                                        text: 'Comparison Expenditure on public education between countries'
+                                        text: 'Comparison Expenditure on public education between three countries'
                                     },
                                     stackLabels: {
                                         enabled: true,
@@ -142,27 +163,17 @@ angular
                                     name: 'Gdp_Deflator',
                                     data: $scope.gdp_deflator
                                 }, {
-                                    name : 'Population',
-                                    data: $scope.population
+                                    name : 'Gdp Per Capita',
+                                    data: $scope.gdp_per_capita
                                 },{
-                                    name : 'Risk Poverty',
-                                    data: $scope.riskpoverty
+                                    name : 'Gdp Per Capita Growth ',
+                                    data: $scope.gdp_per_capita_growth
                                 }, {
-                                    name : 'Invest Education',
-                                    data: $scope.inveducation
+                                    name : 'Gdp Per Capita PPP',
+                                    data: $scope.gdp_per_capita_ppp
                                 }, {
-                                    name : 'ESL Male',
-                                    data: $scope.eslmale
-                                }, {
-                                    name : 'ESL Female',
-                                    data: $scope.eslfemale
-                                }, {
-                                    name : 'ESL Total',
-                                    data: $scope.esltotal
-                                }, {
-                                    name : 'ESL Objective',
-                                    data: $scope.eslobjective
-                                
+                                    name : 'Education Gdp Per Capita',
+                                    data: $scope.data
                                 }]
                             });
                         
