@@ -16,7 +16,7 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
         .when("/governance", {
             templateUrl: "governance.html"
         })
-        
+
 
     .when("/gdp", {
             templateUrl: "gdp/list.html",
@@ -42,9 +42,9 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "gdp/remoteKiva.html",
             controller: "GdpRemoteKivaGraphCtrl"
         })
-        .when("/gdp/proxyGraph", {
-            templateUrl: "gdp/proxyGraph.html",
-            controller: "GdpProxyGraphCtrl"
+        .when("/gdp/proxyPopulation", {
+            templateUrl: "gdp/proxyPopulation.html",
+            controller: "GdpProxyPopulationCtrl"
         })
         .when("/gdp/proxyExchangeRates", {
             templateUrl: "gdp/proxyExchangeRates.html",
@@ -83,7 +83,7 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "education/externalTwitterGraph.html",
             controller: "EducationExternalTwitterGraphCtrl"
         })
-       .when("/education/externalHearthstoneGraph", {
+        .when("/education/externalHearthstoneGraph", {
             templateUrl: "education/externalHearthstoneGraph.html",
             controller: "EducationExternalHearthstoneGraphCtrl"
         })
