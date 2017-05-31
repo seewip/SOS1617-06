@@ -178,6 +178,38 @@ app.get("/proxy/gdp-per-capita", (req, res) => {
     request.end();
 });
 
+// Gdp-per-capita proxy -  api2
+app.get("/proxyApi2/gdp-per-capita", (req, res) => {
+    console.log("INFO: New GET request to /proxy/gdp-per-capita/");
+    var https = require('https');
+
+    var options = {
+        host: 'api.football-data.org',
+        path: '/v1/competitions/?season=2015'
+    };
+
+    var request = https.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/gdp-per-capita/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/gdp-per-capita/ - failed to access the proxied website, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
+
+
 //===========================================================================================================//
 
 console.log("Proxy registered successfully");

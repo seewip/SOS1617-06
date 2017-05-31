@@ -81,6 +81,22 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
         .when("/gdp-per-capita/proxyGraph", {
             templateUrl: "gdp-per-capita/proxyGraph.html",
             controller: "GdpPerCapitaProxyGraphCtrl"
+        })
+        .when("/gdp-per-capita/proxyApi1Graph", {
+            templateUrl: "gdp-per-capita/proxyApi1Graph.html",
+            controller: "GdpPerCapitaApi1GraphCtrl"
+        })
+        .when("/gdp-per-capita/proxyApi2Graph", {
+            templateUrl: "gdp-per-capita/proxyApi2Graph.html",
+            controller: "GdpPerCapitaApi2GraphCtrl"
+        })
+        .when("/gdp-per-capita/proxyApi3Graph", {
+            templateUrl: "gdp-per-capita/proxyApi3Graph.html",
+            controller: "GdpPerCapitaApi3GraphCtrl"
+        })
+        .when("/gdp-per-capita/proxyApi4Graph", {
+            templateUrl: "gdp-per-capita/proxyApi4Graph.html",
+            controller: "GdpPerCapitaApi4GraphCtrl"
         });
 
     console.log("App initialized and configured");
