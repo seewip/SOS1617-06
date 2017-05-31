@@ -32,10 +32,10 @@ angular
 
                     dataCache = response.data;
                     $scope.data = dataCache;
-
-                    $scope.league.push(Number($scope.data[0]["league"]));
-                    $scope.numberOfGames.push(Number($scope.data[0]["numberOfGames"]));
-                    $scope.numberOfTeams.push(Number($scope.data[0]["numberOfTeams"]));
+                    console.log($scope.data[i]);
+                    $scope.league.push($scope.data[i]["league"]);
+                    $scope.numberOfGames.push(Number($scope.data[i]["numberOfGames"]));
+                    $scope.numberOfTeams.push(Number($scope.data[i]["numberOfTeams"]));
                     console.log($scope.league);
                     console.log("Controller initialized (GdpPerCapitaApi2GraphCtrl)");
 
@@ -52,7 +52,7 @@ angular
                         },
 
                         xAxis: {
-                            categories: $scope.league[1]
+                            categories: $scope.league
                         },
 
                         yAxis: {
