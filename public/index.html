@@ -9,6 +9,7 @@
     <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="/bower_components/angular-route/angular-route.js"></script>
     <script type="text/javascript" src="/bower_components/materialize/dist/js/materialize.min.js"></script>
+    <!--<script type="text/javascript" src="/bower_components/oauth.js/dist/oauth.js"></script>-->
 
     <script type="text/javascript" src="data-management-app.js"></script>
 
@@ -28,13 +29,17 @@
     <script type="text/javascript" src="/bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
 
     <script type="text/javascript" src="data-management-app.js"></script>
+    <script type="text/javascript" src="analytics.js"></script>
     <!--CRISTINA STUFF-->
     <script type="text/javascript" src="gdp/gdp-list-ctrl.js"></script>
     <script type="text/javascript" src="gdp/gdp-edit-ctrl.js"></script>
     <script type="text/javascript" src="gdp/gdp-graph-ctrl.js"></script>
     <script type="text/javascript" src="gdp/gdp-remote-graph-ctrl.js"></script>
+    <script type="text/javascript" src="gdp/gdp-remoteUnemployment-ctrl.js"></script>
+    <script type="text/javascript" src="gdp/gdp-remoteKiva-graph-ctrl.js"></script>
     <script type="text/javascript" src="gdp/gdp-proxy-graph-ctrl.js"></script>
-    <script type="text/javascript" src="gdp/gdp-proxyGoogleMaps-graph-ctrl.js"></script>
+    <script type="text/javascript" src="gdp/gdp-proxyExchangeRates-graph-ctrl.js"></script>
+    <script type="text/javascript" src="gdp/gdp-proxyPopulation-graph-ctrl.js"></script>
 
     <!--MATEUSZ STUFF-->
     <script type="text/javascript" src="education/education-list-ctrl.js"></script>
@@ -42,6 +47,9 @@
     <script type="text/javascript" src="education/education-graph-ctrl.js"></script>
     <script type="text/javascript" src="education/education-remote-graph-ctrl.js"></script>
     <script type="text/javascript" src="education/education-proxy-graph-ctrl.js"></script>
+    <script type="text/javascript" src="education/education-external-facebook-ctrl.js"></script>
+    <script type="text/javascript" src="education/education-external-twitter-ctrl.js"></script>
+    <script type="text/javascript" src="education/education-external-hearthstone-ctrl.js"></script>
 
     <!-- JIHANE STUFF-->
     <script type="text/javascript" src="gdp-per-capita/gdp-per-capita-list-ctrl.js"></script>
@@ -77,9 +85,18 @@
             <li><a href="#!/gdp-per-capita/graph"><i class="material-icons left">trending_up</i>GDP/capita</a></li>
             <li class="divider"></li>
             <li><a href="#!/gdp/remoteGraph"><i class="material-icons left">assessment</i>GDP Remote</a></li>
+            <li><a href="#!/gdp/remoteUnemployment"><i class="material-icons left">assessment</i>GDP Remote Uneployment</a></li>
+            <li><a href="#!/gdp/remoteKiva"><i class="material-icons left">assessment</i>GDP Remote Education API</a></li>
             <li><a href="#!/gdp/proxyGraph"><i class="material-icons left">assessment</i>GDP Proxy</a></li>
+            <li><a href="#!/gdp/proxyExchangeRates"><i class="material-icons left">assessment</i>GDP Proxy Exchanges Rates</a></li>
+            <li><a href="#!/gdp/proxyPopulation"><i class="material-icons left">assessment</i>GDP Proxy Population</a></li>
+            <li class="divider"></li>
             <li><a href="#!/education/remoteGraph"><i class="material-icons left">assessment</i>Education Remote</a></li>
             <li><a href="#!/education/proxyGraph"><i class="material-icons left">assessment</i>Education Proxy</a></li>
+            <li><a href="#!/education/externalFacebookGraph"><i class="material-icons left">assessment</i>Education Facebook</a></li>
+            <li><a href="#!/education/externalTwitterGraph"><i class="material-icons left">assessment</i>Education Twitter</a></li>
+            <li><a href="#!/education/externalHearthstoneGraph"><i class="material-icons left">assessment</i>Education Hearthstone</a></li>
+            <li class="divider"></li>
             <li><a href="#!/gdp-per-capita/remoteGraph"><i class="material-icons left">assessment</i>GDP/capita Remote</a></li>
             <li><a href="#!/gdp-per-capita/proxyGraph"><i class="material-icons left">assessment</i>GDP/capita Proxy</a></li>
             <li><a href="#!/gdp-per-capita/proxyApi1Graph"><i class="material-icons left">assessment</i>GDP/capita Proxy api1</a></li>
@@ -88,6 +105,7 @@
             <li><a href="#!/gdp-per-capita/proxyApi4Graph"><i class="material-icons left">assessment</i>GDP/capita api4</a></li>
             <li class="divider"></li>
             <li><a href="#!/analytics"><i class="material-icons left">trending_up</i>Analytics</a></li>
+            <li><a href="#!/integrations"><i class="material-icons left">trending_up</i>Integrations</a></li>
         </ul>
         <nav>
             <div class="nav-wrapper blue">
@@ -102,7 +120,8 @@
                 </ul>
                 <ul class="side-nav" id="mobile">
                     <li><a href="#!"><i class="material-icons left">dashboard</i>Front page</a></li>
-                    <li><a href="#!/analytics"><i class="material-icons left">trending_up</i>Analytics</a></li>
+                    <li><a href="#!/analytics1"><i class="material-icons left">trending_up</i>Analytics</a></li>
+                    <li><a href="#!/integrations"><i class="material-icons left">trending_up</i>Integrations</a></li>
                     <li class="divider"></li>
                     <li><a href="#!/gdp"><i class="material-icons left">list</i>GDP</a></li>
                     <li><a href="#!/education"><i class="material-icons left">list</i>Education</a></li>
@@ -113,9 +132,18 @@
                     <li><a href="#!/gdp-per-capita/graph"><i class="material-icons left">trending_up</i>GDP/capita graphs</a></li>
                     <li class="divider"></li>
                     <li><a href="#!/gdp/remoteGraph"><i class="material-icons left">assessment</i>GDP Remote</a></li>
+                    <li><a href="#!/gdp/remoteUnemployment"><i class="material-icons left">assessment</i>GDP Unemployment</a></li>
+                    <li><a href="#!/gdp/remoteKiva"><i class="material-icons left">assessment</i>GDP Remote Kiva Api</a></li>
                     <li><a href="#!/gdp/proxyGraph"><i class="material-icons left">assessment</i>GDP Proxy</a></li>
+                    <li><a href="#!/gdp/proxyExchangeRates"><i class="material-icons left">assessment</i>GDP Proxy Exchange</a></li>
+                    <li><a href="#!/gdp/proxyPopulation"><i class="material-icons left">assessment</i>GDP Proxy Population</a></li>
+                    <li class="divider"></li>
                     <li><a href="#!/education/remoteGraph"><i class="material-icons left">assessment</i>Education Remote</a></li>
                     <li><a href="#!/education/proxyGraph"><i class="material-icons left">assessment</i>Education Proxy</a></li>
+                    <li><a href="#!/education/externalFacebookGraph"><i class="material-icons left">assessment</i>Education Facebook</a></li>
+                    <li><a href="#!/education/externalTwitterGraph"><i class="material-icons left">assessment</i>Education Twitter</a></li>
+                    <li><a href="#!/education/externalHearthstoneGraph"><i class="material-icons left">assessment</i>Education Hearthstone</a></li>
+                    <li class="divider"></li>
                     <li><a href="#!/gdp-per-capita/remoteGraph"><i class="material-icons left">assessment</i>GDP/capita Remote</a></li>
                     <li><a href="#!/gdp-per-capita/proxyGraph"><i class="material-icons left">assessment</i>GDP/capita Proxy</a></li>
                     <li><a href="#!/gdp-per-capita/proxyApi1Graph"><i class="material-icons left">assessment</i>GDP/capita Proxy api1</a></li>
@@ -123,7 +151,7 @@
                     <li><a href="#!/gdp-per-capita/proxyApi3Graph"><i class="material-icons left">assessment</i>GDP/capita Proxy api3</a></li>
                     <li><a href="#!/gdp-per-capita/proxyApi4Graph"><i class="material-icons left">assessment</i>GDP/capita api4</a></li>
                     <li class="divider"></li>
-                    <li><a href="#!/about"><i class="material-icons left">trending_flat</i>About</a></li>                
+                    <li><a href="#!/about"><i class="material-icons left">trending_flat</i>About</a></li>
                 </ul>
             </div>
         </nav>

@@ -91,7 +91,40 @@ app.get("/proxy/education", (req, res) => {
 
     var options = {
         host: 'sos1617-04.herokuapp.com',
-        path: '/api/v2/export-and-import?apikey=12345'
+        path: '/api/v3/export-and-import?apikey=12345'
+    };
+
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/education/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/education/ - failed to access the proxied website, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
+
+app.get("/proxy/education/twitter", (req, res) => {
+    console.log("INFO: New GET request to /proxy/education/twitter");
+    var http = require('https');
+
+    var options = {
+        host: 'api.twitter.com',
+        path: '/1.1/friends/list.json?cursor=-1&screen_name=mafiu95&skip_status=true&include_user_entities=false',
+        headers: {
+            'Authorization': 'bearer ' + req.query.token
+        }
     };
 
     var request = http.request(options, (response) => {
@@ -123,7 +156,71 @@ app.get("/proxy/gdp", (req, res) => {
 
     var options = {
         host: 'sos1617-04.herokuapp.com',
-        path: '/api/v2/price-stats?apikey=12345'
+        path: '/api/v3/price-stats'
+    };
+
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/gdp/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/gdp/ - ERROR TRYING TO ACCESS, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
+
+// Gdp proxy External API - Exchange Rates
+
+app.get("/proxy/gdp", (req, res) => {
+    console.log("INFO: New GET request to /proxy/gdp/");
+    var http = require('https');
+
+    var options = {
+        host: 'api.fixer.io',
+        path: '/latest'
+    };
+
+    var request = http.request(options, (response) => {
+        var input = '';
+
+        response.on('data', function(chunk) {
+            input += chunk;
+        });
+
+        response.on('end', function() {
+            console.log("INFO: Proxy request to /proxy/gdp/ completed successfully");
+            res.send(input);
+        });
+    });
+
+    request.on('error', function(e) {
+        console.log("WARNING: New GET request to /proxy/gdp/ - ERROR TRYING TO ACCESS, sending 503...");
+        res.sendStatus(503);
+    });
+
+    request.end();
+});
+
+// Gdp proxy External API - Population
+
+app.get("/proxy/gdp", (req, res) => {
+    console.log("INFO: New GET request to /proxy/gdp/");
+    var http = require('http');
+
+    var options = {
+        host: 'api.population.io',
+        path: '/1.0/countries'
     };
 
     var request = http.request(options, (response) => {

@@ -1,0 +1,25 @@
+<div class="container">
+    <h1>Chart using external API with OAuth</h1>
+    <h2>Twitter API</h2>
+    <b>In order to use this API you need to provide your token from Twitter.</b></br>
+    <input type="text" ng-model="OAuthToken">
+    <button class="btn waves-effect waves-light" type="button" ng-click="refresh(OAuthToken)">Load</button>
+    <div class="center-align" ng-show="loading">
+        <div class="preloader-wrapper big active">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="hc_column" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+    </br>
+</div>

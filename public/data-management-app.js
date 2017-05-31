@@ -3,8 +3,12 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
     $routeProvider.when("/", {
             templateUrl: "main.html"
         })
+        .when("/integrations", {
+            templateUrl: "integrations.html"
+        })
         .when("/analytics", {
-            templateUrl: "analytics.html"
+            templateUrl: "analytics.html",
+            controller: "AnalyticsCtrl"
         })
         .when("/about", {
             templateUrl: "about.html"
@@ -12,9 +16,7 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
         .when("/governance", {
             templateUrl: "governance.html"
         })
-        .when("/about", {
-            templateUrl: "integrations.html"
-        })
+
 
     .when("/gdp", {
             templateUrl: "gdp/list.html",
@@ -32,13 +34,25 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "gdp/remoteGraph.html",
             controller: "GdpRemoteGraphCtrl"
         })
-        .when("/gdp/proxyGraph", {
-            templateUrl: "gdp/proxyGraph.html",
-            controller: "GdpProxyGraphCtrl"
+        .when("/gdp/remoteUnemployment", {
+            templateUrl: "gdp/remoteUnemployment.html",
+            controller: "GdpRemoteUnemploymentGraphCtrl"
         })
-        .when("/gdp/proxyGraph", {
-            templateUrl: "gdp/proxyGoogleMaps.html",
-            controller: "GdpProxyGraphGoogleCtrl"
+        .when("/gdp/remoteKiva", {
+            templateUrl: "gdp/remoteKiva.html",
+            controller: "GdpRemoteKivaGraphCtrl"
+        })
+        .when("/gdp/proxyPopulation", {
+            templateUrl: "gdp/proxyPopulation.html",
+            controller: "GdpProxyPopulationCtrl"
+        })
+        .when("/gdp/proxyExchangeRates", {
+            templateUrl: "gdp/proxyExchangeRates.html",
+            controller: "GdpProxyExchangeRatesCtrl"
+        })
+        .when("/gdp/proxyRestCountries", {
+            templateUrl: "gdp/proxyRestCountries.html",
+            controller: "GdpProxyRestCountriesCtrl"
         })
 
     .when("/education", {
@@ -60,6 +74,18 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
         .when("/education/proxyGraph", {
             templateUrl: "education/proxyGraph.html",
             controller: "EducationProxyGraphCtrl"
+        })
+        .when("/education/externalFacebookGraph", {
+            templateUrl: "education/externalFacebookGraph.html",
+            controller: "EducationExternalFacebookGraphCtrl"
+        })
+        .when("/education/externalTwitterGraph", {
+            templateUrl: "education/externalTwitterGraph.html",
+            controller: "EducationExternalTwitterGraphCtrl"
+        })
+        .when("/education/externalHearthstoneGraph", {
+            templateUrl: "education/externalHearthstoneGraph.html",
+            controller: "EducationExternalHearthstoneGraphCtrl"
         })
 
     .when("/gdp-per-capita", {
