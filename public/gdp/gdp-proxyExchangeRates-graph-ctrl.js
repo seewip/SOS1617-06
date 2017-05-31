@@ -40,12 +40,12 @@ angular
                 console.log(response.data.rates);
 
                 //response.data.rates.forEach(function(object) {
-                for(var object in response.data.rates) {
-                    
+                for (var object in response.data.rates) {
+
                     $scope.ratesX.push(response.data.date);
                     $scope.ratesY.push(response.data.rates[object]);
                     $scope.ratesName.push(object);
-                    
+
                     // $scope.base.push(Array(String(object.base)));
                     // $scope.date.push(String(object.date));
                     // $scope.rates.push(String(Number(object.rates)));
@@ -56,9 +56,9 @@ angular
 
                     // console.log($scope.data[i].date);
                     // console.log(JSON.stringify($scope.date, null, 2));
-                    console.log(object + " = "+ response.data.rates[object]);
+                    console.log(object + " = " + response.data.rates[object]);
                 }
-                
+
 
                 $http.get("/api/v1/gdp/" + "?" + "apikey=" + $scope.apikey).then(function(response) {
 
