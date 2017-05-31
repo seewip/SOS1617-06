@@ -1,88 +1,77 @@
+
 /*global angular*/
 /*global zingchart*/
+
+
 angular
     .module("DataManagementApp")
-    .controller("GdpProxyPopulationCtrl",["$scope","$http",function ($scope, $http){
-        
+    .controller("GdpProxyPopulationCtrl", ["$scope", "$http", function($scope, $http) {
+
+        console.log("GdpProxyPopulationCtrl");
+
         $scope.apikey = "secret";
         $scope.data = {};
         var dataCache = {};
-        
-        $scope.data1 = {};
-        var dataCache1 = {};
-        
         $scope.country = [];
-        
-        $scope.years = [];
+        $scope.country1 = [];
+        $scope.year = [];
         $scope.gdp = [];
         $scope.gdp_growth = [];
         $scope.gdp_deflator = [];
-       
+        $scope.population = [];
         
-        $scope.countries = [];
-        $scope.dataInicial = [];
-        
-        
+
         function capitalizeFirstLetter(string) {
-                return string.charAt(0).toUpperCase() + string.slice(1);
-            }
-        
-        $http.get("/api/v1/gdp/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
-            
-            dataCache1 = response.data;
-            $scope.data = dataCache1;
-            
-            for(var i=0; i<response.data.length; i++){
-                $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
-                $scope.years.push($scope.data[i].year);
-                $scope.gdp.push(Number($scope.data[i].gdp));
-                $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
-                $scope.gdp_deflator.push(Number($scope.data[i].gdp_deflator));
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        $http
+            .get("http://api.population.io/1.0/wp-rank/1952-03-11/male/United Kingdom/today/")
+            .then(function(response) {
                 
-                $scope.countries.push(null);
-                $scope.dataInicial.push(null);
-             
-                console.log($scope.data[i].country);
-            }
-        });
-        
-        $http.get("http://api.population.io/1.0/countries").then(function(response){
-            
-            dataCache = response.data;
-            $scope.data = dataCache;
-            console.log(response);
-            
-            for(var i=0; i<response.data.length; i++){
+                var array = response.data;
+                $scope.data = array;
                 
-                if(capitalizeFirstLetter($scope.data[i].name) == "Spain"){
-                    $scope.dataInicial.splice(0,1,Array(String($scope.data[i].dataInicial)));
-                    $scope.dataInicial.splice(1,1,Array(String($scope.data[i].dataInicial)));
-                    console.log($scope.data[i].dataInicial);
-                } else if(capitalizeFirstLetter($scope.data[i].name) == "Poland"){
-                    $scope.dataInicial.splice(2,1,Array(String($scope.data[i].dataInicial)));
-                    $scope.dataInicial.splice(3,1,Array(String($scope.data[i].dataInicial)));
-                    console.log($scope.data[i].dataInicial);
-                } else if(capitalizeFirstLetter($scope.data[i].name) == "Morocco"){
-                    $scope.dataInicial.splice(4,1,Array(String($scope.data[i].dataInicial)));
-                    $scope.gini.splice(5,1,Array(($scope.data[i].dataInicial)));
-                    console.log($scope.data[i].dataInicial);
-                }else if(capitalizeFirstLetter($scope.data[i].name) == "United Kingdom"){
-                    $scope.dataInicial.splice(6,1,Array(String($scope.data[i].dataInicial)));
-                    $scope.gini.splice(7,1,Array(String($scope.data[i].dataInicial)));
-                    console.log($scope.data[i].dataInicial);
+                console.log(response);
+                for (var i = 0; i < response.data.length; i++) {
+                
+                    $scope.country.push(capitalizeFirstLetter($scope.data[i].country )+ " " + $scope.data[i].year);
+                    $scope.year.push(($scope.data[i].year));
+                    $scope.population.push(Number($scope.data[i].population));
+                    console.log($scope.population);
+                    
+                    $scope.gdp.push(null);
+                    $scope.gdp_growth.push(null);
+                    $scope.gdp_deflator.push(null);
+
+                    console.log($scope.data[i].population);
+                    //console.log(JSON.stringify($scope.priceaceite, null, 2));
+
                 }
-            }
-            console.log($scope.dataInicial);
-        });
-        
-        $http.get("/api/v1/gdp/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
-            
+                console.log(JSON.stringify($scope.population, null, 2));
+
+                $http.get("/api/v1/gdp/" + "?" + "apikey=" + $scope.apikey).then(function(response) {
+
+                    dataCache = response.data;
+                    $scope.data = dataCache;
+
+                    for (var i = 0; i < response.data.length; i++) {
+                       $scope.country.push(capitalizeFirstLetter($scope.data[i].country) + " " + $scope.data[i].year);
+                        //$scope.year.push(Number($scope.data[i].year));
+                        $scope.gdp.push(Number($scope.data[i].gdp));
+                        $scope.gdp_growth.push(Number($scope.data[i].gdp_growth));
+                        $scope.gdp_deflator.push(Number($scope.data[i].gdp_deflator));
+                        $scope.population.push(null);
+                       
+                        console.log($scope.data[i].country);
+                    }
+                    console.log($scope.country1);
             var myConfig = {
                 "type": "line",
                 
                 "backgroundColor":'#2C2C39',
                 "title": {
-                    "text": "Gdp Data Integrated With World Population API",
+                    "text": "Gdp API Integrated with Population API",
                     "fontColor":"#E3E3E5",
                     "font-size": "24px",
                     "adjust-layout": true
@@ -233,12 +222,10 @@ angular
                       "size":6,
                       "background-color": "#da534d",
                     }
-                }
-                
-                ,
+                },
                 {
-                    "values": $scope.dataInicial,
-                    "text": "Countries",
+                    "values": $scope.population,
+                    "text": "Population",
                     "line-color": "#da576d",
                     "legend-item":{
                       "background-color": "#da576d",
@@ -252,7 +239,7 @@ angular
                         "background-color": "#da576d",
                         "border-width": 1,
                         "shadow": 0,
-                        "border-color": "#faa19f"
+                        "border-color": "#faa29f"
                     },
                     "highlight-marker":{
                       "size":6,
@@ -268,5 +255,10 @@ angular
                 height: '100%',
                 width: '95%'
             });
-        });
+
+
+
+                });
+            });
+
     }]);

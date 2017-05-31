@@ -68,78 +68,62 @@ angular
     
                 
                 Highcharts.chart('container', {
-                chart: {
-                    type: 'area'
-                },
-                title: {
-                    text: 'Highcharts'
-                },
-                subtitle: {
-                    text: 'Source: INE Unemployees'
-                },
-                xAxis: {
-                    categories: $scope.country
-                },
-                yAxis: {
+                    chart: {
+                        type: 'area'
+                    },
                     title: {
-                        text: 'Values'
+                        text: 'Gdp Api Integrated with data from INE about unemployment'
                     },
-                    labels: {
-                        formatter: function () {
-                            return this.value + '%';
+                    subtitle: {
+                        text: 'Source: Junta de Andalucia'
+                    },
+                    xAxis: {
+                        categories: $scope.country,
+                        tickmarkPlacement: 'on',
+                        title: {
+                            enabled: false
                         }
-                    }
-                },
-                tooltip: {
-                    crosshairs: true,
-                    shared: true
-                },
-                plotOptions: {
-                    spline: {
-                        marker: {
-                            radius: 4,
-                            lineColor: '#666666',
-                            lineWidth: 1
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Values'
                         },
-                        dataLabels: {
-                            enabled: true
+                        labels: {
+                            formatter: function() {
+                                return this.value / 1000;
+                            }
                         }
                     },
-                    series: {
-                        connectNulls: true
-                    }
-                },
-                series:[{
-                    name: 'Year',
-                    
-                    data: $scope.year
-                }, {
-                    name: 'Gdp',
-                   
-                    data: $scope.gdp
-                }, {
-                    name: 'Gdp_Growth',
-                    
-                    data: $scope.gdp_growth
-                }, {
-                    name: 'Gdp_Deflator',
-                    
-                    data: $scope.gdp_deflator
-                },{
-                    type: 'spline',
-                    name: 'Id',
-                    data: $scope.Id
-                },{
-                    type:'spline',
-                    name: 'FK_Vaiable',
-                    data: $scope.FK_Vaiable
-                },{
-                    type: 'spline',
-                    name: 'Nombre',
-                    data: $scope.Nombre
-                }]
-                
-            });
+                    tooltip: {
+                        split: true,
+                        valueSuffix: ' values'
+                    },
+                    plotOptions: {
+                        area: {
+                            stacking: 'normal',
+                            lineColor: '#666666',
+                            lineWidth: 1,
+                            marker: {
+                                lineWidth: 1,
+                                lineColor: '#666666'
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Gdp',
+                        data: $scope.gdp
+                    }, {
+                        name: 'Gdp_Growth',
+                        data: $scope.gdp_growth
+                    }, {
+                        name: 'Gdp_Deflator',
+                        data: $scope.gdp_deflator
+                    }, {
+                        name: 'Integration with weather',
+                        data: $scope.Nombre
+                    }]
+                });
+
             
         });
     });    

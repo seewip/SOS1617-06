@@ -7,12 +7,14 @@ angular
         $scope.apikey = "secret";
         $scope.data = {};
         var dataCache = {};
+        var newdataCache = {};
         $scope.country = [];
         $scope.year = [];
         $scope.gdp = [];
         $scope.gdp_growth = [];
         $scope.gdp_deflator = [];
-      
+        
+        var array = [];
         $scope.lender_id= [];
         $scope.name = [];
         $scope.uid = [];
@@ -26,22 +28,21 @@ angular
         
         $http.get("https://api.kivaws.org/v1/lenders/search.json").then(function(response){
             
-            dataCache = response.data;
-            $scope.data = dataCache;
+            newdataCache = response.data;
+            $scope.data = newdataCache;
             
             console.log(response);
             
             for(var i=0; i<response.data.length; i++){
                 
                 
-                    $scope.lender_id.push(Number($scope.data[i].lender_id));
-                    $scope.name.push(Number($scope.data[i].name));
-                    $scope.uid.push(Number($scope.data[i].uid));
+                    array.push(Number(response.data[i].lender_id));
+                    array.push(Number(response.data[i].name));
+                    array.push(Number(response.data[i].uid));
                 
-                    console.log($scope.data[i].country);
-                    
-                
+                    console.log(response.data[i].lender_id);
             }
+           
             $http.get("/api/v1/gdp/"+ "?" + "apikey=" + $scope.apikey).then(function(response){
             
                 dataCache = response.data;
@@ -60,144 +61,58 @@ angular
         
                 
                 Highcharts.chart('container', {
-
     chart: {
-        type: 'column'
+        type: 'area'
     },
-
     title: {
-        text: 'Integration GDP by Education with KIVA API'
+        text: 'Gdp API Integrated with data From KIVA API'
     },
-
+    subtitle: {
+        text: 'Source:https://api.kivaws.org'
+    },
     xAxis: {
-        categories: $scope.country
-    },
-
-    yAxis: {
-        allowDecimals: false,
-        min: 0,
+        categories: $scope.country,
+        tickmarkPlacement: 'on',
         title: {
-            text: 'Number of students'
+            enabled: false
         }
     },
-
+    yAxis: {
+        title: {
+            text: 'Education'
+        }
+    },
     tooltip: {
-        formatter: function () {
-            return '<b>' + this.x + '</b><br/>' +
-               capitalizeFirstLetter( this.series.name )+ ': ' + this.y + '<br/>' +
-                'Total: ' + this.point.stackTotal;
-        }
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.1f}%</b> ({point.y:,.0f} millions)<br/>',
+        split: true
     },
-
     plotOptions: {
-        column: {
-            stacking: 'normal'
+        area: {
+            stacking: 'percent',
+            lineColor: '#ffffff',
+            lineWidth: 1,
+            marker: {
+                lineWidth: 1,
+                lineColor: '#ffffff'
+            }
         }
     },
-
     series: [{
-        name: 'Lender',
-        data: $scope.lender_id,
-        //stack: 'male'
+        name: 'Gdp',
+        data: [$scope.gdp]
     }, {
-        name: 'Uid',
-        data: [$scope.uid],
-        //stack: 'male'
+        name: 'Gdp_Growth',
+        data: [$scope.gdp_growth]
     }, {
-        name: 'Year',
-        data: [$scope.year],
-        //stack: 'female'
+        name: 'Gdp_Growth',
+        data: [$scope.gdp_deflator]
     }, {
-                    name: 'Gdp',
-                   
-                    data: $scope.gdp
-                }, {
-                    name: 'Gdp_Growth',
-                    
-                    data: $scope.gdp_growth
-                }, {
-                    name: 'Gdp_Deflator',
-                    
-                    data: $scope.gdp_deflator
-                }]
+        name: 'Data Integrated',
+        data: [$scope.uid]
+    }]
 });
                 
-                
-            //     Highcharts.chart('container', {
-            //     chart: {
-            //         type: 'area'
-            //     },
-            //     title: {
-            //         text: 'Highcharts'
-            //     },
-            //     subtitle: {
-            //         text: 'Source: G07 - SALARIES'
-            //     },
-            //     xAxis: {
-            //         categories: $scope.country
-            //     },
-            //     yAxis: {
-            //         title: {
-            //             text: 'Values'
-            //         },
-            //         labels: {
-            //             formatter: function () {
-            //                 return this.value + '%';
-            //             }
-            //         }
-            //     },
-            //     tooltip: {
-            //         crosshairs: true,
-            //         shared: true
-            //     },
-            //     plotOptions: {
-            //         spline: {
-            //             marker: {
-            //                 radius: 4,
-            //                 lineColor: '#666666',
-            //                 lineWidth: 1
-            //             },
-            //             dataLabels: {
-            //                 enabled: true
-            //             }
-            //         },
-            //         series: {
-            //             connectNulls: true
-            //         }
-            //     },
-            //     series:[{
-            //         name: 'Year',
-                    
-            //         data: $scope.year
-            //     }, {
-            //         name: 'Gdp',
-                   
-            //         data: $scope.gdp
-            //     }, {
-            //         name: 'Gdp_Growth',
-                    
-            //         data: $scope.gdp_growth
-            //     }, {
-            //         name: 'Gdp_Deflator',
-                    
-            //         data: $scope.gdp_deflator
-            //     },{
-            //         type: 'area',
-            //         name: 'Minimum Salary',
-            //         data: $scope.minimumSalary
-            //     },{
-            //         type:'area',
-            //         name: 'Average Salary',
-            //         data: $scope.averageSalary
-            //     },{
-            //         type: 'area',
-            //         name: 'Risk Of Poverty',
-            //         data: $scope.riskOfPoverty
-            //     }]
-                
-            // });
-            
-        });
+});
     });    
         
 }]);
