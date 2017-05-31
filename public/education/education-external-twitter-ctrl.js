@@ -24,20 +24,20 @@ controller("EducationExternalTwitterGraphCtrl", ["$scope", "$http", "$rootScope"
                 var provincesDataForeign = [];
 
                 $http
-                    .get("https://graph.facebook.com/v2.9/me/music?fields=name,fan_count&access_token="+token)
+                    .get("../proxy/education/twitter?token=" + token)
                     .then(function(response_foreign) {
-                        
+
                         console.log(response_foreign.data);
 
-                         response.data.forEach(function(d) {
-                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
-                             if (countries.indexOf(d.country) == -1) countries.push(d.country);
-                         });
+                        response.data.forEach(function(d) {
+                            if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
+                            if (countries.indexOf(d.country) == -1) countries.push(d.country);
+                        });
 
-                         response_foreign.data.data.forEach(function(d) {
-                             if (years.indexOf(Number(d.fan_count)) == -1) years.push(Number(d.fan_count));
-                             if (provincesForeign.indexOf(d.name) == -1) provincesForeign.push(d.name);
-                         });
+                        response_foreign.data.users.forEach(function(d) {
+                            if (years.indexOf(Number(d.followers_count)) == -1) years.push(Number(d.followers_count));
+                            if (provincesForeign.indexOf(d.name) == -1) provincesForeign.push(d.name);
+                        });
 
                         years.sort((a, b) => a - b);
 
@@ -75,10 +75,10 @@ controller("EducationExternalTwitterGraphCtrl", ["$scope", "$http", "$rootScope"
                             });
                         });
 
-                        response_foreign.data.data.forEach(function(d) {
+                        response_foreign.data.users.forEach(function(d) {
                             provincesDataForeign.forEach(function(e) {
                                 if (d.name === e.name) {
-                                    e.data[years.indexOf(Number(d.fan_count))] = Number(d['fan_count']);
+                                    e.data[years.indexOf(Number(d.followers_count))] = Number(d['followers_count']);
                                 }
                             });
                         });
@@ -144,10 +144,9 @@ controller("EducationExternalTwitterGraphCtrl", ["$scope", "$http", "$rootScope"
                         hc.series = countriesData.concat(provincesDataForeign);
 
                         Highcharts.chart('hc_column', hc);
-                        
+
                         $scope.loading = false;
                     });
-
             }, function(response) {
                 $scope.loading = false;
                 switch (response.status) {

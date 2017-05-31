@@ -29,7 +29,7 @@ controller("EducationExternalHearthstoneGraphCtrl", ["$scope", "$http", "$rootSc
                     })
                     .then(function(response_foreign) {
 
-                        console.log(response_foreign.data);
+                        //console.log(response_foreign.data);
 
                         response.data.forEach(function(d) {
                             if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
@@ -48,7 +48,7 @@ controller("EducationExternalHearthstoneGraphCtrl", ["$scope", "$http", "$rootSc
                         countries.forEach(function(d) {
                             var b = {
                                 name: d,
-                                type: "column",
+                                type: "spline",
                                 yAxis: 0,
                                 data: []
                             };
