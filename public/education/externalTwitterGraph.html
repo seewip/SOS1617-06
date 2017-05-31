@@ -1,9 +1,10 @@
 <div class="container">
     <h1>Chart using external API with OAuth</h1>
-    <h2>Facebook Graph API</h2>
-    <b>In order to use this API you need to go to <a href="https://developers.facebook.com/tools/explorer">Graph API Explorer</a>, log into facebook, click Get Token, select user_likes permission and click on Get Access Token. Next, copy the generated token into the field below and press Load.</b>
-    <input type="text" ng-model="OAuthToken">
-    <button class="btn waves-effect waves-light" type="button" ng-click="refresh(OAuthToken)">Load</button>
+    <h2>Twitter API</h2>
+    <b>In order to use this API you need to provide your consumer key and consumer secret from Twitter.</b></br>
+    Consumer key: <input type="text" ng-model="OAuthKey">
+    Consumer secret: <input type="text" ng-model="OAuthSecret">
+    <button class="btn waves-effect waves-light" type="button" ng-click="refresh(OAuthKey, OAuthSecret)">Load</button>
     <div class="center-align" ng-show="loading">
         <div class="preloader-wrapper big active">
             <div class="spinner-layer spinner-blue-only">
