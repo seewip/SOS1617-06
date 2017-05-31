@@ -179,15 +179,15 @@ app.get("/proxy/gdp", (req, res) => {
     request.end();
 });
 
-// Gdp proxy External API - Rest Countries
+// Gdp proxy External API - Population
 
 app.get("/proxy/gdp", (req, res) => {
     console.log("INFO: New GET request to /proxy/gdp/");
     var http = require('http');
 
     var options = {
-        host: 'restcountries.eu',
-        path: '/rest/v2/capital/madrid'
+        host: 'api.population.io',
+        path: '/1.0/countries'
     };
 
     var request = http.request(options, (response) => {

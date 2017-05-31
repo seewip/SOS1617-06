@@ -15,9 +15,7 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
         .when("/governance", {
             templateUrl: "governance.html"
         })
-        .when("/about", {
-            templateUrl: "integrations.html"
-        })
+        
 
     .when("/gdp", {
             templateUrl: "gdp/list.html",
@@ -51,9 +49,9 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "gdp/proxyExchangeRates.html",
             controller: "GdpProxyExchangeRatesCtrl"
         })
-        .when("/gdp/proxyRestCountries", {
-            templateUrl: "gdp/proxyRestCountries.html",
-            controller: "GdpProxyRestCountriesCtrl"
+        .when("/gdp/proxyPopulation", {
+            templateUrl: "gdp/proxyPopulation.html",
+            controller: "GdpProxyPopulationCtrl"
         })
 
     .when("/education", {

@@ -28,7 +28,7 @@ angular
         
         
         
-        $http.get("https://servicios.ine.es/wstempus/js/ES/VALORES_VARIABLE/12?page=1").
+        $http.get("https://servicios.ine.es/wstempus/js/ES/VALORES_VARIABLEOPERACION/141/293?page=1").
         then(function(response){
             
             dataCache = response.data;
@@ -39,8 +39,8 @@ angular
             for(var i=0; i<response.data.length; i++){
                 
                 
-                    $scope.Id.push(String($scope.data[i].id));
-                    $scope.FK_Vaiable.push(String($scope.data[i].FK_Vaiable));
+                    $scope.Id.push(Number($scope.data[i].id));
+                    $scope.FK_Vaiable.push(Number($scope.data[i].FK_Vaiable));
                     $scope.Nombre.push(String($scope.data[i].Nombre));
                     $scope.Codigo.push(String($scope.data[i].Codigo));
                     
@@ -126,15 +126,15 @@ angular
                     
                     data: $scope.gdp_deflator
                 },{
-                    type: 'area',
+                    type: 'spline',
                     name: 'Id',
                     data: $scope.Id
                 },{
-                    type:'area',
+                    type:'spline',
                     name: 'FK_Vaiable',
                     data: $scope.FK_Vaiable
                 },{
-                    type: 'area',
+                    type: 'spline',
                     name: 'Nombre',
                     data: $scope.Nombre
                 }]
