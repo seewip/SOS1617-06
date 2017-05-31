@@ -19,7 +19,9 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
         .when("/governance", {
             templateUrl: "governance.html"
         })
-        
+        .when("/about", {
+            templateUrl: "integrations.html"
+        })
 
     .when("/gdp", {
             templateUrl: "gdp/list.html",
@@ -53,9 +55,9 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "gdp/proxyExchangeRates.html",
             controller: "GdpProxyExchangeRatesCtrl"
         })
-        .when("/gdp/proxyPopulation", {
-            templateUrl: "gdp/proxyPopulation.html",
-            controller: "GdpProxyPopulationCtrl"
+        .when("/gdp/proxyRestCountries", {
+            templateUrl: "gdp/proxyRestCountries.html",
+            controller: "GdpProxyRestCountriesCtrl"
         })
 
     .when("/education", {
@@ -82,8 +84,16 @@ angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($ro
             templateUrl: "education/externalFacebookGraph.html",
             controller: "EducationExternalFacebookGraphCtrl"
         })
+        .when("/education/externalTwitterGraph", {
+            templateUrl: "education/externalTwitterGraph.html",
+            controller: "EducationExternalTwitterGraphCtrl"
+        })
+       .when("/education/externalHearthstoneGraph", {
+            templateUrl: "education/externalHearthstoneGraph.html",
+            controller: "EducationExternalHearthstoneGraphCtrl"
+        })
 
-        .when("/gdp-per-capita", {
+    .when("/gdp-per-capita", {
             templateUrl: "gdp-per-capita/list.html",
             controller: "GdpPerCapitaListCtrl"
         })
