@@ -186,6 +186,8 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
 
     //POST over a collection
     app.post(BASE_API_PATH + "/education", function(request, response) {
+//A
+console.log("A");
         if (!checkApiKeyFunction(request, response)) return;
         var newCountry = request.body;
         if (!newCountry) {
@@ -193,6 +195,8 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
             response.sendStatus(400); // bad request
         }
         else {
+//B
+console.log("B");
             console.log("INFO: New POST request to /education with body: " + JSON.stringify(newCountry, 2, null));
             if (!newCountry["country"] || !newCountry["year"] || !newCountry["education-gdp-perc"] || !newCountry["education-primary-per-capita"] || !newCountry["education-secondary-per-capita"] || !newCountry["education-tertiary-per-capita"] ||
                 isNaN(newCountry["year"]) || isNaN(newCountry["education-gdp-perc"]) || isNaN(newCountry["education-primary-per-capita"]) || isNaN(newCountry["education-secondary-per-capita"]) || isNaN(newCountry["education-tertiary-per-capita"])) {
@@ -201,6 +205,8 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
             }
             else {
                 // Make sure that numeric fields are a number object
+//C
+console.log("C");
                 newCountry["year"] = Number(newCountry["year"]);
                 newCountry["education-gdp-perc"] = Number(newCountry["education-gdp-perc"]);
                 newCountry["education-primary-per-capita"] = Number(newCountry["education-primary-per-capita"]);
@@ -210,6 +216,8 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                     country: newCountry.country,
                     year: newCountry.year
                 }).toArray(function(err, country) {
+//D
+console.log("D");
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
                         response.sendStatus(500); // internal server error
@@ -227,12 +235,20 @@ exports.register = function(app, dbMd, BASE_API_PATH, checkApiKeyFunction) {
                         else {
                             console.log("INFO: Adding country " + JSON.stringify(newCountry, 2, null));
                             dbMd.insert(newCountry);
+//E
+console.log("E");
                             response.sendStatus(201); // created
+//F
+console.log("F");
                         }
                     }
                 });
+//G
+console.log("G");
             }
         }
+//H
+console.log("H");
     });
 
 

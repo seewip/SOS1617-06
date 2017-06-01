@@ -16,22 +16,27 @@ controller("EducationExternalFacebookGraphCtrl", ["$scope", "$http", "$rootScope
             .get("../api/v1/education" + "?" + "apikey=" + $rootScope.apikey)
             .then(function(response) {
                 //$scope.debug = "";
-
+//A
+console.log("A");
                 var years = [];
                 var countries = [];
                 var provincesForeign = [];
                 var countriesData = [];
                 var provincesDataForeign = [];
-
+//B
+console.log("B");
                 $http
                     .get("https://graph.facebook.com/v2.9/me/music?fields=name,fan_count&access_token="+token)
                     .then(function(response_foreign) {
-                        
+//C                       
+console.log("C");
                         console.log(response_foreign.data);
 
                          response.data.forEach(function(d) {
                              if (years.indexOf(Number(d.year)) == -1) years.push(Number(d.year));
                              if (countries.indexOf(d.country) == -1) countries.push(d.country);
+//D
+console.log("D");
                          });
 
                          response_foreign.data.data.forEach(function(d) {
@@ -149,6 +154,9 @@ controller("EducationExternalFacebookGraphCtrl", ["$scope", "$http", "$rootScope
                     });
 
             }, function(response) {
+                
+//E      
+console.log("E");
                 $scope.loading = false;
                 switch (response.status) {
                     case 401:
@@ -165,8 +173,11 @@ controller("EducationExternalFacebookGraphCtrl", ["$scope", "$http", "$rootScope
                         break;
                 }
             });
+//F
+console.log("F");
     };
-
+//G
+console.log("G");
     //$scope.refresh();
 
 }]);
