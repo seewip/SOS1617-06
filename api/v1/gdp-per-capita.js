@@ -38,7 +38,7 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
                     "country": "poland",
                     "year": 2015,
                     "gdp-per-capita-growth": 4,
-                    "gdp-per-capita": 12554.50,
+                    "gdp-per-capita": 30.50,
                     "gdp-per-capita-ppp": 26862.30
                 }, {
                     "country": "morocco",
@@ -307,6 +307,8 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
     //PUT sobre un recurso concreto
     app.put(BASE_API_PATH + "/gdp-per-capita/:country/:year", function(request, response) {
         console.log("BODY: " + JSON.stringify(request.body, null, 2));
+        //A
+        console.log("A");
         if (!checkApiKeyFunction(request, response)) return;
         var newGdpPerCapita = request.body;
         var nameParam = request.params.country;
@@ -316,7 +318,8 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
                 console.log("WARNING: New PUT request to /gdp-per-capita/ without country, sending 400...");
             }else{
                 console.log("WARNING: New PUT request to /gdp-per-capita/ con un país poniendole la url de otro país, sending 400...");
-
+            //B
+            console.log("B");
             }
             response.sendStatus(400); // bad request
         }
@@ -324,9 +327,13 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
             console.log("INFO: New PUT request to /gdp-per-capita/" + nameParam + "/" + yearParam + " with data " + JSON.stringify(newGdpPerCapita, 2, null));
             if (!newGdpPerCapita["country"] || !newGdpPerCapita["year"] || !newGdpPerCapita["gdp-per-capita-growth"] || !newGdpPerCapita["gdp-per-capita"] || !newGdpPerCapita["gdp-per-capita-ppp"] || isNaN(newGdpPerCapita["year"]) || isNaN(newGdpPerCapita["gdp-per-capita-growth"]) || isNaN(newGdpPerCapita["gdp-per-capita"]) || isNaN(newGdpPerCapita["gdp-per-capita-ppp"])) {
                 console.log("WARNING: The gdp-per-capita " + JSON.stringify(newGdpPerCapita, 2, null) + " is not well-formed, sending 422...");
+               //C
+               console.log("C");
                 response.sendStatus(422); // unprocessable entity
             }
             else {
+                //D
+                console.log("D");
                 // Make sure that numeric fields are a number object
                newGdpPerCapita["year"] = Number(newGdpPerCapita["year"]);
                 newGdpPerCapita["gdp-per-capita-growth"] = Number(newGdpPerCapita["gdp-per-capita-growth"]);
@@ -336,27 +343,41 @@ exports.register = function(app, dbJf, BASE_API_PATH, checkApiKeyFunction) {
                     country: nameParam,
                     year: Number(yearParam)
                 }).toArray(function(err, countries) {
+                    //E
+                    console.log("E");
                     if (err) {
                         console.error('WARNING: Error getting data from DB');
                         response.sendStatus(500); // internal server error
                     }
                     else {
+                        //F
+                        console.log("F");
                         if (countries.length > 0) {
                             dbJf.update({
                                 country: nameParam,
                                 year: Number(yearParam)
                             }, newGdpPerCapita);
                             console.log("INFO: Modifying country with name " + nameParam + " and year " + yearParam + " with data " + JSON.stringify(newGdpPerCapita, 2, null));
+                           //G
+                           console.log("G");
                             response.send(newGdpPerCapita); // return the updated contact
+                            //H
+                            console.log("H");
                         }
                         else {
                             console.log("WARNING: There are not any countries with name " + nameParam + " and year " + yearParam);
                             response.sendStatus(404); // not found
                         }
+                        //I
+                        console.log("I");
                     }
                 });
+                //J
+                console.log("J");
             }
         }
+        //K
+        console.log("K");
     });
 
     //DELETE a una coleccion

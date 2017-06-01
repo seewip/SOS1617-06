@@ -20,9 +20,11 @@ angular
         $scope.genderAicha = [];
         $scope.genderFrancisco = [];
         $scope.genderJihane = [];
-
+//A
+        console.log("A");
         $http.get("/api/v1/gdp-per-capita" + "?" + "apikey=" + $scope.apikey).then(function(response1) {
-
+//B
+            console.log("B");
             dataCache1 = response1.data;
             $scope.data1 = dataCache1;
 
@@ -31,7 +33,8 @@ angular
                 $scope.gdp_per_capita_growth.push(Number($scope.data1[i]["gdp-per-capita-growth"]));
                 $scope.gdp_per_capita.push(Number($scope.data1[i]["gdp-per-capita"]));
                 $scope.gdp_per_capita_ppp.push(Number($scope.data1[i]["gdp-per-capita-ppp"]));
-
+//C
+                console.log("C");
                 var sigla = "";
 
                 switch ($scope.data1[i].country) {
@@ -47,9 +50,11 @@ angular
                     default:
                         break;
                 }
-
+//D
+                console.log("D");
                 $http.get("https://gender-api.com/get?name=Aicha;Francisco;Jihane&country=" + sigla + "&key=uDcCNztcQfnxsVLBho").then(function(response) {
-
+//E
+                    console.log("E");
                     dataCache = response.data;
                     $scope.data = dataCache;
 
@@ -124,4 +129,7 @@ angular
                 });
             }
         });
+        
+    //F
+    console.log("F");
     }]);

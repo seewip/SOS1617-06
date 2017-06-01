@@ -32,7 +32,7 @@ angular
 
                     dataCache = response.data;
                     $scope.data = dataCache;
-                    console.log($scope.data[i]);
+                    
                     $scope.league.push($scope.data[i]["league"]);
                     $scope.numberOfGames.push(Number($scope.data[i]["numberOfGames"]));
                     $scope.numberOfTeams.push(Number($scope.data[i]["numberOfTeams"]));
