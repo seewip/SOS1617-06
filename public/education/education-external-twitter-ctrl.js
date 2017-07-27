@@ -1,3 +1,5 @@
+// Author: Mateusz Dominik
+
 /* global angular */
 /* global Materialize */
 /* global Highcharts */

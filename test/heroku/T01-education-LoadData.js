@@ -1,3 +1,5 @@
+// Author: Mateusz Dominik
+
 /* global browser */
 /* global element */
 /* global expect */

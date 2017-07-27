@@ -1,5 +1,7 @@
-/*global angular*/
-/*global Materialize*/
+// Authors: Cristina Leal Echevarria, Jihane Fahri, Mateusz Dominik
+
+/* global angular */
+/* global Materialize */
 /* global Highcharts */
 angular.module("DataManagementApp").
 controller("AnalyticsCtrl", ["$scope", "$http", "$rootScope", function($scope, $http, $rootScope) {

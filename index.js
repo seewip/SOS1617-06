@@ -1,3 +1,13 @@
+// Authors: Cristina Leal Echevarria, Jihane Fahri, Mateusz Dominik
+// Passport implementation by Mateusz Dominik
+
+var passport = require("passport");
+
+// Replace the line below with your own database connection
+var mdbURL = "mongodb://sosuser:root@ds127153.mlab.com:27153/sos1617-06-md";
+// Set the api key used on the server
+var API_KEY = "secret";
+
 var moment = require("moment");
 var express = require("express");
 var bodyParser = require("body-parser");
@@ -18,7 +28,6 @@ var gdp_per_capitaAPIv2 = require('./api/v2/gdp-per-capita.js');
 var app = express();
 
 var MongoClient = require('mongodb').MongoClient;
-var mdbURL = "mongodb://crileaech:admin@ds133260.mlab.com:33260/sos1617-06-cle-sandbox";
 
 var port = (process.env.PORT || 10000);
 var BASE_API_PATH_V1 = "/api/v1";
@@ -26,8 +35,6 @@ var BASE_API_PATH_V2 = "/api/v2";
 var dbCle;
 var dbJf;
 var dbMd;
-
-var API_KEY = "secret";
 
 // Helper method to check for apikey
 var checkApiKeyFunction = function(request, response) {
@@ -77,6 +84,15 @@ MongoClient.connect(mdbURL, {
 });
 
 app.use("/", express.static(publicFolder));
+
+/*app.get('/logout', function(req, res) {
+    console.log("The following user has logged off: " + req.user.username);
+    req.logout();
+    res.redirect('/');
+});
+
+app.get('/login/google', passport.authenticate('google'), {scope: ['profile', 'email']});*/
+
 //=================================BOTTON FOR RUN POSTMAN====================================================//
 
 app.use("/api/v1/tests", express.static(path.join(__dirname, "public/tests.html")));

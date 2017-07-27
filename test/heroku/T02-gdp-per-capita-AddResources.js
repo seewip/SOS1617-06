@@ -1,3 +1,5 @@
+// Author: Jihane Fahri
+
 /* global browser */
 /* global element */
 /* global expect */

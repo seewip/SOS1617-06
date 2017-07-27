@@ -1,3 +1,5 @@
+// Author: Jihane Fahri
+
 exports.config = {   
     seleniumAddress: 'http://localhost:9515',
 

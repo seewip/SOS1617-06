@@ -1,3 +1,5 @@
+// Author: Jihane Fahri
+
 /* global angular */
 /* global Highcharts */
 /* global c3 */

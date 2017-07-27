@@ -11,7 +11,9 @@
     "governify": "^0.1.0",
     "helmet": "^3.5.0",
     "moment": "^2.17.1",
-    "mongodb": "^2.2.25"
+    "mongodb": "^2.2.25",
+    "passport": "^0.3.2",
+    "passport-google-oauth": "^1.0.0"
   },
   "scripts": {
     "start": "node index.js",
@@ -19,13 +21,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SOS1617/SOS1617-06.git"
+    "url": "git+https://github.com/seewip/SOS1617-06-MD.git"
   },
   "author": "G06",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SOS1617/SOS1617-06/issues"
+    "url": "https://github.com/seewip/SOS1617-06-MD-issues"
   },
-  "homepage": "https://github.com/SOS1617/SOS1617-06#readme",
+  "homepage": "https://github.com/seewip/SOS1617-06-MD#readme",
   "devDependencies": {}
 }

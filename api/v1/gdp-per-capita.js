@@ -1,3 +1,5 @@
+// Author: Jihane Fahri
+
 var exports = module.exports = {};
 
 // Register all the functions used in this module

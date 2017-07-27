@@ -1,3 +1,5 @@
+// Author: Cristina Leal Echevarria
+
 /* global angular */
 /* global Materialize */
 /* global $ */

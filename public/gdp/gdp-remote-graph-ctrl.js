@@ -1,3 +1,5 @@
+// Author: Cristina Leal Echevarria
+
 /* global Highcharts */
 /* global angular */
 angular

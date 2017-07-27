@@ -1,3 +1,5 @@
+// Author: Cristina Leal Echevarria
+
 exports.config = {   
     seleniumAddress: 'http://localhost:9515',
 

@@ -1,3 +1,5 @@
+// Authors: Cristina Leal Echevarria, Jihane Fahri, Mateusz Dominik
+
 /* global angular */
 angular.module("DataManagementApp", ["ngRoute", "chart.js"]).config(function($routeProvider) {
     $routeProvider.when("/", {

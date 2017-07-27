@@ -1,3 +1,4 @@
+// Author: Cristina Leal Echevarria
 
 /*global angular*/
 /*global Highcharts*/

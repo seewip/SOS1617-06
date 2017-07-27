@@ -1,3 +1,5 @@
+// Author: Mateusz Dominik
+
 var exports = module.exports = {};
 
 // Register all the functions used in this module
