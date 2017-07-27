@@ -2,6 +2,7 @@
 // Passport implementation by Mateusz Dominik
 
 var passport = require("passport");
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 // Replace the line below with your own database connection
 var mdbURL = "mongodb://sosuser:root@ds127153.mlab.com:27153/sos1617-06-md";
@@ -10,6 +11,7 @@ var API_KEY = "secret";
 
 var moment = require("moment");
 var express = require("express");
+var session = require('express-session');
 var bodyParser = require("body-parser");
 var helmet = require("helmet");
 var path = require('path');
@@ -35,6 +37,7 @@ var BASE_API_PATH_V2 = "/api/v2";
 var dbCle;
 var dbJf;
 var dbMd;
+var users;
 
 // Helper method to check for apikey
 var checkApiKeyFunction = function(request, response) {
@@ -54,6 +57,21 @@ var checkApiKeyFunction = function(request, response) {
 app.use(bodyParser.json());
 app.use(helmet());
 app.use(cors());
+app.use(session({
+    secret: 'my_precious',
+    resave: false,
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
 
 MongoClient.connect(mdbURL, {
     native_parser: true
@@ -67,6 +85,7 @@ MongoClient.connect(mdbURL, {
     dbCle = database.collection("gdp");
     dbJf = database.collection("gdp-per-capita");
     dbMd = database.collection("education");
+    users = database.collection("users");
 
     educationAPIv1.register(app, dbMd, BASE_API_PATH_V1, checkApiKeyFunction);
     educationAPIv2.register(app, dbMd, BASE_API_PATH_V2, checkApiKeyFunction);
@@ -77,6 +96,48 @@ MongoClient.connect(mdbURL, {
     gdp_per_capitaAPIv1.register(app, dbJf, BASE_API_PATH_V1, checkApiKeyFunction);
     gdp_per_capitaAPIv2.register(app, dbJf, BASE_API_PATH_V2, checkApiKeyFunction);
 
+    // Configure passport authentication with google
+    passport.use(new GoogleStrategy({
+            clientID: "266378955954-g0l25dmnfruejkhjscd6c7a22fj3d4e4.apps.googleusercontent.com",
+            clientSecret: "O0vWp3-RQASV2URX_8YpO4_l",
+            // Choose a proper callback path depending on use case:
+            //callbackURL: "https://sos161706md-sandbox-seewip.c9users.io/auth/google/callback"
+            callbackURL: "https://sos1617-06-md.herokuapp.com/auth/google/callback"
+            //callbackURL: "https://localhost:10000/auth/google/callback"
+        },
+        function(accessToken, refreshToken, profile, done) {
+            users.findOne({
+                'googleId': profile.id
+            }, function(err, user) {
+                if (err) {
+                    console.log("Err");
+                    return done(err);
+                }
+                if (!user) {
+                    users.insert({
+                        googleId: profile.id,
+                        token: accessToken,
+                        name: profile.displayName,
+                        email: profile.emails[0].value
+                    }, function(err) {
+                        if (err) console.log(err);
+                        console.log("New user logged in: " + profile.id);
+                        return done(null, {
+                            googleId: profile.id,
+                            token: accessToken,
+                            name: profile.displayName,
+                            email: profile.emails[0].value
+                        });
+                    });
+                }
+                else {
+                    console.log("Returning user logged in: " + user.name);
+                    return done(err, user);
+                }
+            });
+        }
+    ));
+
     app.listen(port, () => {
         console.log("Web server is listening on port " + port);
     });
@@ -85,13 +146,42 @@ MongoClient.connect(mdbURL, {
 
 app.use("/", express.static(publicFolder));
 
-/*app.get('/logout', function(req, res) {
-    console.log("The following user has logged off: " + req.user.username);
-    req.logout();
-    res.redirect('/');
+//===================================PASSPORT SUPPORT========================================================//
+
+// 
+app.get('/analytics.html', function(req, res) {
+    if (req.isAuthenticated()) {
+        console.log("User " + req.user.name + " has used analytics");
+        var html = require('fs').readFileSync(path.join(__dirname, 'private/analytics.html'), 'utf8');
+        if (html)
+            res.send(html.replace('<!--loginfo-->', 'Welcome <b>' + req.user.name + "</b> (" + req.user.email + ") to analytics! "));
+        else
+            res.sendStatus(500);
+        //res.sendFile(path.join(__dirname, 'private/analytics.html'));
+    }
+    else {
+        console.log("Unauthenticated user tried to access analytics, redirecting to login");
+        res.sendFile(path.join(__dirname, 'public/login.html'));
+    }
+
 });
 
-app.get('/login/google', passport.authenticate('google'), {scope: ['profile', 'email']});*/
+app.get('/logout', function(req, res) {
+    console.log("The following user has logged off: " + req.user.name);
+    req.logout();
+    res.redirect('/#!/analytics');
+});
+
+app.get('/auth/google',
+    passport.authenticate('google', {
+        scope: ['profile', 'email']
+    }));
+
+app.get('/auth/google/callback',
+    passport.authenticate('google'),
+    function(req, res) {
+        res.redirect('/#!/analytics');
+    });
 
 //=================================BOTTON FOR RUN POSTMAN====================================================//
 

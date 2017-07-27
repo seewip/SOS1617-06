@@ -1,7 +1,8 @@
 <!-- Authors: Cristina Leal Echevarria, Jihane Fahri, Mateusz Dominik -->
 
-<div class="container">
-    <h1>Analytics</h1>
+<div ng-controller="AnalyticsCtrl" class="container">
+    <h3><!--loginfo--></h3>
+    <h6>Don't forget to log out using <i class="tiny material-icons">lock_outline</i> in the bottom right corner.</h6>
     <h2>Gdp, Education and Gdp/Capita chart</h2>
 
     <div id="hc_column" style="margin-bottom:5%"></div>
@@ -32,4 +33,10 @@
         </u1>
 
     </ul>
+</div>
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large blue" href="/logout">
+        <i class="large material-icons">lock_outline</i>
+    </a>
 </div>
