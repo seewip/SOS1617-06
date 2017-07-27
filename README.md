@@ -1,5 +1,6 @@
-# SOS1617-06
+# SOS1617-06-MD
 
+This is a fork of SOS1617-06 with an added functionality of Passport authentication with Google OAuth2 and per-file information about authors.
 
 #Alumnos SOS
 
