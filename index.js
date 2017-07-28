@@ -101,7 +101,6 @@ MongoClient.connect(mdbURL, {
             clientID: "266378955954-g0l25dmnfruejkhjscd6c7a22fj3d4e4.apps.googleusercontent.com",
             clientSecret: "O0vWp3-RQASV2URX_8YpO4_l",
             // Choose a proper callback path depending on use case:
-            //callbackURL: "https://sos161706md-sandbox-seewip.c9users.io/auth/google/callback"
             callbackURL: "https://sos1617-06-md.herokuapp.com/auth/google/callback"
             //callbackURL: "http://localhost:10000/auth/google/callback"
         },
