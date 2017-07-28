@@ -103,7 +103,7 @@ MongoClient.connect(mdbURL, {
             // Choose a proper callback path depending on use case:
             //callbackURL: "https://sos161706md-sandbox-seewip.c9users.io/auth/google/callback"
             callbackURL: "https://sos1617-06-md.herokuapp.com/auth/google/callback"
-            //callbackURL: "https://127.0.0.1:10000/auth/google/callback"
+            //callbackURL: "http://localhost:10000/auth/google/callback"
         },
         function(accessToken, refreshToken, profile, done) {
             users.findOne({
