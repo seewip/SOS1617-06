@@ -1,0 +1,290 @@
+paths:
+  /api/v2/education:
+    get:
+      description: Returns all education data from the system that the user has access to
+      operationId: findeducation
+      produces:
+        - application/json
+      parameters:
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Response with education data
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/education'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    post:
+      description: Creates a new education data in the store.  Duplicates are not allowed
+      operationId: addeducation
+      produces:
+        - application/json
+      parameters:
+        - name: country
+          in: body
+          description: country to add to the store
+          required: true
+          schema:
+            $ref: '#/definitions/education'
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '201':
+          description: Response when data was added successfully
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      description: Removes all education data from the system that the user has access to
+      operationId: deleteeducation
+      produces:
+        - application/json
+      parameters:
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '204':
+          description: All data was removed
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+  '/api/v2/education/{data}':
+    get:
+      description: >-
+        Returns a country based on a name or year
+      operationId: findeducationByName
+      produces:
+        - application/json
+      parameters:
+        - name: data
+          in: path
+          description: name or year of country to fetch
+          required: true
+          type: string
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '200':
+          description: education data response
+          schema:
+            $ref: '#/definitions/education'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    put:
+      description: modify a single country based on the name or year supplied
+      operationId: puteducationByName
+      parameters:
+        - name: data
+          in: path
+          description: name or year of country to modify
+          required: true
+          type: string
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '200':
+          description: education data modified
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      description: deletes a single contact based on the name or year supplied
+      operationId: deleteeducationByName
+      parameters:
+        - name: data
+          in: path
+          description: name or year of country to delete
+          required: true
+          type: string
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '204':
+          description: education data deleted
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+  '/api/v2/education/{country}/{year}':
+    get:
+      description: >-
+        Returns a country based on a year
+      operationId: findeducationByNameYear
+      produces:
+        - application/json
+      parameters:
+        - name: country
+          in: path
+          description: name of country to fetch
+          required: true
+          type: string
+        - name: year
+          in: path
+          description: year of country data
+          required: true
+          type: string
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '200':
+          description: education data response
+          schema:
+            $ref: '#/definitions/education'
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    put:
+      description: modify a single country based on the name and year supplied
+      operationId: puteducationByNameYear
+      parameters:
+        - name: country
+          in: path
+          description: name of country to modify
+          required: true
+          type: string
+        - name: year
+          in: path
+          description: year of country
+          required: true
+          type: string
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '200':
+          description: education data modified
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+    delete:
+      description: deletes a single contact based on the name and year supplied
+      operationId: deleteeducationByNameYear
+      parameters:
+        - name: country
+          in: path
+          description: name of country to delete
+          required: true
+          type: string
+        - name: year
+          in: path
+          description: year of country
+          required: true
+          type: string
+        - name: apikey
+          in: query
+          description: Apikey to access
+          required: true
+          type: string
+      responses:
+        '204':
+          description: education data deleted
+        default:
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/errorModel'
+schemes:
+  - http
+produces:
+  - application/json
+swagger: '2.0'
+definitions:
+  education:
+    type: object
+    required:
+      - country
+      - year
+      - education-gdp-perc
+      - education-primary-per-capita
+      - education-secondary-per-capita
+      - education-tertiary-per-capita
+    properties:
+      country:
+        type: string
+      year:
+        type: integer
+      education-gdp-perc:
+        type: number
+        format: double
+      education-primary-per-capita:
+        type: number
+        format: double
+      education-secondary-per-capita:
+        type: number
+        format: double
+      education-tertiary-per-capita:
+        type: number
+        format: double
+  errorModel:
+    type: object
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+consumes:
+  - application/json
+info:
+  version: 1.0.0
+  title: Education data
+  description: >-
+    An API used to retrive education data - spendings on education by sector per capita and in total as a percent of gdp <style>
+      .plansButton{
+          display: table;
+          margin-top: 15px;
+          padding: 10px;
+          background-color: #547f00;
+          border-radius: 3px;
+          color: #fff !important;
+          text-decoration: none;
+      }
+      .plansButton:hover{
+          box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+      }
+    </style> <a class="plansButton" href="../plans">Get your API key</a>
+  contact:
+    name: 'SOS1617-06'
+    url: 'https://sos1617-06.herokuapp.com/'
+  license:
+    name: MIT
+    url: 'http://opensource.org/licenses/MIT'
+  x-sla: >-
+    https://repo.designer.governify.io/mateuszjacek95/api-governance/contacts-api/plans.oai-at?accessToken=165a1761634db1e9bd304ea6f3ffcf2b
